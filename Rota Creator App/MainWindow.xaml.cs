@@ -24,6 +24,7 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
+            LoadPositions();
             LoadOfficers();
         }
     }

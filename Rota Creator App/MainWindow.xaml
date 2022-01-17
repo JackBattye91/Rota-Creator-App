@@ -18,6 +18,17 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
+                    <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 35">
+                        <StackPanel x:Name="availableOfficersList" Background="AliceBlue">
+                            <TextBlock Text="No Officers" Margin="5"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <ScrollViewer Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 35">
+                        <StackPanel x:Name="activeOfficersList" Background="AliceBlue">
+                            <TextBlock Text="No Officers" Margin="5"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             
@@ -28,26 +39,53 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel x:Name="OfficerList" Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,35" Background="AliceBlue">
-                        <TextBlock Text="No Officers" Margin="5"/>
-                    </StackPanel>
+                    <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 35">
+                        <StackPanel x:Name="OfficerList" Background="AliceBlue">
+                            <TextBlock Text="No Officers" Margin="5"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
                     <Button HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="74">
                         Add Officer
+                        <!-- <image -->
                     </Button>
 
-                    <Grid Grid.Column="1" Margin="5">
-                        <TextBlock Text="Details" VerticalAlignment="Top" FontSize="16" TextDecorations="Underline"/>
-                        <TextBlock Text="Name" VerticalAlignment="Top" Margin="0,26,0,0" />
-                        <TextBox x:Name="txtOfficerName" VerticalAlignment="Top" Margin="0,42,0,0"/>
-                    </Grid>
+                    <ScrollViewer HorizontalScollBarVisibility="Auto" Grid.Column="1" Margin="5">
+                        <StackPanel>
+                            <TextBlock Text="Details" VerticalAlignment="Top" FontSize="16" TextDecorations="Underline"/>
+
+                            <TextBlock Text="Name" VerticalAlignment="Top" Margin="0,5,0,0" />
+                            <TextBox x:Name="txtOfficerName" VerticalAlignment="Top"/>
+
+                            <TextBlock Text="Team" VerticalAlignment="Top" Margin="0,5,0,0" />
+                            <TextBox x:Name="txtOfficerTeam" VerticalAlignment="Top"/>
+
+                            <TextBlock Text="Positions" VerticalAlignment="Top" Margin="0,5,0,0" />
+                            <WrapPanel FlowDirection="RightToLeft" VerticalAlignment="Top">
+                                <Button x:Name="btnRemoveOfficerPosition" VerticalAlignment="Top">
+                                    Remove
+                                    <!--<Image source="remove_button.icon"/>-->
+                                </Button>
+                                <Button x:Name="btnAddOfficerPosition" VerticalAlignment="Top">
+                                    Add
+                                    <!--<Image source="add_button.icon"/>-->
+                                </Button>
+                            </WrapPanel>
+                            <StackPanel x:Name="officerPositionsList">
+                                <TextBlock Text="Reception" VerticalAlignment="Top" Margin="5"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
+
             <TabItem Header="Positions">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
                 </Grid>
             </TabItem>
         </TabControl>
