@@ -9,10 +9,19 @@ namespace Rota_Creator_App
     public class Officer
     {
         public int ID { get; protected set; }
-        public string Name { get; protected set; }
+        public string Name 
+        { 
+            get { return Name; }
+            set
+            {
+                if (value != "")
+                    Name = value;
+            }
+        }
+        public string Team { get; set; }
         public List<Position> WorkablePositions { get; protected set; }
 
-        public Officer()
+        privatee Officer()
         {
             ID = new Random().Next();
             WorkablePositions = new List<Position>();
@@ -35,6 +44,32 @@ namespace Rota_Creator_App
                 return true;
 
             return false;
+        }
+
+        static List<Officer> Load()
+        {
+            List<Officer> officers = new List<Officer>();
+
+            FirestoreDb db = FirestoreDb.Create("rotacreator-d84f6");
+            CollctionReference = collection = db.Collection("officers");
+            
+            QuerySnapshot allOfficers = await collection.GetSnapshotAsync();
+            foreach(DocumentSnapshot document in allOfficers.Documents)
+            {
+                Officer officer = document.ConvertTo<Officer>();
+                officers.Add(officer);
+            }
+
+            return officers;
+        }
+        static Officer Create(string name, string team, List<Position> workablePositions)
+        {
+            Officer officer = new Officer();
+            officer.Name = name;
+            officer.Team = team;
+            officer.WorkablePositions = new List<Position>(workablePositions);
+
+            return officer;
         }
     }
 }

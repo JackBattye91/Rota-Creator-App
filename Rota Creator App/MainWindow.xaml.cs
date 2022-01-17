@@ -20,12 +20,14 @@ namespace Rota_Creator_App
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Officer> Officers;
+        List<Position> Positions;
         public MainWindow()
         {
             InitializeComponent();
 
-            LoadPositions();
-            LoadOfficers();
+            Officers = Officer.Load();
+            officerList.ItemsSource = Officers;
         }
     }
 }

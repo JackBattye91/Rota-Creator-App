@@ -39,11 +39,20 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 35">
-                        <StackPanel x:Name="OfficerList" Background="AliceBlue">
-                            <TextBlock Text="No Officers" Margin="5"/>
-                        </StackPanel>
-                    </ScrollViewer>
+                    <ListBox x:Name="OfficerList">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{ Binding Name }"/>
+                                    <TextBlock Grid.Column="1" Text="{ Binding Team }"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <Button HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="74">
                         Add Officer
