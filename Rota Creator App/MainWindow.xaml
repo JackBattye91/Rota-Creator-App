@@ -1,0 +1,55 @@
+﻿<Window x:Class="Rota_Creator_App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rota_Creator_App"
+        mc:Ignorable="d"
+        Title="Rota Creator" Height="450" Width="800">
+    <Grid>
+        <StatusBar VerticalAlignment="Bottom">
+            <StatusBarItem Content="Okay"/>
+        </StatusBar>
+        <TabControl Height="397" VerticalAlignment="Top">
+            <TabItem Header="Rota">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Officers">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel x:Name="OfficerList" Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,35" Background="AliceBlue">
+                        <TextBlock Text="No Officers" Margin="5"/>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="74">
+                        Add Officer
+                    </Button>
+
+                    <Grid Grid.Column="1" Margin="5">
+                        <TextBlock Text="Details" VerticalAlignment="Top" FontSize="16" TextDecorations="Underline"/>
+                        <TextBlock Text="Name" VerticalAlignment="Top" Margin="0,26,0,0" />
+                        <TextBox x:Name="txtOfficerName" VerticalAlignment="Top" Margin="0,42,0,0"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Positions">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
