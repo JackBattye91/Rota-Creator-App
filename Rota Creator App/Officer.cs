@@ -21,7 +21,7 @@ namespace Rota_Creator_App
         public string Team { get; set; }
         public List<Position> WorkablePositions { get; protected set; }
 
-        privatee Officer()
+        public Officer()
         {
             ID = new Random().Next();
             WorkablePositions = new List<Position>();

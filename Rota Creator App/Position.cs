@@ -9,7 +9,7 @@ namespace Rota_Creator_App
     public class Position
     {
         public string Name { get; set; }
-        public int DefaultDuration { get; set; }
+        public int Duration { get; set; }
         public bool[] ActiveHours { get; set; }
 
         public Position(string name = "", int duration = 1)

@@ -39,7 +39,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <ListBox x:Name="OfficerList">
+                    <ListBox x:Name="OfficerList" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="2">
@@ -54,13 +54,15 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <Button HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="74">
-                        Add Officer
-                        <!-- <image -->
-                    </Button>
-
                     <ScrollViewer HorizontalScollBarVisibility="Auto" Grid.Column="1" Margin="5">
                         <StackPanel>
+                            <WrapPanel>
+                                <Button x:Name="btnAddOfficer" Text="New" Clicked="btnAddOfficer_Clicked"/>
+                                <Button x:Name="btnUpdateOfficer" Text="Update" Clicked="btnUpdateOfficer_Clicked"/>
+                                <Button x:Name="btnDeleteOfficer" Text="Delete" Clicked="btnDeleteOfficer_Clicked"/>
+                                <Button x:Name="btnClearOfficer" Text="Clear" Clicked="btnClearOfficer_Clicked"/>
+                            </WrapPanel>
+
                             <TextBlock Text="Details" VerticalAlignment="Top" FontSize="16" TextDecorations="Underline"/>
 
                             <TextBlock Text="Name" VerticalAlignment="Top" Margin="0,5,0,0" />
@@ -80,9 +82,19 @@
                                     <!--<Image source="add_button.icon"/>-->
                                 </Button>
                             </WrapPanel>
-                            <StackPanel x:Name="officerPositionsList">
-                                <TextBlock Text="Reception" VerticalAlignment="Top" Margin="5"/>
-                            </StackPanel>
+
+                            <ListBox x:Name="officerPositionsList">
+                                <ListBox.ItemTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{ Binding Name }"/>
+                                        <TextBlock Text="{ Binding Duration }"/>
+                                    </Grid>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -94,7 +106,6 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
                 </Grid>
             </TabItem>
         </TabControl>
