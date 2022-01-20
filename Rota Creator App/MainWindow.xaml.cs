@@ -22,12 +22,25 @@ namespace Rota_Creator_App
     {
         List<Officer> Officers;
         List<Position> Positions;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            Officers = Officer.Load();
+            
+
+            Officers = Officer.Load("");
+            Positions = Position.Load("");
             officerList.ItemsSource = Officers;
+            positionList.ItemsSource = Positions;
+        }
+
+        private void btnGenerate_Clicked(object sender, RoutedEventArgs e)
+        {
+            List<Officer> currOfficers = new List<Officer>();
+            DateTime startTime = new DateTime();
+            DateTime finishTime = new DateTime();
+            Rota rota = Rota.Create(currOfficers, Positions, startTime, finishTime);
         }
     }
 }

@@ -50,26 +50,88 @@ namespace Rota_Creator_App
         {
             List<Officer> officers = new List<Officer>();
 
-            FirestoreDb db = FirestoreDb.Create("rotacreator-d84f6");
-            CollctionReference = collection = db.Collection("officers");
-            
-            QuerySnapshot allOfficers = await collection.GetSnapshotAsync();
-            foreach(DocumentSnapshot document in allOfficers.Documents)
+            try
             {
-                Officer officer = document.ConvertTo<Officer>();
-                officers.Add(officer);
+                if (Properties.Settings.Default.UseEncryption)
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Officer>));
+                    using (FileStream fStream = File.OpenRead(Properties.Settings.Default.OfficersFileName))
+                    {
+                        using (Rijndael rijAlg = Rijndael.Create())
+                        {
+                            rijAlg.Key = Convert.FromBase64String(Properties.Settings.Default.EncryptionKey);
+                            rijAlg.IV = Convert.FromBase64String(Properties.Settings.Default.EncryptionIV);
+
+                            // Create an decryptor to perform the stream transform.
+                            ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+
+                            using (CryptoStream csDecryptor = new CryptoStream(fStream, decryptor, CryptoStreamMode.Read))
+                            {
+                                Officers = serializer.Deserialize(csDecryptor) as List<Officer>;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Officer>));
+                    using (FileStream fStream = File.OpenRead(Properties.Settings.Default.OfficersFileName))
+                    {
+                        officers = serializer.Deserialize(fStream) as List<Officer>;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // UpdateStatusText(e.Message);
             }
 
             return officers;
         }
-        static Officer Create(string name, string team, List<Position> workablePositions)
-        {
-            Officer officer = new Officer();
-            officer.Name = name;
-            officer.Team = team;
-            officer.WorkablePositions = new List<Position>(workablePositions);
 
-            return officer;
+        public static bool SaveToFile(List<Officer> officers, string filePath)
+        {
+            if (officers.Count > 0)
+            {
+                try
+                {
+                    File.Delete(filePath);
+
+                    if (Properties.Settings.Default.UseEncryption)
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Position>));
+                        using (FileStream fStream = File.OpenWrite(filePath))
+                        {
+                            using (Rijndael rijAlg = Rijndael.Create())
+                            {
+                                rijAlg.Key = Convert.FromBase64String(Properties.Settings.Default.EncryptionKey);
+                                rijAlg.IV = Convert.FromBase64String(Properties.Settings.Default.EncryptionIV);
+
+                                // Create an encryptor to perform the stream transform.
+                                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+
+                                using (CryptoStream csEncrypt = new CryptoStream(fStream, encryptor, CryptoStreamMode.Write))
+                                {
+                                    serializer.Serialize(csEncrypt, officers);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(List<Position>));
+                        using (FileStream fStream = File.OpenWrite(filePath))
+                        {
+                            serializer.Serialize(fStream, officers);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    //UpdateStatusText(e.Message);
+                }
+            }
         }
+
     }
 }

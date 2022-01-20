@@ -29,6 +29,12 @@
                             <TextBlock Text="No Officers" Margin="5"/>
                         </StackPanel>
                     </ScrollViewer>
+
+                    <WrapPanel>
+                        <ComboBox Name="cmbStartTime" Text="My Cities" IsReadOnly="true"/>
+                        <ComboBox Name="cmbFinishTime" Text="My Cities" IsReadOnly="true"/>
+                        <Button x:Name="btnGenerate" Clicked="btnGenerate_Clicked"/>
+                    </WrapPanel>
                 </Grid>
             </TabItem>
             
@@ -39,7 +45,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <ListBox x:Name="OfficerList" >
+                    <ListBox x:Name="officerList" Grid.Column="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="2">
@@ -106,6 +112,40 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
+                    <ListBox x:Name="positionList" Grid.Column="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{ Binding Name }"/>
+                                    <TextBlock Grid.Column="1" Text="{ Binding Team }"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <ScrollViewer HorizontalScollBarVisibility="Auto" Grid.Column="1" Margin="5">
+                        <StackPanel>
+                            <WrapPanel>
+                                <Button x:Name="btnAddPosition" Text="New" Clicked="btnAddPosition_Clicked"/>
+                                <Button x:Name="btnUpdateposition" Text="Update" Clicked="btnUpdatePosition_Clicked"/>
+                                <Button x:Name="btnDeletePosition" Text="Delete" Clicked="btnDeletePosition_Clicked"/>
+                                <Button x:Name="btnClearPosition" Text="Clear" Clicked="btnClearPosition_Clicked"/>
+                            </WrapPanel>
+
+                            <TextBlock Text="Details" VerticalAlignment="Top" FontSize="16" TextDecorations="Underline"/>
+
+                            <TextBlock Text="Name" VerticalAlignment="Top" Margin="0,5,0,0" />
+                            <TextBox x:Name="txtPositionName" VerticalAlignment="Top"/>
+
+                            <TextBlock Text="Duration" VerticalAlignment="Top" Margin="0,5,0,0" />
+                            <TextBox x:Name="txtPositionDuration" VerticalAlignment="Top"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>
