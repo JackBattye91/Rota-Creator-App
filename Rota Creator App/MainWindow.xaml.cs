@@ -27,12 +27,17 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
-            
+            for(int t = 0; t < 23; t++)
+            {
+                cmbStartTime.Items += t.ToSting("00") + ":00";
+                cmbFinishTime.Items += t.ToSting("00") + ":00";
+            }
 
             Officers = Officer.Load("");
             Positions = Position.Load("");
             officerList.ItemsSource = Officers;
             positionList.ItemsSource = Positions;
+            availableOfficersList.ItemsSource = Officers;
         }
 
         private void btnGenerate_Clicked(object sender, RoutedEventArgs e)

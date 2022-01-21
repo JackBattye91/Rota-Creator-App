@@ -8,8 +8,9 @@
         Title="Rota Creator" Height="450" Width="800">
     <Grid>
         <StatusBar VerticalAlignment="Bottom">
-            <StatusBarItem Content="Okay"/>
+            <StatusBarItem x:Name="statusBar" Content="Okay"/>
         </StatusBar>
+
         <TabControl Height="397" VerticalAlignment="Top">
             <TabItem Header="Rota">
                 <Grid Background="#FFE5E5E5">
@@ -18,21 +19,45 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
+                    <!-- AVAILABLE OFFICERS LIST -->
                     <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 35">
-                        <StackPanel x:Name="availableOfficersList" Background="AliceBlue">
-                            <TextBlock Text="No Officers" Margin="5"/>
-                        </StackPanel>
+                        <ListBox x:Name="availableOfficersList" Background="AliceBlue">
+                            <ListBox.ItemTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{ Binding Name }"/>
+                                    <TextBlock Grid.Column="1" Text="{ Binding Team }"/>
+                                </Grid>
+                            </ListBox.ItemTemplate>
+                            <TextBlock Grid.ColumnSpan="2" Text="No Officers" Margin="5"/>
+                        </ListBox>
                     </ScrollViewer>
 
+                    <!-- ACTIVE OFFICERS LIST -->
                     <ScrollViewer Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 35">
-                        <StackPanel x:Name="activeOfficersList" Background="AliceBlue">
-                            <TextBlock Text="No Officers" Margin="5"/>
-                        </StackPanel>
+                        <ListBox x:Name="activeOfficersList" Background="AliceBlue">
+                            <ListBox.ItemTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{ Binding Name }"/>
+                                    <TextBlock Grid.Column="1" Text="{ Binding Team }"/>
+                                </Grid>
+                            </ListBox.ItemTemplate>
+                            <TextBlock Grid.ColumnSpan="2" Text="No Officers" Margin="5"/>
+                        </ListBox>
                     </ScrollViewer>
 
                     <WrapPanel>
-                        <ComboBox Name="cmbStartTime" Text="My Cities" IsReadOnly="true"/>
-                        <ComboBox Name="cmbFinishTime" Text="My Cities" IsReadOnly="true"/>
+                        <ComboBox Name="cmbStartTime" Text="06:00" IsReadOnly="true"/>
+                        <ComboBox Name="cmbFinishTime" Text="18:00" IsReadOnly="true"/>
                         <Button x:Name="btnGenerate" Clicked="btnGenerate_Clicked"/>
                     </WrapPanel>
                 </Grid>
@@ -45,6 +70,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- OFFICERS LIST -->
                     <ListBox x:Name="officerList" Grid.Column="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -60,6 +86,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
+                    <!-- OFFICERS DETAILS PANEL -->
                     <ScrollViewer HorizontalScollBarVisibility="Auto" Grid.Column="1" Margin="5">
                         <StackPanel>
                             <WrapPanel>
@@ -113,6 +140,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- POSITIONS LIST -->
                     <ListBox x:Name="positionList" Grid.Column="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -128,6 +156,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
+                    <!-- POSITIONS DETAILS PANEL -->
                     <ScrollViewer HorizontalScollBarVisibility="Auto" Grid.Column="1" Margin="5">
                         <StackPanel>
                             <WrapPanel>
