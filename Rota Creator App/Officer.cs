@@ -46,7 +46,7 @@ namespace Rota_Creator_App
             return false;
         }
 
-        static List<Officer> Load()
+        public static List<Officer> Load()
         {
             List<Officer> officers = new List<Officer>();
 

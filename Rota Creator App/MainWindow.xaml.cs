@@ -29,8 +29,8 @@ namespace Rota_Creator_App
 
             for(int t = 0; t < 23; t++)
             {
-                cmbStartTime.Items += t.ToSting("00") + ":00";
-                cmbFinishTime.Items += t.ToSting("00") + ":00";
+                cmbStartTime.Items += t.ToString("00") + ":00";
+                cmbFinishTime.Items += t.ToString("00") + ":00";
             }
 
             Officers = Officer.Load("");

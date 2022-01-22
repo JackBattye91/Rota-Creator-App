@@ -16,11 +16,11 @@ namespace Rota_Creator_App
             public bool isActive = true;
         }
 
-        DateTime StartTime { get; protected set; }
-        DateTime FinishTime { get; protected set; }
-        List<Position> Positions { get; protected set; }
-        List<Officer> Officers { get; protected set; }
-        List<RotaTimePosition> rotaTimePositions { get; protected set; }
+        DateTime StartTime { get; set; }
+        DateTime FinishTime { get; set; }
+        List<Position> Positions { get; set; }
+        List<Officer> Officers { get; set; }
+        List<RotaTimePosition> rotaTimePositions { get; set; }
 
         // hide constructor
         private Rota()
@@ -57,7 +57,7 @@ namespace Rota_Creator_App
         }
         public bool IsCovered(Position Position)
         {
-            foreach(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
+            for(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
             {
                 if (!IsCovered(Position, time))
                     return false;
@@ -104,7 +104,7 @@ namespace Rota_Creator_App
             rotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
         }
 
-        static Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
+        public static Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
         {
             // initialize properties
             Rota rota = new Rota();
