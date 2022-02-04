@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Rota_Creator_App
 {
-    class Position
+    class Officer
     {
         public string Name { get; set; }
-        public string Site { get; set; }
-        public int Duration { get; set; }
+        public string AbbriAbbreviation { get; set; }
+        public string Team { get; set; }
+        List<Position> WorkablePositions { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Rota_Creator_App
 {
@@ -20,6 +21,7 @@ namespace Rota_Creator_App
     /// </summary>
     public partial class MainWindow : Window
     {
+        Timer statusTimer;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +34,8 @@ namespace Rota_Creator_App
             cmbStartTime.SelectedIndex = 6;
             cmbFinishTime.SelectedIndex = 18;
 
+            // Officers
+
             // ********** Positions
             lstPositions.ItemsSource = Positions;
             cmbPositionSite.ItemsSource = Sites;
@@ -42,6 +46,11 @@ namespace Rota_Creator_App
             lstSites.ItemsSource = Sites;
         }
 
-        
+        private void updateStatusText(string text)
+        {
+            statusText.Text = text;
+
+            statusTimer = new Timer((obj) => { statusText.Text = "Okay"; }, void, 10000, 0);
+        }
     }
 }

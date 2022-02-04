@@ -25,10 +25,30 @@ namespace Rota_Creator_App
 
             Sites.Add(newSiteName);
         }
+        private void btnUpdateSite_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Sites.Contains(txtSiteName.Text))
+                Sites[lstSites.SelectedIndex] = txtSiteName.Text;
+            else
+                updateStatusText("There is already a site named " + txtSiteName.Text);
+        }
+        private void btnDeleteSite_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstSites.Items.Count <= 1)
+                return;
+
+            if (MessageBox.Show("Are you sure you want to delete site: " + lstSites.SelectedItem.ToString(), "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                Sites.RemoveAt(lstSites.SelectedIndex);
+        }
 
         private void lstSites_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            txtSiteName.Text = (e.Source as ListView).SelectedItem.ToString();
+            btnUpdateSite.IsEnabled = btnDeleteSite.IsEnabled = txtSiteName.IsEnabled = lstSites.SelectedIndex != -1;
+
+            if (lstSites.SelectedIndex != -1)
+            {
+                txtSiteName.Text = (e.Source as ListView).SelectedItem.ToString();
+            }
         }
     }
 }

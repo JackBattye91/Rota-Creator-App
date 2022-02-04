@@ -87,12 +87,12 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <ListView SelectionMode="Single" Grid.RowSpan="2" Margin="5">
+                    <ListView x:Name="lstOfficers" SelectionMode="Single" Grid.RowSpan="2" Margin="5">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="5">
                                     <TextBlock Text="{Binding ElementName=Name}" Width="200"/>
-                                    <TextBlock Text="{Binding ElementName=Team}"/>
+                                    <TextBlock Text="{Binding ElementName=Abbreviation}" Width="50"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -159,11 +159,12 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <ListView x:Name="lstPositions" SelectionMode="Single" Grid.RowSpan="2" Margin="5">
+                    <ListView x:Name="lstPositions" SelectionMode="Single" Grid.RowSpan="2" Margin="5" SelectionChanged="lstPositions_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Path=Name}" Width="200"/>
+                                    <TextBlock Text="{Binding Path=Duration}" Width="200"/>
                                     <TextBlock Text="{Binding Path=Site}"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -174,7 +175,7 @@
                         <TextBlock Text="Name" Margin="5,5,5,0"/>
                         <TextBox x:Name="txtPositionName" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
 
-                        <TextBlock Text="Duration" Margin="5,5,5,0"/>
+                        <TextBlock Text="Duration (Hours)" Margin="5,5,5,0"/>
                         <TextBox x:Name="txtPositionDuration" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
 
                         <TextBlock Text="Site" Margin="5,5,5,0"/>
@@ -182,9 +183,9 @@
                     </StackPanel>
                     
                     <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                        <Button HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2" Click="btnAddPosition_Click"/>
-                        <Button HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2"/>
-                        <Button HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2"/>
+                        <Button x:Name="btnAddPosition" HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2" Click="btnAddPosition_Click"/>
+                        <Button x:Name="btnUpdatePosition" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" Click="btnUpdatePosition_Click"/>
+                        <Button x:Name="btnDeletePosition" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" Click="btnDeletePosition_Click"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -199,7 +200,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <ListView x:Name="lstSites" SelectionMode="Single" Grid.RowSpan="2" Margin="5" SelectionChanged="lstSites_SelectionChanged">
+                    <ListView x:Name="lstSites" Grid.RowSpan="2" Margin="5" SelectionChanged="lstSites_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}"/>
@@ -209,12 +210,12 @@
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <TextBlock Text="Name" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtSiteName" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
+                        <TextBox x:Name="txtSiteName" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                            <Button HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2" Click="btnAddSite_Click"/>
-                            <Button HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2"/>
-                        <Button HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2"/>
+                        <Button x:Name="btnAddSite" HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2" Click="btnAddSite_Click"/>
+                        <Button x:Name="btnUpdateSite" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" IsEnabled="False" Click="btnUpdateSite_Click"/>
+                        <Button x:Name="btnDeleteSite" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" IsEnabled="False" Click="btnDeleteSite_Click"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
