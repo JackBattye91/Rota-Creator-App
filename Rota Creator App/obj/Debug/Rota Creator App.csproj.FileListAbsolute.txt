@@ -1,0 +1,15 @@
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\bin\Debug\Rota Creator App.exe.config
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\bin\Debug\Rota Creator App.exe
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\bin\Debug\Rota Creator App.pdb
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App.csproj.AssemblyReference.cache
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\MainWindow.g.cs
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\App.g.cs
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App_MarkupCompile.cache
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App_MarkupCompile.lref
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\MainWindow.baml
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App.g.resources
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota_Creator_App.Properties.Resources.resources
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App.csproj.GenerateResource.cache
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App.csproj.CoreCompileInputs.cache
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App.exe
+C:\Users\Jack Battye\source\repos\Rota Creator App\Rota Creator App\obj\Debug\Rota Creator App.pdb
