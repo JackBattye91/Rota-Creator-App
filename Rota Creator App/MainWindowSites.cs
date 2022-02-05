@@ -13,6 +13,13 @@ namespace Rota_Creator_App
     {
         ObservableCollection<string> Sites = new ObservableCollection<string>();
 
+        private void initializeSites()
+        {
+            // ********** Sites
+            Sites.Add("Default");
+            lstSites.ItemsSource = Sites;
+        }
+
         private void btnAddSite_Click(object sender, RoutedEventArgs e)
         {
             string newSiteName = "New Site";
@@ -27,7 +34,7 @@ namespace Rota_Creator_App
         }
         private void btnUpdateSite_Click(object sender, RoutedEventArgs e)
         {
-            if (!Sites.Contains(txtSiteName.Text))
+            if (!Sites.Contains(txtSiteName.Text) || Sites[lstSites.SelectedIndex] == txtSiteName.Text)
                 Sites[lstSites.SelectedIndex] = txtSiteName.Text;
             else
                 updateStatusText("There is already a site named " + txtSiteName.Text);

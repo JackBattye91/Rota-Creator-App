@@ -10,11 +10,9 @@ namespace Rota_Creator_App
 {
     public partial class MainWindow : Window
     {
-        ObservableCollection<Officer> Officers = new ObservableCollection<Officer>();
-
-        private void initializeOfficers()
+        private void initializeRota()
         {
-            lstOfficers.ItemsSource = Officers;
+            lstAvailableOfficers.ItemsSource = Officers;
         }
 
     }

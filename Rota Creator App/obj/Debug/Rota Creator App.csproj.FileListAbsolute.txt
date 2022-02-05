@@ -37,3 +37,27 @@ C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Cre
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.csproj.CopyComplete
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.exe
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.pdb
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Rota Creator App.exe.config
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Rota Creator App.exe
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Rota Creator App.pdb
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\EntityFramework.dll
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.dll
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\EntityFramework.xml
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.xml
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.csproj.AssemblyReference.cache
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\MainWindow.g.cs
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\App.g.cs
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App_MarkupCompile.cache
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App_MarkupCompile.lref
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\MainWindow.baml
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.g.resources
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota_Creator_App.Properties.Resources.resources
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.csproj.GenerateResource.cache
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.csproj.CoreCompileInputs.cache
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.csproj.CopyComplete
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.exe
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.pdb

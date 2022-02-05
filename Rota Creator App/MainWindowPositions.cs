@@ -13,6 +13,13 @@ namespace Rota_Creator_App
     {
         ObservableCollection<Position> Positions = new ObservableCollection<Position>();
 
+        private void initializePositions()
+        {
+            lstPositions.ItemsSource = Positions;
+            cmbPositionSite.ItemsSource = Sites;
+            cmbPositionSite.SelectedIndex = 0;
+        }
+
         private void btnAddPosition_Click(object sender, RoutedEventArgs e)
         {
             string newPositionsName = "New Position";
@@ -28,6 +35,12 @@ namespace Rota_Creator_App
 
         private void btnUpdatePosition_Click(object sender, RoutedEventArgs e)
         {
+            if (Positions.Count(p => p.Name == txtPositionName.Text) > 0 && Positions[lstPositions.SelectedIndex].Name != txtPositionName.Text)
+            {
+                updateStatusText("There is already a position named " + txtPositionName.Text);
+                return;
+            }
+
             int duration = 1;
 
             if (!int.TryParse(txtPositionDuration.Text, out duration))
@@ -47,7 +60,7 @@ namespace Rota_Creator_App
 
         private void lstPositions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btnUpdateSite.IsEnabled = btnDeleteSite.IsEnabled = lstSites.SelectedIndex != -1;
+            btnUpdatePosition.IsEnabled = btnDeletePosition.IsEnabled = txtPositionName.IsEnabled = txtPositionDuration.IsEnabled = cmbPositionSite.IsEnabled = lstPositions.SelectedIndex != -1;
 
             if (lstPositions.SelectedIndex != -1)
             {

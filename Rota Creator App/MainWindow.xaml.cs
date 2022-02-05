@@ -21,36 +21,50 @@ namespace Rota_Creator_App
     /// </summary>
     public partial class MainWindow : Window
     {
-        Timer statusTimer;
+        Thread statusTextThread;
         public MainWindow()
         {
             InitializeComponent();
 
+            // Create a thread to reset the status text
+            statusTextThread = new Thread(new ParameterizedThreadStart((obj) => {
+                try
+                {
+                    // wait 10 seconds
+                    Thread.Sleep(10000);
+                    // change status text
+                    Dispatcher.Invoke(new Action(() => { statusText.Text = "Okay"; }), System.Windows.Threading.DispatcherPriority.Normal);
+                }
+                catch(Exception e)
+                {
+                }
+            }));
+
+            // Add Times to start and finish times
             for (int h = 0; h < 24; h++)
             {
                 cmbStartTime.Items.Add(h.ToString("00") + ":00");
                 cmbFinishTime.Items.Add(h.ToString("00") + ":00");
             }
+            // select default times
             cmbStartTime.SelectedIndex = 6;
             cmbFinishTime.SelectedIndex = 18;
 
-            // Officers
-
-            // ********** Positions
-            lstPositions.ItemsSource = Positions;
-            cmbPositionSite.ItemsSource = Sites;
-            cmbPositionSite.SelectedIndex = 0;
-
-            // ********** Sites
-            Sites.Add("Default");
-            lstSites.ItemsSource = Sites;
+            initializeSites();
+            initializePositions();
+            initializeOfficers();
         }
 
         private void updateStatusText(string text)
         {
             statusText.Text = text;
+            statusTextThread.Start();
+        }
 
-            statusTimer = new Timer((obj) => { statusText.Text = "Okay"; }, void, 10000, 0);
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // cancel update status text thread
+            statusTextThread.Abort();
         }
     }
 }

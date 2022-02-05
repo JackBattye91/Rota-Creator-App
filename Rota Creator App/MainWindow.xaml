@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rota_Creator_App"
         mc:Ignorable="d"
-        Title="Rota Creator" Height="530.825" Width="1002.262">
+        Title="Rota Creator" Height="530.825" Width="1002.262" Closing="Window_Closing">
     <Grid>
         <DockPanel HorizontalAlignment="Stretch" LastChildFill="False" Margin="0,0,0,0" VerticalAlignment="Top">
             <Menu DockPanel.Dock="Top">
@@ -29,16 +29,14 @@
                     </Grid.ColumnDefinitions>
 
                     <ListView x:Name="lstAvailableOfficers" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
-                        <!--
                         <ListView.ItemTemplate>
                             <DataTemplate>
+                                <StackPanel Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Name}" Width="200"/>
+                                    <TextBlock Text="{Binding Path=Team}"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        -->
-                        <StackPanel Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="20" Orientation="Horizontal">
-                            <TextBlock Text="John Cameron" Width="200"/>
-                            <TextBlock Text="Bravo"/>
-                        </StackPanel>
                     </ListView>
                     <TextBox Grid.Row="1" HorizontalAlignment="Stretch" Text="" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
 
@@ -50,17 +48,14 @@
                     </StackPanel>
 
                     <ListView x:Name="lstActiveOfficers" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
-                        <!--
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                
+                                <StackPanel Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Name}" Width="200"/>
+                                    <TextBlock Text="{Binding Path=Team}"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        -->
-                        <StackPanel Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxHeight="20" Orientation="Horizontal">
-                            <TextBlock Text="John Cameron" Width="200"/>
-                            <TextBlock Text="Bravo"/>
-                        </StackPanel>
                     </ListView>
                     <TextBox Grid.Row="1" HorizontalAlignment="Stretch" Text="" VerticalAlignment="Bottom" Grid.Column="2" Margin="5,0,5,0"/>
 
@@ -93,25 +88,21 @@
                                 <StackPanel Orientation="Horizontal" Margin="5">
                                     <TextBlock Text="{Binding ElementName=Name}" Width="200"/>
                                     <TextBlock Text="{Binding ElementName=Abbreviation}" Width="50"/>
+                                    <TextBlock Text="{Binding ElementName=Team}" Width="100"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="John Cameron" Width="200"/>
-                            <TextBlock Text="Bravo"/>
-                        </StackPanel>
                     </ListView>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <TextBlock Text="Name" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtOfficerName" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
+                        <TextBox x:Name="txtOfficerName" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
                         <TextBlock Text="Abbreviation" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtOfficerAbbr" Text="" VerticalAlignment="Top" Margin="5,0,5,5" MaxLength="12"/>
+                        <TextBox x:Name="txtOfficerAbbr" Text="" VerticalAlignment="Top" Margin="5,0,5,5" MaxLength="12" IsEnabled="False"/>
 
                         <TextBlock Text="Team" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtOfficerTeam" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
+                        <TextBox x:Name="txtOfficerTeam" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
                         <TextBlock Text="Positions" Margin="5,5,5,0"/>
                         <Grid Margin="5">
@@ -120,20 +111,19 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <ListView>
-                                
+                            <ListView x:Name="lstOfficerPositions" IsEnabled="False">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Name}" Width="200"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
 
                             <StackPanel Grid.Column="1" Height="200">
-                                <Button Margin="5">
+                                <Button Margin="5" IsEnabled="False">
                                     <Image Source="Resources/icons8-plus-math-50.png" Width="20"/>
                                 </Button>
-                                <!--
-                                <Button Margin="5">
-                                    <Image Source="Resources/icons8-edit-24.png" Width="20"/>
-                                </Button>
-                                -->
-                                <Button Margin="5">
+                                <Button Margin="5" IsEnabled="False">
                                     <Image Source="Resources/icons8-delete-64.png" Width="20"/>
                                 </Button>
                             </StackPanel>
@@ -141,9 +131,9 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                        <Button HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2"/>
-                        <Button HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2"/>
-                        <Button HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2"/>
+                        <Button x:Name="btnAddOfficer" HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2"/>
+                        <Button x:Name="btnUpdateOfficer" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" IsEnabled="False"/>
+                        <Button x:Name="btnDeleteOfficer" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" IsEnabled="False"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -173,19 +163,19 @@
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <TextBlock Text="Name" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtPositionName" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
+                        <TextBox x:Name="txtPositionName" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
                         <TextBlock Text="Duration (Hours)" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtPositionDuration" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
+                        <TextBox x:Name="txtPositionDuration" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
                         <TextBlock Text="Site" Margin="5,5,5,0"/>
-                        <ComboBox x:Name="cmbPositionSite" Text="" VerticalAlignment="Top" Margin="5,0,5,5"/>
+                        <ComboBox x:Name="cmbPositionSite" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
                     </StackPanel>
                     
                     <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                         <Button x:Name="btnAddPosition" HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2" Click="btnAddPosition_Click"/>
-                        <Button x:Name="btnUpdatePosition" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" Click="btnUpdatePosition_Click"/>
-                        <Button x:Name="btnDeletePosition" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" Click="btnDeletePosition_Click"/>
+                        <Button x:Name="btnUpdatePosition" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" IsEnabled="False" Click="btnUpdatePosition_Click"/>
+                        <Button x:Name="btnDeletePosition" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" IsEnabled="False" Click="btnDeletePosition_Click"/>
                     </StackPanel>
                 </Grid>
             </TabItem>

@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainWindowRota.cs" />
     <Compile Include="Officer.cs" />
     <Compile Include="Time.cs" />
     <Page Include="MainWindow.xaml">
