@@ -5,14 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rota_Creator_App"
         mc:Ignorable="d"
-        Title="Rota Creator" Height="530.825" Width="1002.262" Closing="Window_Closing">
+        Title="Rota Creator" Height="530.825" Width="1002.262" Closing="Window_Closing" Icon="Resources/icons8-schedule-96.ico" WindowState="Maximized">
     <Grid>
-        <DockPanel HorizontalAlignment="Stretch" LastChildFill="False" Margin="0,0,0,0" VerticalAlignment="Top">
-            <Menu DockPanel.Dock="Top">
-
-            </Menu>
-        </DockPanel>
-
         <TabControl HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Stretch">
             <TabItem Header="Rota">
                 <Grid Background="#FFE5E5E5">
@@ -31,7 +25,7 @@
                     <ListView x:Name="lstAvailableOfficers" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
+                                <StackPanel Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal" MouseLeftButtonDown="lstAvailableOfficers_MouseLeftButtonDown">
                                     <TextBlock Text="{Binding Path=Name}" Width="200"/>
                                     <TextBlock Text="{Binding Path=Team}"/>
                                 </StackPanel>
@@ -63,7 +57,7 @@
                         <ComboBox x:Name="cmbStartTime" HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
                         <Label Content="to" HorizontalAlignment="Left" Margin="130,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.143,0.423"/>
                         <ComboBox x:Name="cmbFinishTime" HorizontalAlignment="Left" Margin="156,5,0,0" VerticalAlignment="Top" Width="120"/>
-                        <Button Content="Generate" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2"/>
+                        <Button Content="Generate" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnGenerate_Click"/>
                     </Grid>
 
 
@@ -82,13 +76,13 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <ListView x:Name="lstOfficers" SelectionMode="Single" Grid.RowSpan="2" Margin="5">
+                    <ListView x:Name="lstOfficers" SelectionMode="Single" Grid.RowSpan="2" Margin="5" SelectionChanged="lstOfficers_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="5">
-                                    <TextBlock Text="{Binding ElementName=Name}" Width="200"/>
-                                    <TextBlock Text="{Binding ElementName=Abbreviation}" Width="50"/>
-                                    <TextBlock Text="{Binding ElementName=Team}" Width="100"/>
+                                    <TextBlock Text="{Binding Path=Name}" Width="200"/>
+                                    <TextBlock Text="{Binding Path=Abbreviation}" Width="50"/>
+                                    <TextBlock Text="{Binding Path=Team}" Width="100"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -105,35 +99,20 @@
                         <TextBox x:Name="txtOfficerTeam" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
                         <TextBlock Text="Positions" Margin="5,5,5,0"/>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <ListView x:Name="lstOfficerPositions" IsEnabled="False">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Path=Name}" Width="200"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-
-                            <StackPanel Grid.Column="1" Height="200">
-                                <Button Margin="5" IsEnabled="False">
-                                    <Image Source="Resources/icons8-plus-math-50.png" Width="20"/>
-                                </Button>
-                                <Button Margin="5" IsEnabled="False">
-                                    <Image Source="Resources/icons8-delete-64.png" Width="20"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
+                        
+                        <ListView x:Name="lstOfficerPositions" IsEnabled="False">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Path=Name}" Checked="officerPosition_Checked" Unchecked="officerPosition_Unchecked"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                        <Button x:Name="btnAddOfficer" HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2"/>
-                        <Button x:Name="btnUpdateOfficer" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" IsEnabled="False"/>
-                        <Button x:Name="btnDeleteOfficer" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" IsEnabled="False"/>
+                        <Button x:Name="btnAddOfficer" HorizontalAlignment="Right" Content="New" Margin="5" Padding="5,2,5,2" Click="btnAddOfficer_Click"/>
+                        <Button x:Name="btnUpdateOfficer" HorizontalAlignment="Right" Content="Update" Margin="5" Padding="5,2,5,2" IsEnabled="False" Click="btnUpdateOfficer_Click"/>
+                        <Button x:Name="btnDeleteOfficer" HorizontalAlignment="Right" Content="Delete" Margin="5" Padding="5,2,5,2" IsEnabled="False" Click="btnDeleteOfficer_Click"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -152,7 +131,7 @@
                     <ListView x:Name="lstPositions" SelectionMode="Single" Grid.RowSpan="2" Margin="5" SelectionChanged="lstPositions_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="5">
                                     <TextBlock Text="{Binding Path=Name}" Width="200"/>
                                     <TextBlock Text="{Binding Path=Duration}" Width="200"/>
                                     <TextBlock Text="{Binding Path=Site}"/>
@@ -193,7 +172,7 @@
                     <ListView x:Name="lstSites" Grid.RowSpan="2" Margin="5" SelectionChanged="lstSites_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}"/>
+                                <TextBlock Text="{Binding}" Margin="5"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

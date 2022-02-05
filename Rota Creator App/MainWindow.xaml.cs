@@ -53,6 +53,7 @@ namespace Rota_Creator_App
             initializeSites();
             initializePositions();
             initializeOfficers();
+            initializeRota();
         }
 
         private void updateStatusText(string text)
