@@ -103,7 +103,7 @@ namespace Rota_Creator_App
             rotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
         }
 
-        static Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
+        static public Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
         {
             // initialize properties
             Rota rota = new Rota();

@@ -39,7 +39,8 @@ namespace Rota_Creator_App
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-
+            RotaWindow rotaWindow = new RotaWindow(Rota.Create(Officers.ToList(), Positions.ToList(), DateTime.Now, DateTime.Now.AddHours(12)));
+            rotaWindow.ShowDialog();
         }
     }
 }

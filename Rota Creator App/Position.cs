@@ -3,26 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
+using System.Collections.ObjectModel;
 
 namespace Rota_Creator_App
 {
     public class Position
     {
+        public int ID { get; protected set; }
         public string Name { get; set; }
-        public string Site { get; set; }
+        public Site Site { get; set; }
         public int Duration { get; set; }
 
+        public Position()
+        {
+            Random rnd = new Random();
+            ID = rnd.Next();
+        }
 
         public bool IsActive(DateTime time)
         {
             return true;
         }
 
-        public static List<Position> Load()
+        public static ObservableCollection<Position> Load()
         {
-            List<Position> positions = new List<Position>();
+            ObservableCollection<Position> positions = new ObservableCollection<Position>();
 
-            
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            {
+                connection.Open();
+
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM positions";
+
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        positions.Add(new Position()
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Site = new Site() { Name = reader.GetString(2) },
+                            Duration = reader.GetInt32(3),
+                        });
+                    }
+                }
+            }
 
             return positions;
         }

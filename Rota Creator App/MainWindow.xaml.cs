@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Data.SQLite;
+using System.IO;
 
 namespace Rota_Creator_App
 {
@@ -25,6 +27,34 @@ namespace Rota_Creator_App
         public MainWindow()
         {
             InitializeComponent();
+
+            if (!File.Exists("rotacreator.db"))
+            {
+                
+                SQLiteConnection.CreateFile("rotacreator.db");
+
+                using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+                {
+                    connection.Open();
+                    
+                    SQLiteCommand createSiteTable = connection.CreateCommand();
+                    createSiteTable.CommandText = "CREATE TABLE sites(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)";
+                    createSiteTable.ExecuteNonQuery();
+                    
+                    SQLiteCommand createDefaultSite = connection.CreateCommand();
+                    createDefaultSite.CommandText = "INSERT INTO sites(id, name) VALUES (0, 'Default')";
+                    createDefaultSite.ExecuteNonQuery();
+ 
+                    SQLiteCommand createPoitionTable = connection.CreateCommand();
+                    createPoitionTable.CommandText = "CREATE TABLE positions(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, site TEXT, duration INTEGER)";
+                    createPoitionTable.ExecuteNonQuery();
+                    
+                    SQLiteCommand createOfficerTable = connection.CreateCommand();
+                    createOfficerTable.CommandText = "CREATE TABLE officers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, abbreviation TEXT, team TEXT )";
+                    createOfficerTable.ExecuteNonQuery();
+                    
+                }
+            }
 
             // Create a thread to reset the status text
             statusTextThread = new Thread(new ParameterizedThreadStart((obj) => {
@@ -66,6 +96,8 @@ namespace Rota_Creator_App
         {
             // cancel update status text thread
             statusTextThread.Abort();
+
+            Site.Save(Sites);
         }
     }
 }

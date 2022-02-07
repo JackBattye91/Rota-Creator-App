@@ -6,17 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Data.SQLite;
 
 namespace Rota_Creator_App
 {
     public partial class MainWindow : Window
     {
-        ObservableCollection<string> Sites = new ObservableCollection<string>();
+        ObservableCollection<Site> Sites = new ObservableCollection<Site>();
 
         private void initializeSites()
         {
-            // ********** Sites
-            Sites.Add("Default");
+            Sites = Site.Load();
             lstSites.ItemsSource = Sites;
         }
 
@@ -24,20 +24,24 @@ namespace Rota_Creator_App
         {
             string newSiteName = "New Site";
             int counter = 1;
-            while(Sites.Contains(newSiteName))
+            while(Sites.Count((s) => s.Name == newSiteName) > 0)
             {
                 newSiteName = "New Site " + counter.ToString();
                 counter++;
             }
 
-            Sites.Add(newSiteName);
+            Sites.Add(new Site(newSiteName));
         }
         private void btnUpdateSite_Click(object sender, RoutedEventArgs e)
         {
-            if (!Sites.Contains(txtSiteName.Text) || Sites[lstSites.SelectedIndex] == txtSiteName.Text)
-                Sites[lstSites.SelectedIndex] = txtSiteName.Text;
-            else
+            if (Sites.Count(s => s.Name == txtSiteName.Text) > 1 && Sites[lstSites.SelectedIndex].Name == txtSiteName.Text)
+            {
                 updateStatusText("There is already a site named " + txtSiteName.Text);
+                return;
+            }
+
+            int id = Sites[lstSites.SelectedIndex].ID;
+            Sites[lstSites.SelectedIndex] = new Site(id, txtSiteName.Text);
         }
         private void btnDeleteSite_Click(object sender, RoutedEventArgs e)
         {
@@ -54,7 +58,7 @@ namespace Rota_Creator_App
 
             if (lstSites.SelectedIndex != -1)
             {
-                txtSiteName.Text = (e.Source as ListView).SelectedItem.ToString();
+                txtSiteName.Text = ((e.Source as ListView).SelectedItem as Site).Name;
             }
         }
     }

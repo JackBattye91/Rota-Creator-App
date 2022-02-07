@@ -15,6 +15,8 @@ namespace Rota_Creator_App
 
         private void initializeOfficers()
         {
+            Officers = Officer.Load();
+
             lstOfficers.ItemsSource = Officers;
             lstOfficerPositions.ItemsSource = Positions;
         }
@@ -59,6 +61,8 @@ namespace Rota_Creator_App
         private void lstOfficers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnUpdateOfficer.IsEnabled = btnDeleteOfficer.IsEnabled = txtOfficerName.IsEnabled = txtOfficerAbbr.IsEnabled = txtOfficerTeam.IsEnabled = lstOfficerPositions.IsEnabled = lstOfficers.SelectedIndex != -1;
+
+
 
             if (lstOfficers.SelectedIndex != -1)
             {

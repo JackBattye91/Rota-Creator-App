@@ -15,6 +15,8 @@ namespace Rota_Creator_App
 
         private void initializePositions()
         {
+            Positions = Position.Load();
+
             lstPositions.ItemsSource = Positions;
             cmbPositionSite.ItemsSource = Sites;
             cmbPositionSite.SelectedIndex = 0;
