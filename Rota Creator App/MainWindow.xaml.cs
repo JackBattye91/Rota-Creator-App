@@ -30,7 +30,6 @@ namespace Rota_Creator_App
 
             if (!File.Exists("rotacreator.db"))
             {
-                
                 SQLiteConnection.CreateFile("rotacreator.db");
 
                 using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))

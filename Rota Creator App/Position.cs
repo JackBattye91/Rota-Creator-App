@@ -10,15 +10,31 @@ namespace Rota_Creator_App
 {
     public class Position
     {
-        public int ID { get; protected set; }
-        public string Name { get; set; }
-        public Site Site { get; set; }
-        public int Duration { get; set; }
+        public int ID { get; protected set; } = -1;
+        public string Name { get; set; } = "";
+        public Site Site { get; set; } = new Site(-1, "");
+        public int Duration { get; set; } = 0;
 
         public Position()
         {
             Random rnd = new Random();
             ID = rnd.Next();
+        }
+        public Position(string name, Site site, int duration)
+        {
+            Random rnd = new Random();
+            ID = rnd.Next();
+
+            Name = name;
+            Site = site;
+            Duration = duration;
+        }
+        public Position(int id, string name, Site site, int duration)
+        {
+            ID = id;
+            Name = name;
+            Site = site;
+            Duration = duration;
         }
 
         public bool IsActive(DateTime time)

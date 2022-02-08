@@ -39,7 +39,7 @@ namespace Rota_Creator_App
         {
             if (Officers.Count(o => o.Name == txtOfficerName.Text) > 0 && Officers[lstOfficers.SelectedIndex].Name != txtOfficerName.Text)
             {
-                updateStatusText("There is already a officer named " + txtPositionName.Text);
+                updateStatusText("There is already a officer name " + txtPositionName.Text);
                 return;
             }
 
@@ -49,7 +49,8 @@ namespace Rota_Creator_App
                 return;
             }
             
-            Officers[lstOfficers.SelectedIndex] = new Officer() { Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text, WorkablePositions = new List<Position>() };
+            int id = Officers[lstSites.SelectedIndex].ID;
+            Officers[lstOfficers.SelectedIndex] = new Officer() { id,  Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text, WorkablePositions = new List<Position>() };
         }
 
         private void btnDeleteOfficer_Click(object sender, RoutedEventArgs e)
@@ -61,8 +62,6 @@ namespace Rota_Creator_App
         private void lstOfficers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnUpdateOfficer.IsEnabled = btnDeleteOfficer.IsEnabled = txtOfficerName.IsEnabled = txtOfficerAbbr.IsEnabled = txtOfficerTeam.IsEnabled = lstOfficerPositions.IsEnabled = lstOfficers.SelectedIndex != -1;
-
-
 
             if (lstOfficers.SelectedIndex != -1)
             {

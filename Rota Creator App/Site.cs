@@ -10,8 +10,8 @@ namespace Rota_Creator_App
 {
     public class Site
     {
-        public int ID { get; protected set; }
-        public string Name { get; set; }
+        public int ID { get; protected set; } = -1;
+        public string Name { get; set; } = "";
 
         public Site()
         {
@@ -53,21 +53,10 @@ namespace Rota_Creator_App
         }
         public static void Save(ObservableCollection<Site> sites)
         {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            foreach (Site s in sites)
             {
-                connection.Open();
-
-                SQLiteCommand update = connection.CreateCommand();
-                foreach (Site s in sites)
-                {
-                    update.CommandText = $"UPDATE sites SET name = '{s.Name}' WHERE id = {s.ID}";
-                    if (update.ExecuteNonQuery() == 0)
-                    {
-                        SQLiteCommand create = connection.CreateCommand();
-                        create.CommandText = $"INSERT INTO sites (id, name) VALUES({s.ID}, '{s.Name}')";
-                        create.ExecuteNonQuery();
-                    }
-                }
+                if (!Update(s))
+                    Insert(s);
             }
         }
 
@@ -81,6 +70,19 @@ namespace Rota_Creator_App
                 update.CommandText = $"UPDATE sites SET name = '{site.Name}' WHERE id = {site.ID}";
 
                 return (update.ExecuteNonQuery() != 0);
+            }
+        }
+
+        public static bool Insert(Site site)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            {
+                connection.Open();
+
+                SQLiteCommand insert = connection.CreateCommand();
+                insert.CommandText = $"INSERT INTO sites (id, name) VALUES({s.ID}, '{s.Name}')";
+
+                return (insert.ExecuteNonQuery() != 0);
             }
         }
     }
