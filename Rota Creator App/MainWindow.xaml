@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Rota Creator" Height="530.825" Width="1002.262" Closing="Window_Closing" Icon="Resources/icons8-schedule-96.ico" WindowState="Maximized">
     <Grid>
-        <TabControl HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Stretch">
+        <TabControl HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Stretch" SelectionChanged="tabControl_SelectionChanged">
             <!-- Rota Tab -->
             <TabItem Header="Rota">
                 <Grid Background="#FFE5E5E5">

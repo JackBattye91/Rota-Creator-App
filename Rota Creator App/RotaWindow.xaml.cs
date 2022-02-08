@@ -19,18 +19,18 @@ namespace Rota_Creator_App
     /// </summary>
     public partial class RotaWindow : Window
     {
-        Rota rota;
+        Rota rota = new Rota();
 
         public RotaWindow()
         {
             InitializeComponent();
         }
 
-        public RotaWindow(Rota rota)
+        public RotaWindow(ObservableCollection<Officer> officers, ObservableCollection<Position> positions, DateTime startTime, DateTime finishTime)
         {
             InitializeComponent();
 
-            this.rota = rota;
+            rota.Generate(officers, positions, startTime, finishTime);
 
             // add columns to grid
             rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
@@ -44,7 +44,7 @@ namespace Rota_Creator_App
 
             for (int p = 0; p < rota.Positions.Count; p++)
             {
-                Label label = new Label() { Content = rota.Positions[p].Name };
+                TextBlock label = new TextBlock() { Content = rota.Positions[p].Name };
                 Grid.SetRow(label, 0);
                 Grid.SetColumn(label, p + 1);
                 rotaGrid.Children.Add(label);
@@ -54,7 +54,7 @@ namespace Rota_Creator_App
             {
                 DateTime time = rota.StartTime + new TimeSpan(0, 0, 0);
 
-                Label label = new Label() { Content = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00") };
+                LabTextBlockel label = new TextBlock() { Content = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00") };
                 Grid.SetRow(label, h + 1);
                 Grid.SetColumn(label, 0);
                 rotaGrid.Children.Add(label);
@@ -62,7 +62,14 @@ namespace Rota_Creator_App
 
             foreach (Rota.RotaTimePosition timePos in rota.rotaTimePositions)
             {
+                Binding officerbinding = new Binding("officer.Name") { Source = timePos };
+
+                TextBlock label = new TextBlock() {  }
+                label.SetBinding(TextBlock.TextProperty, officerBinding);
                 
+                Grid.SetRow(label, h + 1);
+                Grid.SetColumn(label, 0);
+                rotaGrid.Children.Add(label);
             }
         }
     }

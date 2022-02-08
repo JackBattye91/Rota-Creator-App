@@ -16,8 +16,29 @@ namespace Rota_Creator_App
 
         private void initializeRota()
         {
+            // Add Times to start and finish times
+            for (int h = 0; h < 24; h++)
+            {
+                cmbStartTime.Items.Add(h.ToString("00") + ":00");
+                cmbFinishTime.Items.Add(h.ToString("00") + ":00");
+            }
+            // select default times
+            cmbStartTime.SelectedIndex = 6;
+            cmbFinishTime.SelectedIndex = 18;
+
             lstAvailableOfficers.ItemsSource = availableOfficers;
             lstActiveOfficers.ItemsSource = activeOfficers;
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((sender as Tabcontrol).SelectedItem as TabItem).Header == "Rota")
+            {
+                availableOfficers.Clear();
+                activeOfficers.Clear();
+
+                availableOfficers = new ObservableCollection<Officer>(Officers);
+            }
         }
 
         private void lstAvailableOfficers_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -33,13 +54,14 @@ namespace Rota_Creator_App
         {
             if (e.ClickCount == 2)
             {
-
+                availableOfficers.Add(activeOfficers[lstActiveOfficers.SelectedIndex]);
+                activeOfficers.RemoveAt(lstActiveOfficers.SelectedIndex);
             }
         }
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            RotaWindow rotaWindow = new RotaWindow(Rota.Create(Officers.ToList(), Positions.ToList(), DateTime.Now, DateTime.Now.AddHours(12)));
+            RotaWindow rotaWindow = new RotaWindow(Officers, Positions, DateTime.Now, DateTime.Now.AddHours(12));
             rotaWindow.ShowDialog();
         }
     }
