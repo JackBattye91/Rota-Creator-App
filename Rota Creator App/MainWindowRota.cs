@@ -27,18 +27,22 @@ namespace Rota_Creator_App
             cmbStartTime.SelectedIndex = 6;
             cmbFinishTime.SelectedIndex = 18;
 
-            lstAvailableOfficers.ItemsSource = availableOfficers;
+            lstAvailableOfficers.ItemsSource = Officers;// availableOfficers;
             lstActiveOfficers.ItemsSource = activeOfficers;
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if ((sender as TabControl).SelectedItem == null)
+                return;
+
             if (((sender as TabControl).SelectedItem as TabItem).Header.ToString() == "Rota")
             {
                 availableOfficers.Clear();
                 activeOfficers.Clear();
 
                 availableOfficers = new ObservableCollection<Officer>(Officers);
+                lstAvailableOfficers.ItemsSource = availableOfficers;
             }
         }
 

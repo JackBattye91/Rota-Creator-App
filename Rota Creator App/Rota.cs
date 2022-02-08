@@ -79,7 +79,12 @@ namespace Rota_Creator_App
         {
             if (ignoreDurations)
             {
-                rotaTimePositions.RemoveAll(tp => tp.time == time);
+                for(int rt = 0; rt < rotaTimePositions.Count(); rt++)
+                {
+                    if (rotaTimePositions[rt].time == time)
+                        rotaTimePositions.RemoveAt(rt);
+                }
+
                 return;
             }
 
@@ -102,7 +107,11 @@ namespace Rota_Creator_App
         }
         public void Clear(Position position)
         {
-            rotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
+            for (int rt = 0; rt < rotaTimePositions.Count(); rt++)
+            {
+                if (rotaTimePositions[rt].position == position)
+                    rotaTimePositions.RemoveAt(rt);
+            }
         }
 
         public void Generate(ObservableCollection<Officer> officers, ObservableCollection<Position> positions, DateTime startTime, DateTime finishTime)
@@ -114,10 +123,11 @@ namespace Rota_Creator_App
             Officers = new ObservableCollection<Officer>(officers);
             rotaTimePositions = new ObservableCollection<RotaTimePosition>();
 
-            DateTime time = StartTime;
-
-            for(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
-                rotaTimePositions.Add(coverTime(time));
+            for (DateTime time = StartTime; time < FinishTime; time.AddHours(1))
+            {
+                foreach(RotaTimePosition rotaTime in coverTime(time))
+                    rotaTimePositions.Add(rotaTime);
+            }
         }
 
         private List<RotaTimePosition> coverTime(DateTime time)
