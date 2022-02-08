@@ -62,7 +62,7 @@ namespace Rota_Creator_App
 
             foreach (Rota.RotaTimePosition timePos in rota.rotaTimePositions)
             {
-
+                
             }
         }
     }

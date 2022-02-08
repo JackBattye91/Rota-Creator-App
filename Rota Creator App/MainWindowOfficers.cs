@@ -18,7 +18,6 @@ namespace Rota_Creator_App
             Officers = Officer.Load();
 
             lstOfficers.ItemsSource = Officers;
-            lstOfficerPositions.ItemsSource = Positions;
         }
 
         private void btnAddOfficer_Click(object sender, RoutedEventArgs e)
@@ -39,7 +38,7 @@ namespace Rota_Creator_App
         {
             if (Officers.Count(o => o.Name == txtOfficerName.Text) > 0 && Officers[lstOfficers.SelectedIndex].Name != txtOfficerName.Text)
             {
-                updateStatusText("There is already a officer name " + txtPositionName.Text);
+                updateStatusText("There is already an officer named " + txtOfficerName.Text);
                 return;
             }
 
@@ -51,12 +50,37 @@ namespace Rota_Creator_App
             
             int id = Officers[lstSites.SelectedIndex].ID;
             Officers[lstOfficers.SelectedIndex] = new Officer() { id,  Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text, WorkablePositions = new List<Position>() };
+            updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
         }
 
         private void btnDeleteOfficer_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to delete officer: " + (lstOfficers.SelectedItem as Officer).Name, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
                 Officers.RemoveAt(lstOfficers.SelectedIndex);
+            }
+        }
+
+        private void btnAddOfficerPosition_Click(object sender, RoutedEventArgs e)
+        {
+            PositionsWindow positionsWindow = new PositionsWindow(Positions);
+            bool? results = positionsWindow.ShowDialog();
+            switch(results)
+            {
+                case true:
+                    Officers[lstOfficers.SelectedIndex].WorkablePositions.AddRange(positionsWindow.PositionsToAdd);
+                    break;
+                case false:
+                    return;
+                default:
+                    return;
+            }
+        }
+        private void btnDeleteOfficerPosition_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to remove " + (lstOfficerPositions.SelectedItem as Position).Name + " from this officer", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                Officers[lstOfficers.SelectedIndex].WorkablePositions.RemoveAt(lstOfficerPositions.SelectedIndex);
         }
 
         private void lstOfficers_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,16 +92,15 @@ namespace Rota_Creator_App
                 txtOfficerName.Text = (lstOfficers.SelectedItem as Officer).Name;
                 txtOfficerAbbr.Text = (lstOfficers.SelectedItem as Officer).Abbreviation;
                 txtOfficerTeam.Text = (lstOfficers.SelectedItem as Officer).Team;
+                lstOfficerPositions.ItemsSource = (lstOfficers.SelectedItem as Officer).WorkablePositions;
             }
-        }
-
-        private void officerPosition_Checked(object sender, RoutedEventArgs e)
-        {
-            (lstOfficers.SelectedItem as Officer).WorkablePositions.Add((e.Source as CheckBox).DataContext as Position);
-        }
-        private void officerPosition_Unchecked(object sender, RoutedEventArgs e)
-        {
-            (lstOfficers.SelectedItem as Officer).WorkablePositions.Remove((e.Source as CheckBox).DataContext as Position);
+            else
+            {
+                txtOfficerName.Text = "";
+                txtOfficerAbbr.Text = "";
+                txtOfficerTeam.Text = "";
+                lstOfficerPositions.ItemsSource = null;
+            }
         }
     }
 }

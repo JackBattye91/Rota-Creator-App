@@ -15,7 +15,7 @@ namespace Rota_Creator_App
         public string Name { get; set; } = "";
         public string Abbreviation { get; set; } = "";
         public string Team { get; set; } = "";
-        public List<Position> WorkablePositions { get; set; } = new List<Position>();
+        public ObservableCollection<Position> WorkablePositions { get; set; } = new ObservableCollection<Position>();
 
         public Officer()
         {

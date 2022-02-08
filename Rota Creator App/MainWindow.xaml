@@ -8,6 +8,7 @@
         Title="Rota Creator" Height="530.825" Width="1002.262" Closing="Window_Closing" Icon="Resources/icons8-schedule-96.ico" WindowState="Maximized">
     <Grid>
         <TabControl HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Stretch">
+            <!-- Rota Tab -->
             <TabItem Header="Rota">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
@@ -59,12 +60,10 @@
                         <ComboBox x:Name="cmbFinishTime" HorizontalAlignment="Left" Margin="156,5,0,0" VerticalAlignment="Top" Width="120"/>
                         <Button Content="Generate" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnGenerate_Click"/>
                     </Grid>
-
-
-
                 </Grid>
             </TabItem>
             
+            <!-- Officers Tab -->
             <TabItem Header="Officers">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -100,13 +99,29 @@
 
                         <TextBlock Text="Positions" Margin="5,5,5,0"/>
                         
-                        <ListView x:Name="lstOfficerPositions" IsEnabled="False">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="{Binding Path=Name}" Checked="officerPosition_Checked" Unchecked="officerPosition_Unchecked"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ListView x:Name="lstOfficerPositions" IsEnabled="False" MinHeight="200">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Name}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <StackPanel Grid.Column="1">
+                                <Button x:Name="btnAddOfficerPosition" Padding="2" Margin="0,2,0,2" Click="btnAddOfficerPosition_Click">
+                                    <Image Source=""/>
+                                </Button>
+                                <Button x:Name="btnDeleteOfficerPosition" Padding="2" Margin="0,2,0,2" Click="btnDeleteOfficerPosition_Click">
+                                    <Image Source=""/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
@@ -117,6 +132,7 @@
                 </Grid>
             </TabItem>
             
+            <!-- Positions Tab -->
             <TabItem Header="Positions">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -164,6 +180,8 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+
+            <!-- Site Tab -->
             <TabItem Header="Sites">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
