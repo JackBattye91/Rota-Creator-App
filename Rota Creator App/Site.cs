@@ -80,7 +80,7 @@ namespace Rota_Creator_App
                 connection.Open();
 
                 SQLiteCommand insert = connection.CreateCommand();
-                insert.CommandText = $"INSERT INTO sites (id, name) VALUES({s.ID}, '{s.Name}')";
+                insert.CommandText = $"INSERT INTO sites (id, name) VALUES({site.ID}, '{site.Name}')";
 
                 return (insert.ExecuteNonQuery() != 0);
             }

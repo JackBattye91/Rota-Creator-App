@@ -49,7 +49,7 @@ namespace Rota_Creator_App
             }
             
             int id = Officers[lstSites.SelectedIndex].ID;
-            Officers[lstOfficers.SelectedIndex] = new Officer() { id,  Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text, WorkablePositions = new List<Position>() };
+            Officers[lstOfficers.SelectedIndex] = new Officer(id, txtOfficerName.Text, txtOfficerAbbr.Text, txtOfficerTeam.Text);
             updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
         }
 
@@ -64,18 +64,20 @@ namespace Rota_Creator_App
 
         private void btnAddOfficerPosition_Click(object sender, RoutedEventArgs e)
         {
+            /*
             PositionsWindow positionsWindow = new PositionsWindow(Positions);
             bool? results = positionsWindow.ShowDialog();
             switch(results)
             {
                 case true:
-                    Officers[lstOfficers.SelectedIndex].WorkablePositions.AddRange(positionsWindow.PositionsToAdd);
+                    Officers[lstOfficers.SelectedIndex].WorkablePositions.Add(positionsWindow.PositionsToAdd);
                     break;
                 case false:
                     return;
                 default:
                     return;
             }
+            */
         }
         private void btnDeleteOfficerPosition_Click(object sender, RoutedEventArgs e)
         {

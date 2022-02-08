@@ -102,3 +102,4 @@ C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.D
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.EF6.dll
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Data.SQLite.xml
+C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\RotaWindow.g.cs

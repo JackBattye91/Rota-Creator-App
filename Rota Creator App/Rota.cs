@@ -114,21 +114,21 @@ namespace Rota_Creator_App
             Officers = new ObservableCollection<Officer>(officers);
             rotaTimePositions = new ObservableCollection<RotaTimePosition>();
 
-            DateTime time = new DateTime(StartTime);
+            DateTime time = StartTime;
 
-            for(DateTime time = new DateTime(StartTime); time < FinishTime; time.AddHours(1))
-                rotaTimePositions.AddRange(coverTime(time));
+            for(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
+                rotaTimePositions.Add(coverTime(time));
         }
 
         private List<RotaTimePosition> coverTime(DateTime time)
         {
             List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
 
-            foreach (Position pos in positions)
+            foreach (Position pos in Positions)
             {
                 try
                 {
-                    currTimePos.AddRange(coverPosition(pos));
+                    currTimePos.AddRange(coverPosition(time, pos));
                 }
                 catch(Exception e)
                 {
@@ -138,14 +138,14 @@ namespace Rota_Creator_App
 
             return currTimePos;
         }
-        private List<RotaTimePosition> coverPosition(DateTime time, Positions pos)
+        private List<RotaTimePosition> coverPosition(DateTime time, Position pos)
         {
             int attempts = 0;
 
             while(attempts < 4)
             {
                 // get all officers that can work position
-                ObservableCollection<Officer> offList = Officers.Where(o => o.CanWorkPosition(pos)).ToList();
+                ObservableCollection<Officer> offList = new ObservableCollection<Officer>(Officers.Where(o => o.CanWorkPosition(pos)));
 
                 if (offList.Count == 0)
                     throw new ArgumentException($"No officer can work this position: {pos.Name}");
@@ -165,7 +165,7 @@ namespace Rota_Creator_App
                     }
 
                     // if has previous time
-                    if (time > startTime)
+                    if (time > StartTime)
                     {
                         DateTime prevTime = time - new TimeSpan(1, 0, 0);
 
@@ -216,7 +216,7 @@ namespace Rota_Creator_App
 
         private bool isHereOfficerCrossover(DateTime time, Position pos, Officer off)
         {
-            DateTime prevTime = time - TimeSpan(1, 0, 0);
+            DateTime prevTime = time - new TimeSpan(1, 0, 0);
 
             // if there a straight swap off officers move to next officer
             Position lastPos = GetPosition(off, prevTime); // the position of curr officer last hour

@@ -149,6 +149,7 @@
       <DependentUpon>RotaWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Site.cs" />
+    <Compile Include="SQLiteDatabase.cs" />
     <Compile Include="Time.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

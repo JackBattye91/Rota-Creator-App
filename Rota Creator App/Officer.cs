@@ -90,8 +90,7 @@ namespace Rota_Creator_App
                     }
                 }
             }
-
-            return officers;
+            return true;
         }
     }
 }

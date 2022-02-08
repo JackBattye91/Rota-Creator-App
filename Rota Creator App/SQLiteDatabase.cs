@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Collections.ObjectModel;
+using System.Reflection;
+using System.IO;
 
 namespace Rota_Creator_App
 {
@@ -43,23 +45,33 @@ namespace Rota_Creator_App
                 while (reader.Read())
                 {
                     retString += reader.GetName(column) + " : " + reader.GetValue(column) + ";";
-                    row++;
+                    column++;
                 }
             }
+
+            return retString;
         }
 
         public bool CreateTable<T>()
         {
             SQLiteCommand createTable = connection.CreateCommand();
 
-            createTable.CommandText = $"CREATE TABLE {T.Name}("
-            for(int p = 0; p < T.GetProperties().Count; p++)
+            createTable.CommandText = $"CREATE TABLE {typeof(T).Name}(";
+            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
             {
-                ProperertyInfo prop = T.GetProperties()[p];
+                PropertyInfo prop = typeof(T).GetProperties()[p];
 
-                switch(prop.GetType())
+                if(prop.GetType() == typeof(byte))
                 {
-                    case typeof(byte):
+                    if (p == 0)
+                        createTable.CommandText += $"{prop.Name} INTEGER PRIMARY KEY AUTOINCREMENT, ";
+                    else
+                        createTable.CommandText += $"{prop.Name} INTEGER, ";
+                }
+
+                /*
+                {
+                    case typeof(byte).Name:
                     case typeof(sbyte):
                     case typeof(char):
                     case typeof(short):
@@ -68,10 +80,7 @@ namespace Rota_Creator_App
                     case typeof(uint):
                     case typeof(long):
                     case typeof(ulong):
-                        if (p == 0)
-                            createTable.CommandText += $"{prop.Name} INTEGER PRIMARY KEY AUTOINCREMENT, ";
-                        else
-                            createTable.CommandText += $"{prop.Name} INTEGER, ";
+                       
                         break;
 
                     case typeof(float):
@@ -94,6 +103,7 @@ namespace Rota_Creator_App
                         createTable.CommandText += $"{prop.Name} BLOB, ";
                         break;
                 }
+                */
             }
 
             createTable.CommandText += ")";
@@ -113,7 +123,7 @@ namespace Rota_Creator_App
             List<T> items = new List<T>();
 
             if (queryString == null)
-                queryString = $"SELECT * FROM {T.Name}";
+                queryString = $"SELECT * FROM {typeof(T).Name}";
 
             SQLiteCommand query = connection.CreateCommand();
             query.CommandText = queryString;
@@ -122,12 +132,14 @@ namespace Rota_Creator_App
             {
                 while (reader.Read())
                 {
-                    T newT = new T();
+                    //T newT = typeof(T).GetConstructor(typeof(T).);
 
-                    for(int p = 0; p < T.GetProperties().Count; p++)
+
+                    for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
                     {
-                        ProperertyInfo prop = T.GetProperties()[p];
+                        PropertyInfo prop = typeof(T).GetProperties()[p];
 
+                        /*
                         switch(prop.GetType())
                         {
                             case typeof(byte):
@@ -193,11 +205,11 @@ namespace Rota_Creator_App
                             default:
                                 break;
                         }
-
-                        row++;
+                        */
+                        //row++;
                     }
 
-                    items.Add(newT);
+                    //items.Add(newT);
                 }
             }
 
@@ -207,18 +219,18 @@ namespace Rota_Creator_App
         public bool Insert<T>(T item)
         {
             SQLiteCommand insert = connection.CreateCommand();
-            insert.CommandText = $"INSERT INTO {T.Name} (";
-            for(int p = 0; p < T.GetProperties().Count; p++)
+            insert.CommandText = $"INSERT INTO {typeof(T).Name} (";
+            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
             {
-                ProperertyInfo prop = T.GetProperties()[p];
+                PropertyInfo prop = typeof(T).GetProperties()[p];
                 insert.CommandText += $"{prop.Name}, ";
             }
 
             insert.CommandText += ") VALUES (";
 
-            for(int p = 0; p < T.GetProperties().Count; p++)
+            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
             {
-                ProperertyInfo prop = T.GetProperties()[p];
+                PropertyInfo prop = typeof(T).GetProperties()[p];
                 insert.CommandText += $"{prop.GetValue(item)}, ";
             }
 
@@ -230,22 +242,22 @@ namespace Rota_Creator_App
         public bool Update<T>(T item)
         {
             SQLiteCommand update = connection.CreateCommand();
-            update.CommandText = $"UPDATE {T.Name} SET ";
-            for(int p = 0; p < T.GetProperties().Count; p++)
+            update.CommandText = $"UPDATE {typeof(T).Name} SET ";
+            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
             {
-                ProperertyInfo prop = T.GetProperties()[p];
-                update.CommandText += $"{prop.Name} = {prop.GetValue},";
+                PropertyInfo prop = typeof(T).GetProperties()[p];
+                update.CommandText += $"{prop.Name} = {prop.GetValue(item)},";
             }
 
-            insert.CommandText += $" WHERE {T.GetProperties()[0].Name} = {T.GetProperties()[0].GetValue(item)}";
+            update.CommandText += $" WHERE {typeof(T).GetProperties()[0].Name} = {typeof(T).GetProperties()[0].GetValue(item)}";
 
-            return (insert.ExecuteNonQuery() != 0);
+            return (update.ExecuteNonQuery() != 0);
         }
 
         public bool Delete<T>(T item)
         {
             SQLiteCommand delete = connection.CreateCommand();
-            delete.CommandText = $"DELETE FROM {T.Name} WHERE {T.GetProperties()[0].Name} = {T.GetProperties()[0].GetValue(item)}";
+            delete.CommandText = $"DELETE FROM {typeof(T).Name} WHERE {typeof(T).GetProperties()[0].Name} = {typeof(T).GetProperties()[0].GetValue(item)}";
             return (delete.ExecuteNonQuery() != 0);
         }
 

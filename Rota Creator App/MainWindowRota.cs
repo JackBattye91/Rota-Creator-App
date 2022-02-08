@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace Rota_Creator_App
 {
@@ -32,7 +33,7 @@ namespace Rota_Creator_App
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (((sender as Tabcontrol).SelectedItem as TabItem).Header == "Rota")
+            if (((sender as TabControl).SelectedItem as TabItem).Header.ToString() == "Rota")
             {
                 availableOfficers.Clear();
                 activeOfficers.Clear();

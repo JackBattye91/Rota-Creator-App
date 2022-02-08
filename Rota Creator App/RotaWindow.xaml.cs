@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace Rota_Creator_App
 
             for (int p = 0; p < rota.Positions.Count; p++)
             {
-                TextBlock label = new TextBlock() { Content = rota.Positions[p].Name };
+                TextBlock label = new TextBlock() { Text = rota.Positions[p].Name };
                 Grid.SetRow(label, 0);
                 Grid.SetColumn(label, p + 1);
                 rotaGrid.Children.Add(label);
@@ -54,20 +55,20 @@ namespace Rota_Creator_App
             {
                 DateTime time = rota.StartTime + new TimeSpan(0, 0, 0);
 
-                LabTextBlockel label = new TextBlock() { Content = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00") };
-                Grid.SetRow(label, h + 1);
+                TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00") };
+                Grid.SetRow(label, 0 + 1);
                 Grid.SetColumn(label, 0);
                 rotaGrid.Children.Add(label);
             }
 
             foreach (Rota.RotaTimePosition timePos in rota.rotaTimePositions)
             {
-                Binding officerbinding = new Binding("officer.Name") { Source = timePos };
+                Binding officerBinding = new Binding("officer.Name") { Source = timePos };
 
-                TextBlock label = new TextBlock() {  }
+                TextBlock label = new TextBlock() { };
                 label.SetBinding(TextBlock.TextProperty, officerBinding);
                 
-                Grid.SetRow(label, h + 1);
+                Grid.SetRow(label, 0 + 1);
                 Grid.SetColumn(label, 0);
                 rotaGrid.Children.Add(label);
             }
