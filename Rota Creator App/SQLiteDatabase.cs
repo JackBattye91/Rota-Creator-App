@@ -10,6 +10,15 @@ using System.IO;
 
 namespace Rota_Creator_App
 {
+    interface ISQLiteable
+    {
+        string SQLDataDefinition();
+        bool SQLInsert(SQLiteConnection connection);
+        bool SQLUpdate(SQLiteConnection connection);
+        bool SQLDelete(SQLiteConnection connection);
+        void SQLParse(SQLiteDataReader reader);
+    }
+
     public class SQLiteDatabase
     {
         public static SQLiteDatabase Global { get; set; }
@@ -32,233 +41,56 @@ namespace Rota_Creator_App
             command.CommandText = commandString;
             return (command.ExecuteNonQuery() != 0);
         }
-        public string RunQuery(string queryString)
+
+        public bool CreateTable<T>(string tableName) where T : ISQLiteable
         {
-            SQLiteCommand query = connection.CreateCommand();
-            query.CommandText = queryString;
-            string retString = "";
-
-            int column = 0;
-
-            using (SQLiteDataReader reader = query.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    retString += reader.GetName(column) + " : " + reader.GetValue(column) + ";";
-                    column++;
-                }
-            }
-
-            return retString;
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"CREATE TABLE {tableName} ({ T.SQLDataDefinition() })";
+            return (command.ExecuteNonQuery() != 0);
         }
-
-        public bool CreateTable<T>()
-        {
-            SQLiteCommand createTable = connection.CreateCommand();
-
-            createTable.CommandText = $"CREATE TABLE {typeof(T).Name}(";
-            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
-            {
-                PropertyInfo prop = typeof(T).GetProperties()[p];
-
-                if(prop.GetType() == typeof(byte))
-                {
-                    if (p == 0)
-                        createTable.CommandText += $"{prop.Name} INTEGER PRIMARY KEY AUTOINCREMENT, ";
-                    else
-                        createTable.CommandText += $"{prop.Name} INTEGER, ";
-                }
-
-                /*
-                {
-                    case typeof(byte).Name:
-                    case typeof(sbyte):
-                    case typeof(char):
-                    case typeof(short):
-                    case typeof(ushort):
-                    case typeof(int):
-                    case typeof(uint):
-                    case typeof(long):
-                    case typeof(ulong):
-                       
-                        break;
-
-                    case typeof(float):
-                    case typeof(double):
-                        createTable.CommandText += $"{prop.Name} REAL, ";
-                        break;
-
-                    case typeof(char):
-                    case typeof(string):
-                        createTable.CommandText += $"{prop.Name} TEXT, ";
-                        break;
-
-                    case typeof(bool):
-                    case typeof(decimal):
-                    case typeof(DateTime):
-                        createTable.CommandText += $"{prop.Name} NUMERIC, ";
-                        break;
-
-                    default:
-                        createTable.CommandText += $"{prop.Name} BLOB, ";
-                        break;
-                }
-                */
-            }
-
-            createTable.CommandText += ")";
-
-            return (createTable.ExecuteNonQuery() != 0);
-        }
-
         public bool DeleteTable(string tableName)
         {
-            SQLiteCommand deleteTable = connection.CreateCommand();
-            deleteTable.CommandText = $"DROP TABLE [IF EXISTS] {tableName}";
-            return (deleteTable.ExecuteNonQuery() != 0);
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"DROP TABLE [IF EXISTS] {tableName}";
+            return (command.ExecuteNonQuery() != 0);
         }
-
-        public List<T> Query<T>(string queryString = null)
+        
+        public List<T> Query<T>(string table, string rows = "*", string condition = "") where T : ISQLiteable, new()
         {
             List<T> items = new List<T>();
+            SQLiteCommand command = connection.CreateCommand();
 
-            if (queryString == null)
-                queryString = $"SELECT * FROM {typeof(T).Name}";
-
-            SQLiteCommand query = connection.CreateCommand();
-            query.CommandText = queryString;
+            if (condition.Length == 0)
+                command.CommandText = $"SELECT {rows} FROM {table} WHERE {condition}";
+            else
+                command.CommandText = $"SELECT {rows} FROM {table}";
 
             using (SQLiteDataReader reader = query.ExecuteReader())
             {
+                if (!reader.HasRows)
+                    return items;
+
                 while (reader.Read())
                 {
-                    //T newT = typeof(T).GetConstructor(typeof(T).);
-
-
-                    for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
-                    {
-                        PropertyInfo prop = typeof(T).GetProperties()[p];
-
-                        /*
-                        switch(prop.GetType())
-                        {
-                            case typeof(byte):
-                                prop.SetValue(newT, reader.GetByte(p));
-                                break;
-
-                            case typeof(sbyte):
-                                prop.SetValue(newT, (sbyte)reader.GetByte(p));
-                                break;
-
-                            case typeof(char):
-                                prop.SetValue(newT, reader.GetChar(p));
-                                break;
-
-                            case typeof(short):
-                                prop.SetValue(newT, reader.GetInt16(p));
-                                break;
-
-                            case typeof(ushort):
-                                prop.SetValue(newT, (ushort)reader.GetInt16(p));
-                                break;
-
-                            case typeof(int):
-                                prop.SetValue(newT, reader.GetInt32(p));
-                                break;
-
-                            case typeof(uint):
-                                prop.SetValue(newT, (uint)reader.GetInt32(p));
-                                break;
-
-                            case typeof(long):
-                                prop.SetValue(newT, reader.GetInt64(p));
-                                break;
-                                
-                            case typeof(ulong):
-                                prop.SetValue(newT, (ulong)reader.GetInt64(p));
-                                break;
-
-                            case typeof(float):
-                                prop.SetValue(newT, reader.GetFloat(p));
-                                break;
-
-                            case typeof(double):
-                                prop.SetValue(newT, reader.GetDouble(p));
-                                break;
-
-                            case typeof(string):
-                                prop.SetValue(newT, reader.GetString(p));
-                                break;
-
-                            case typeof(bool):
-                                prop.SetValue(newT, reader.GetBoolean(p));
-                                break;
-
-                            case typeof(decimal):
-                                prop.SetValue(newT, reader.GetDecimal(p));
-                                break;
-
-                            case typeof(DateTime):
-                                prop.SetValue(newT, reader.GetDateTime(p));
-                                break;
-
-                            default:
-                                break;
-                        }
-                        */
-                        //row++;
-                    }
-
-                    //items.Add(newT);
+                    T item = new T();
+                    item.SQLParse(reader);
+                    items.Add(item);
                 }
             }
 
             return items;
         }
-
-        public bool Insert<T>(T item)
+        public bool Insert(ISQLiteable item)
         {
-            SQLiteCommand insert = connection.CreateCommand();
-            insert.CommandText = $"INSERT INTO {typeof(T).Name} (";
-            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
-            {
-                PropertyInfo prop = typeof(T).GetProperties()[p];
-                insert.CommandText += $"{prop.Name}, ";
-            }
-
-            insert.CommandText += ") VALUES (";
-
-            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
-            {
-                PropertyInfo prop = typeof(T).GetProperties()[p];
-                insert.CommandText += $"{prop.GetValue(item)}, ";
-            }
-
-            insert.CommandText += ")";
-
-            return (insert.ExecuteNonQuery() != 0);
+            return item.Insert(connection);
         }
-
-        public bool Update<T>(T item)
+        public bool Update(ISQLiteable item)
         {
-            SQLiteCommand update = connection.CreateCommand();
-            update.CommandText = $"UPDATE {typeof(T).Name} SET ";
-            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
-            {
-                PropertyInfo prop = typeof(T).GetProperties()[p];
-                update.CommandText += $"{prop.Name} = {prop.GetValue(item)},";
-            }
-
-            update.CommandText += $" WHERE {typeof(T).GetProperties()[0].Name} = {typeof(T).GetProperties()[0].GetValue(item)}";
-
-            return (update.ExecuteNonQuery() != 0);
+            return item.Update(connection);
         }
-
-        public bool Delete<T>(T item)
+        public bool Delete(ISQLiteable item)
         {
-            SQLiteCommand delete = connection.CreateCommand();
-            delete.CommandText = $"DELETE FROM {typeof(T).Name} WHERE {typeof(T).GetProperties()[0].Name} = {typeof(T).GetProperties()[0].GetValue(item)}";
-            return (delete.ExecuteNonQuery() != 0);
+            return item.Delete(connection);
         }
 
         public static bool CreateDatabase(string name)

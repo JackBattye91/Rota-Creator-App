@@ -11,22 +11,17 @@ namespace Rota_Creator_App
 {
     public class Officer
     {
-        public int ID { get; protected set; } = -1;
-        public string Name { get; set; } = "";
-        public string Abbreviation { get; set; } = "";
-        public string Team { get; set; } = "";
+        public int ID { get; protected set; };
+        public string Name { get; set; };
+        public string Abbreviation { get; set; };
+        public string Team { get; set; };
         public ObservableCollection<Position> WorkablePositions { get; set; } = new ObservableCollection<Position>();
 
         public Officer()
         {
-            Random rnd = new Random();
-            ID = rnd.Next();
         }
         public Officer(string name, string abbreviation, string team)
         {
-            Random rnd = new Random();
-            ID = rnd.Next();
-            
             Name = name;
             Abbreviation = abbreviation;
             Team = team;

@@ -8,23 +8,18 @@ using System.Collections.ObjectModel;
 
 namespace Rota_Creator_App
 {
-    public class Position
+    public class Position : ISQLiteable
     {
-        public int ID { get; protected set; } = -1;
-        public string Name { get; set; } = "";
-        public Site Site { get; set; } = new Site(-1, "");
-        public int Duration { get; set; } = 0;
+        public int ID { get; protected set; };
+        public string Name { get; set; };
+        public Site Site { get; set; };
+        public int Duration { get; set; };
 
         public Position()
         {
-            Random rnd = new Random();
-            ID = rnd.Next();
         }
         public Position(string name, Site site, int duration)
         {
-            Random rnd = new Random();
-            ID = rnd.Next();
-
             Name = name;
             Site = site;
             Duration = duration;
@@ -40,6 +35,36 @@ namespace Rota_Creator_App
         public bool IsActive(DateTime time)
         {
             return true;
+        }
+
+        public static override string SQLDataDefinition()
+        {
+            return "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, site INTEGER, duration INTEGER";
+        }
+        public override bool SQLInsert(SQLiteConnection connection)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"INSERT INTO positions (name, site, duration) VALUES ('{Name}', '{Site.ID}', {Duration})";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public override bool SQLUpdate(SQLiteConnection connection)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"UPDATE positions SET name = '{Name}', site = '{Site}', duration = {Duration} WHERE id = {ID}";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public override bool SQLDelete(SQLiteConnection connection)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM positions WHERE id = {ID}";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public override void SQLParse(SQLiteDataReader reader)
+        {
+            ID = reader.GetInt32(0);
+            Name = reader.GetString(1);
+            Site = reader.GetString(2);
+            Duration = reader.GetInt32(3);
         }
 
         public static ObservableCollection<Position> Load()
