@@ -10,10 +10,10 @@ namespace Rota_Creator_App
 {
     public class Position : ISQLiteable
     {
-        public int ID { get; protected set; };
-        public string Name { get; set; };
-        public Site Site { get; set; };
-        public int Duration { get; set; };
+        public int ID { get; protected set; }
+        public string Name { get; set; }
+        public Site Site { get; set; }
+        public int Duration { get; set; }
 
         public Position()
         {
@@ -37,32 +37,29 @@ namespace Rota_Creator_App
             return true;
         }
 
-        public static override string SQLDataDefinition()
+        public string SQLDataDefinition()
         {
             return "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, site INTEGER, duration INTEGER";
         }
-        public override bool SQLInsert(SQLiteConnection connection)
+        public  bool SQLInsert(SQLiteConnection connection)
         {
-            using(SQLiteConnection = connection = new SQLiteConnection(ConnectionString))
-            {
-                SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = $"INSERT INTO positions (name, site, duration) VALUES ('{Name}', '{Site.ID}', {Duration})";
-                return command.ExecuteNonQuery() != 0;
-            }
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"INSERT INTO positions (name, site, duration) VALUES ('{Name}', '{Site.ID}', {Duration})";
+            return command.ExecuteNonQuery() != 0;
         }
-        public override bool SQLUpdate(SQLiteConnection connection)
+        public  bool SQLUpdate(SQLiteConnection connection)
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"UPDATE positions SET name = '{Name}', site = '{Site}', duration = {Duration} WHERE id = {ID}";
             return command.ExecuteNonQuery() != 0;
         }
-        public override bool SQLDelete(SQLiteConnection connection)
+        public  bool SQLDelete(SQLiteConnection connection)
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"DELETE FROM positions WHERE id = {ID}";
             return command.ExecuteNonQuery() != 0;
         }
-        public override void SQLParse(SQLiteDataReader reader)
+        public void SQLParse(SQLiteDataReader reader)
         {
             ID = reader.GetInt32(0);
             Name = reader.GetString(1);

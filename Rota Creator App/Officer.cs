@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Rota_Creator_App
 {
-    public class Officer
+    public class Officer : ISQLiteable
     {
-        public int ID { get; protected set; };
-        public string Name { get; set; };
-        public string Abbreviation { get; set; };
-        public string Team { get; set; };
+        public int ID { get; protected set; }
+        public string Name { get; set; }
+        public string Abbreviation { get; set; }
+        public string Team { get; set; }
         public ObservableCollection<Position> WorkablePositions { get; set; } = new ObservableCollection<Position>();
 
         public Officer()
@@ -86,6 +86,31 @@ namespace Rota_Creator_App
                 }
             }
             return true;
+        }
+
+        public string SQLDataDefinition()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SQLInsert(SQLiteConnection connection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SQLUpdate(SQLiteConnection connection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SQLDelete(SQLiteConnection connection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SQLParse(SQLiteDataReader reader)
+        {
+            throw new NotImplementedException();
         }
     }
 }

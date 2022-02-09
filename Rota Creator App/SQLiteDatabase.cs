@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Rota_Creator_App
 {
-    interface ISQLiteable
+    public interface ISQLiteable
     {
         string SQLDataDefinition();
         bool SQLInsert(SQLiteConnection connection);
@@ -45,7 +45,7 @@ namespace Rota_Creator_App
         public bool CreateTable<T>(string tableName) where T : ISQLiteable
         {
             SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"CREATE TABLE {tableName} ({ T.SQLDataDefinition() })";
+            //command.CommandText = $"CREATE TABLE {tableName} ({ T.SQLDataDefinition() })";
             return (command.ExecuteNonQuery() != 0);
         }
         public bool DeleteTable(string tableName)
@@ -65,7 +65,7 @@ namespace Rota_Creator_App
             else
                 command.CommandText = $"SELECT {rows} FROM {table}";
 
-            using (SQLiteDataReader reader = query.ExecuteReader())
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
                 if (!reader.HasRows)
                     return items;
@@ -82,15 +82,15 @@ namespace Rota_Creator_App
         }
         public bool Insert(ISQLiteable item)
         {
-            return item.Insert(connection);
+            return item.SQLInsert(connection);
         }
         public bool Update(ISQLiteable item)
         {
-            return item.Update(connection);
+            return item.SQLUpdate(connection);
         }
         public bool Delete(ISQLiteable item)
         {
-            return item.Delete(connection);
+            return item.SQLDelete(connection);
         }
 
         public static bool CreateDatabase(string name)

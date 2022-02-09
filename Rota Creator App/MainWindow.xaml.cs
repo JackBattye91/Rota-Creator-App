@@ -96,7 +96,7 @@ namespace Rota_Creator_App
             // cancel update status text thread
             statusTextThread.Abort();
 
-            Site.Save(Sites);
+            //Site.Save(Sites);
         }
     }
 }

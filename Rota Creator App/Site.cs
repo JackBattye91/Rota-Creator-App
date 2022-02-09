@@ -30,29 +30,29 @@ namespace Rota_Creator_App
             Name = name;
         }
 
-        public static override string SQLDataDefinition()
+        public string SQLDataDefinition()
         {
             return "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT";
         }
-        public override bool SQLInsert(SQLiteConnection connection)
+        public bool SQLInsert(SQLiteConnection connection)
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"INSERT INTO sites (name) VALUES ('{Name}')";
             return command.ExecuteNonQuery() != 0;
         }
-        public override bool SQLUpdate(SQLiteConnection connection)
+        public bool SQLUpdate(SQLiteConnection connection)
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"UPDATE sites SET name = '{Name}' WHERE id = {ID}";
             return command.ExecuteNonQuery() != 0;
         }
-        public override bool SQLDelete(SQLiteConnection connection)
+        public bool SQLDelete(SQLiteConnection connection)
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"DELETE FROM sites WHERE id = {ID}";
             return command.ExecuteNonQuery() != 0;
         }
-        public override void SQLParse(SQLiteDataReader reader)
+        public void SQLParse(SQLiteDataReader reader)
         {
             ID = reader.GetInt32(0);
             Name = reader.GetString(1);
@@ -79,13 +79,15 @@ namespace Rota_Creator_App
 
             return sites;
         }
+
+        /*
         public static void Save(ObservableCollection<Site> sites)
         {
             foreach (Site s in sites)
             {
-                if (!Update(s))
-                    Insert(s);
+                if (!SQLUpdate(s))
+                    SQLInsert(s);
             }
-        }
+        }*/
     }
 }

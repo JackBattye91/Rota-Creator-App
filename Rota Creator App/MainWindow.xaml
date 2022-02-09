@@ -114,11 +114,11 @@
                             </ListView>
 
                             <StackPanel Grid.Column="1">
-                                <Button x:Name="btnAddOfficerPosition" Padding="2" Margin="0,2,0,2" Click="btnAddOfficerPosition_Click">
-                                    <Image Source=""/>
+                                <Button x:Name="btnAddOfficerPosition" Padding="2" Margin="2" Click="btnAddOfficerPosition_Click">
+                                    <Image Source="Resources/icons8-plus-math-50.png" Width="24"/>
                                 </Button>
-                                <Button x:Name="btnDeleteOfficerPosition" Padding="2" Margin="0,2,0,2" Click="btnDeleteOfficerPosition_Click">
-                                    <Image Source=""/>
+                                <Button x:Name="btnDeleteOfficerPosition" Padding="2" Margin="2" Click="btnDeleteOfficerPosition_Click">
+                                    <Image Source="Resources/icons8-delete-64.png" Width="24"/>
                                 </Button>
                             </StackPanel>
                         </Grid>
