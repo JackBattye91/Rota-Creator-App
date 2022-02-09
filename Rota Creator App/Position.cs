@@ -43,9 +43,12 @@ namespace Rota_Creator_App
         }
         public override bool SQLInsert(SQLiteConnection connection)
         {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"INSERT INTO positions (name, site, duration) VALUES ('{Name}', '{Site.ID}', {Duration})";
-            return command.ExecuteNonQuery() != 0;
+            using(SQLiteConnection = connection = new SQLiteConnection(ConnectionString))
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = $"INSERT INTO positions (name, site, duration) VALUES ('{Name}', '{Site.ID}', {Duration})";
+                return command.ExecuteNonQuery() != 0;
+            }
         }
         public override bool SQLUpdate(SQLiteConnection connection)
         {
@@ -63,7 +66,7 @@ namespace Rota_Creator_App
         {
             ID = reader.GetInt32(0);
             Name = reader.GetString(1);
-            Site = reader.GetString(2);
+            //Site = reader.GetString(2);
             Duration = reader.GetInt32(3);
         }
 

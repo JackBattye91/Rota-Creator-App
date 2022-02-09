@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Rota_Creator_App
 {
-    public class Site
+    public class Site : ISQLiteable
     {
         public int ID { get; protected set; } = -1;
         public string Name { get; set; } = "";
@@ -28,6 +28,34 @@ namespace Rota_Creator_App
         {
             ID = id;
             Name = name;
+        }
+
+        public static override string SQLDataDefinition()
+        {
+            return "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT";
+        }
+        public override bool SQLInsert(SQLiteConnection connection)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"INSERT INTO sites (name) VALUES ('{Name}')";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public override bool SQLUpdate(SQLiteConnection connection)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"UPDATE sites SET name = '{Name}' WHERE id = {ID}";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public override bool SQLDelete(SQLiteConnection connection)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM sites WHERE id = {ID}";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public override void SQLParse(SQLiteDataReader reader)
+        {
+            ID = reader.GetInt32(0);
+            Name = reader.GetString(1);
         }
 
         public static ObservableCollection<Site> Load()
@@ -57,32 +85,6 @@ namespace Rota_Creator_App
             {
                 if (!Update(s))
                     Insert(s);
-            }
-        }
-
-        public static bool Update(Site site)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
-            {
-                connection.Open();
-
-                SQLiteCommand update = connection.CreateCommand();
-                update.CommandText = $"UPDATE sites SET name = '{site.Name}' WHERE id = {site.ID}";
-
-                return (update.ExecuteNonQuery() != 0);
-            }
-        }
-
-        public static bool Insert(Site site)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
-            {
-                connection.Open();
-
-                SQLiteCommand insert = connection.CreateCommand();
-                insert.CommandText = $"INSERT INTO sites (id, name) VALUES({site.ID}, '{site.Name}')";
-
-                return (insert.ExecuteNonQuery() != 0);
             }
         }
     }
