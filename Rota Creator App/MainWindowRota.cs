@@ -66,7 +66,25 @@ namespace Rota_Creator_App
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            RotaWindow rotaWindow = new RotaWindow(Officers, Positions, DateTime.Now, DateTime.Now.AddHours(12));
+            string[] startTimeParts = cmbStartTime.SelectedItem.ToString().Split(":");
+            string[] finishTimeParts = cmbFinishTime.SelectedItem.ToString().Split(":");
+
+            int startHour = 0;
+            int finishHour = 0;
+            if (!int.TryParse(startTimeParts[0], out startHour) || !int.TryParse(finishTimeParts[0], out finishHour))
+            {
+                updateStatusText("Unable to parse start and finish time");
+                return;
+            }
+
+            DateTime startTime = DateTime.Date + new TimeSpan(startHour, 0, 0);
+            DateTime finishTime = DateTime.Date + new TimeSpan(finishHour, 0, 0);
+
+            // if shift finishes the next day
+            if (finishHours < startHours)
+				finishTime.AddDays(1);
+
+            RotaWindow rotaWindow = new RotaWindow(Officers, Positions, startTime, finishTime);
             rotaWindow.ShowDialog();
         }
     }

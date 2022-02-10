@@ -10,61 +10,19 @@ namespace Rota_Creator_App
 {
     public class Position : ISQLiteable
     {
-        public int ID { get; protected set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public Site Site { get; set; }
         public int Duration { get; set; }
 
         public Position()
         {
+            Random rnd = new Random();
+            ID = rnd.Next();
         }
-        public Position(string name, Site site, int duration)
-        {
-            Name = name;
-            Site = site;
-            Duration = duration;
-        }
-        public Position(int id, string name, Site site, int duration)
-        {
-            ID = id;
-            Name = name;
-            Site = site;
-            Duration = duration;
-        }
-
         public bool IsActive(DateTime time)
         {
             return true;
-        }
-
-        public string SQLDataDefinition()
-        {
-            return "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, site INTEGER, duration INTEGER";
-        }
-        public  bool SQLInsert(SQLiteConnection connection)
-        {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"INSERT INTO positions (name, site, duration) VALUES ('{Name}', '{Site.ID}', {Duration})";
-            return command.ExecuteNonQuery() != 0;
-        }
-        public  bool SQLUpdate(SQLiteConnection connection)
-        {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"UPDATE positions SET name = '{Name}', site = '{Site}', duration = {Duration} WHERE id = {ID}";
-            return command.ExecuteNonQuery() != 0;
-        }
-        public  bool SQLDelete(SQLiteConnection connection)
-        {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM positions WHERE id = {ID}";
-            return command.ExecuteNonQuery() != 0;
-        }
-        public void SQLParse(SQLiteDataReader reader)
-        {
-            ID = reader.GetInt32(0);
-            Name = reader.GetString(1);
-            //Site = reader.GetString(2);
-            Duration = reader.GetInt32(3);
         }
 
         public static ObservableCollection<Position> Load()
@@ -86,7 +44,7 @@ namespace Rota_Creator_App
                         {
                             ID = reader.GetInt32(0),
                             Name = reader.GetString(1),
-                            Site = new Site() { Name = reader.GetString(2) },
+                            Site = Site.SQLLoad(reader.GetInt32(2)),
                             Duration = reader.GetInt32(3),
                         });
                     }
@@ -94,6 +52,17 @@ namespace Rota_Creator_App
             }
 
             return positions;
+        }
+
+        public static void Save(ObservableCollection<Position> positions)
+        {
+            foreach(Position p in positions)
+            {
+                if (!SQLInsert(p))
+                {
+                    SQLUpdate(p);
+                }
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Rota_Creator_App
 {
     public class Officer : ISQLiteable
     {
-        public int ID { get; protected set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
         public string Team { get; set; }
@@ -19,9 +19,13 @@ namespace Rota_Creator_App
 
         public Officer()
         {
+            Random rnd = new Random();
+            ID = rnd.Next();
         }
         public Officer(string name, string abbreviation, string team)
         {
+            Random rnd = new Random();
+            ID = rnd.Next();
             Name = name;
             Abbreviation = abbreviation;
             Team = team;
@@ -43,74 +47,26 @@ namespace Rota_Creator_App
         {
             ObservableCollection<Officer> officers = new ObservableCollection<Officer>();
 
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            if (SQLiteDatabase.Global != null)
             {
-                connection.Open();
-
-                SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM officers";
-
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        officers.Add(new Officer()
-                        {
-                            ID = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Abbreviation = reader.GetString(2),
-                            Team = reader.GetString(3)
-                        });
-                    }
-                }
-            }
+                List<Officer> offList = SQLiteDatabase.Global.Query<Officer>();
+                foreach(Officer off in offList)
+                    officers.Add(off);
+            }   
 
             return officers;
         }
-        public static bool Save(ObservableCollection<Officer> officers)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
-            {
-                connection.Open();
 
-                SQLiteCommand update = connection.CreateCommand();
-                foreach (Officer off in officers)
+        public static void Save(ObservableCollection<Officer> officers)
+        {
+            if (SQLiteDatabase.Global != null)
+            {
+                foreach(Officer off in officers)
                 {
-                    update.CommandText = $"UPDATE officers SET name = '{off.Name}', abbreviation = '{off.Abbreviation}', team = '{off.Team}' WHERE id = {off.ID}";
-                    if (update.ExecuteNonQuery() == 0)
-                    {
-                        SQLiteCommand create = connection.CreateCommand();
-                        create.CommandText = $"INSERT INTO officers (id, name, abbreviation, team) VALUES({off.ID}, '{off.Name}', '{off.Abbreviation}', '{off.Team}')";
-                        create.ExecuteNonQuery();
-                    }
+                    if (!SQLiteDatabase.Global.Insert<Officer>(off))
+                        SQLiteDatabase.Global.Update<Officer>(off);
                 }
             }
-            return true;
-        }
-
-        public string SQLDataDefinition()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SQLInsert(SQLiteConnection connection)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SQLUpdate(SQLiteConnection connection)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SQLDelete(SQLiteConnection connection)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SQLParse(SQLiteDataReader reader)
-        {
-            throw new NotImplementedException();
         }
     }
 }

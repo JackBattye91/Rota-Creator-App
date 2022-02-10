@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Rota_Creator_App
 {
-    public class Site : ISQLiteable
+    public class Site
     {
         public int ID { get; protected set; } = -1;
         public string Name { get; set; } = "";
@@ -30,32 +30,55 @@ namespace Rota_Creator_App
             Name = name;
         }
 
-        public string SQLDataDefinition()
+        public static bool SQLInsert(Site site)
         {
-            return "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT";
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            {
+                connection.Open();
+
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = $"INSERT INTO sites (id, name) VALUES ({site.ID}, '{site.Name}')";
+            }
         }
-        public bool SQLInsert(SQLiteConnection connection)
+        public static bool SQLUpdate(Site site)
         {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"INSERT INTO sites (name) VALUES ('{Name}')";
-            return command.ExecuteNonQuery() != 0;
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            {
+                connection.Open();
+
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = $"UPDATE sites SET name = '{site.Name}' WHERE id = {site.ID}";
+                return command.ExecuteNonQuery() != 0;
+            }
         }
-        public bool SQLUpdate(SQLiteConnection connection)
+        public static bool SQLDelete(Site site)
         {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"UPDATE sites SET name = '{Name}' WHERE id = {ID}";
-            return command.ExecuteNonQuery() != 0;
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            {
+                connection.Open();
+
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = $"DELETE FROM sites WHERE id = {site.ID}";
+                return command.ExecuteNonQuery() != 0;
+            }
         }
-        public bool SQLDelete(SQLiteConnection connection)
+        public static Site SQLLoad(int id)
         {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM sites WHERE id = {ID}";
-            return command.ExecuteNonQuery() != 0;
-        }
-        public void SQLParse(SQLiteDataReader reader)
-        {
-            ID = reader.GetInt32(0);
-            Name = reader.GetString(1);
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            {
+                connection.Open();
+
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM sites WHERE id = {id}";
+
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return new Site(reader.GetInt32(0), reader.GetString(1));
+                    }
+                }
+            }
         }
 
         public static ObservableCollection<Site> Load()
@@ -80,14 +103,15 @@ namespace Rota_Creator_App
             return sites;
         }
 
-        /*
         public static void Save(ObservableCollection<Site> sites)
         {
-            foreach (Site s in sites)
+            foreach(Site s in sites)
             {
-                if (!SQLUpdate(s))
-                    SQLInsert(s);
+                if (!SQLInsert(s))
+                {
+                    SQLUpdate(s);
+                }
             }
-        }*/
+        }
     }
 }
