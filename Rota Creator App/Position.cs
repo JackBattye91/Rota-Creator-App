@@ -10,6 +10,7 @@ namespace Rota_Creator_App
 {
     public class Position : ISQLiteable
     {
+        [PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
         public Site Site { get; set; }
@@ -29,25 +30,12 @@ namespace Rota_Creator_App
         {
             ObservableCollection<Position> positions = new ObservableCollection<Position>();
 
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
+            if (SQLiteDatabase.Global != null)
             {
-                connection.Open();
-
-                SQLiteCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM positions";
-
-                using (SQLiteDataReader reader = command.ExecuteReader())
+                List<Position> positionList = SQLiteDatabase.Global.Query<Position>();
+                foreach(Position pos in positionList)
                 {
-                    while(reader.Read())
-                    {
-                        positions.Add(new Position()
-                        {
-                            ID = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Site = Site.SQLLoad(reader.GetInt32(2)),
-                            Duration = reader.GetInt32(3),
-                        });
-                    }
+                    positions.Add(pos);
                 }
             }
 
@@ -56,11 +44,12 @@ namespace Rota_Creator_App
 
         public static void Save(ObservableCollection<Position> positions)
         {
-            foreach(Position p in positions)
+            if (SQLiteDatabase.Global != null)
             {
-                if (!SQLInsert(p))
+                foreach(Position pos in positions)
                 {
-                    SQLUpdate(p);
+                    if (!SQLiteDatabase.Global.Insert<Position>(pos))
+                        SQLiteDatabase.Global.Update<Position>(pos);
                 }
             }
         }

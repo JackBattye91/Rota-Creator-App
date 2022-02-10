@@ -16,7 +16,6 @@ namespace Rota_Creator_App
         private void initializeOfficers()
         {
             Officers = Officer.Load();
-
             lstOfficers.ItemsSource = Officers;
         }
 
@@ -31,7 +30,9 @@ namespace Rota_Creator_App
                 counter++;
             }
 
-            Officers.Add(new Officer() { Name = newOfficerName });
+            Officer newOfficer = new Officer() { Name = newOfficerName };
+            Officers.Add(newOfficer);
+            SQLiteDatabase.Global?.Insert<Officer>(newOfficer);
         }
 
         private void btnUpdateOfficer_Click(object sender, RoutedEventArgs e)
@@ -49,8 +50,10 @@ namespace Rota_Creator_App
             }
             
             int id = Officers[lstSites.SelectedIndex].ID;
-            Officers[lstOfficers.SelectedIndex] = new Officer(id, txtOfficerName.Text, txtOfficerAbbr.Text, txtOfficerTeam.Text);
-            updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
+            Officers[lstOfficers.SelectedIndex] = new Officer() { ID = id, NAME = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team txtOfficerTeam.Text };
+            SQLiteDatabase.Global?.Update<Officer>(Officers[lstOfficers.SelectedIndex]);
+
+            updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " updated");
         }
 
         private void btnDeleteOfficer_Click(object sender, RoutedEventArgs e)
@@ -58,6 +61,8 @@ namespace Rota_Creator_App
             if (MessageBox.Show("Are you sure you want to delete officer: " + (lstOfficers.SelectedItem as Officer).Name, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
+                
+                SQLiteDatabase.Global?.Delete<Officer>(lstOfficers.SelectedItem as Officer);
                 Officers.RemoveAt(lstOfficers.SelectedIndex);
             }
         }

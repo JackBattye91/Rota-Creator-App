@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Rota_Creator_App
 {
     public class Officer : ISQLiteable
     {
+        [PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
@@ -21,21 +21,6 @@ namespace Rota_Creator_App
         {
             Random rnd = new Random();
             ID = rnd.Next();
-        }
-        public Officer(string name, string abbreviation, string team)
-        {
-            Random rnd = new Random();
-            ID = rnd.Next();
-            Name = name;
-            Abbreviation = abbreviation;
-            Team = team;
-        }
-        public Officer(int id, string name, string abbreviation, string team)
-        {
-            ID = id;
-            Name = name;
-            Abbreviation = abbreviation;
-            Team = team;
         }
 
         public bool CanWorkPosition(Position pos)

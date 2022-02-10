@@ -145,7 +145,93 @@ namespace Rota_Creator_App
 
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"INSERT INTO {typeof(T).Name} ({propertyNames}) VALUES ({propertyValues}) WHERE {identifier}";
-            return (command.ExecuteNonQuery() != 0);
+            return command.ExecuteNonQuery() != 0;
+        }
+        public bool Update<T>(T item)
+        {
+            string propertyValues = "";
+            string identifier = "";
+            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
+            {
+                PropertyInfo prop = typeof(T).GetProperties()[p];
+
+                if (p != 0)
+                {
+                    propertyValues += ", ";
+                }
+
+                if( prop.GetType() == typeof(byte) || prop.GetType() == typeof(char) || 
+                    prop.GetType() == typeof(short) || prop.GetType() == typeof(ushort) ||
+                    prop.GetType() == typeof(int)|| prop.GetType() == typeof(uint) ||
+                    rop.GetType() == typeof(long) || prop.GetType() == typeof(ulong) ||
+                    prop.GetType() == typeof(float) || prop.GetType() == typeof(double) ||
+                    prop.GetType() == typeof(decimal) || prop.GetType() == typeof(DateTime))
+                {
+                    propertyValues += $"{prop.Name} = {prop.GetValue(item).ToString()}";
+
+                    if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
+                    {
+                        identifier += $"{prop.Name} = {prop.GetValue(item).ToString()}";
+                    }
+                }
+                else if (prop.GetType() == typeof(string))
+                {
+                    propertyValues += $"{prop.Name} = '{prop.GetValue(item).ToString()}'";
+
+                    if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
+                    {
+                        identifier += $"{prop.Name} = '{prop.GetValue(item) as string}'";
+                    }
+                }
+                else
+                {
+                    dataDefinition += $"";
+                }
+            }
+
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"UPDATE {typeof(T).Name} SET {propertyValues} WHERE {identifier}";
+            return command.ExecuteNonQuery() != 0;
+        }
+        public bool Delete<T>(T item)
+        {
+            string identifier = "";
+            for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
+            {
+                PropertyInfo prop = typeof(T).GetProperties()[p];
+
+                if (p != 0)
+                {
+                    propertyNames += ", ";
+                    propertyValues += ", ";
+                }
+
+                propertyNames += prop.Name;
+
+                if( prop.GetType() == typeof(byte) || prop.GetType() == typeof(char) || 
+                    prop.GetType() == typeof(short) || prop.GetType() == typeof(ushort) ||
+                    prop.GetType() == typeof(int)|| prop.GetType() == typeof(uint) ||
+                    rop.GetType() == typeof(long) || prop.GetType() == typeof(ulong) ||
+                    prop.GetType() == typeof(float) || prop.GetType() == typeof(double) ||
+                    prop.GetType() == typeof(decimal) || prop.GetType() == typeof(DateTime))
+                {
+                    if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
+                    {
+                        identifier += $"{prop.Name} = {prop.GetValue(item).ToString()}";
+                    }
+                }
+                else if (prop.GetType() == typeof(string))
+                {
+                    if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
+                    {
+                        identifier += $"{prop.Name} = '{prop.GetValue(item) as string}'";
+                    }
+                }
+            }
+
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM {typeof(T).Name} WHERE {identifier}";
+            return command.ExecuteNonQuery() != 0;
         }
 
         public List<T> Query<T>(string columns = "*", string condition = "") where T : new()
