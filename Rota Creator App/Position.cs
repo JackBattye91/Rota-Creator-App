@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Rota_Creator_App
 {
-    public class Position : ISQLiteable
+    public class Position
     {
         [PrimaryKey]
         public int ID { get; set; }

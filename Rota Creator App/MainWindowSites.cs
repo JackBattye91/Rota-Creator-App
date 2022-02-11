@@ -30,7 +30,9 @@ namespace Rota_Creator_App
                 counter++;
             }
 
-            Sites.Add(new Site(newSiteName));
+            Site newSite = new Site(newSiteName);
+            Sites.Add(newSite);
+            SQLiteDatabase.Global?.Insert<Site>(newSite);
         }
         private void btnUpdateSite_Click(object sender, RoutedEventArgs e)
         {
@@ -41,15 +43,22 @@ namespace Rota_Creator_App
             }
 
             int id = Sites[lstSites.SelectedIndex].ID;
-            Sites[lstSites.SelectedIndex] = new Site(id, txtSiteName.Text);
+            Sites[lstSites.SelectedIndex] = new Site() { ID = id, Name = txtSiteName.Text};
+            SQLiteDatabase.Global?.Update<Site>(Sites[lstSites.SelectedIndex]);
         }
         private void btnDeleteSite_Click(object sender, RoutedEventArgs e)
         {
             if (lstSites.Items.Count <= 1)
+            {
+                updateStatusText("You must have at least one site");
                 return;
+            }
 
             if (MessageBox.Show("Are you sure you want to delete site: " + lstSites.SelectedItem.ToString(), "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                SQLiteDatabase.Global?.Delete<Site>(Sites[lstSites.SelectedIndex]);
                 Sites.RemoveAt(lstSites.SelectedIndex);
+            }
         }
 
         private void lstSites_SelectionChanged(object sender, SelectionChangedEventArgs e)

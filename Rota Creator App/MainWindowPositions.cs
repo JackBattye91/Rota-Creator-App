@@ -32,7 +32,9 @@ namespace Rota_Creator_App
                 counter++;
             }
 
-            Positions.Add(new Position() { Name = newPositionsName, Duration = 1, Site = Sites[0] });
+            Position newPosition = new Position() { Name = newPositionsName, Duration = 1, Site = Sites[0] };
+            Positions.Add(newPosition);
+            SQLiteDatabase.Global?.Insert<Position>(newPosition);
         }
 
         private void btnUpdatePosition_Click(object sender, RoutedEventArgs e)
@@ -51,13 +53,18 @@ namespace Rota_Creator_App
                 return;
             }
 
-            Positions[lstPositions.SelectedIndex] = new Position() { Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
+            int id = Positions[lstPositions.SelectedIndex].ID;
+            Positions[lstPositions.SelectedIndex] = new Position() { ID = id, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
+            SQLiteDatabase.Global?.Update<Position>(Positions[lstPositions.SelectedIndex]);
         }
 
         private void btnDeletePosition_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to delete position: " + (lstPositions.SelectedItem as Position).Name, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                SQLiteDatabase.Global?.Delete<Position>(Positions[lstPositions.SelectedIndex]);
                 Positions.RemoveAt(lstPositions.SelectedIndex);
+            }
         }
 
         private void lstPositions_SelectionChanged(object sender, SelectionChangedEventArgs e)

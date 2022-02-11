@@ -84,8 +84,36 @@ namespace Rota_Creator_App
             if (finishHours < startHours)
 				finishTime.AddDays(1);
 
-            RotaWindow rotaWindow = new RotaWindow(Officers, Positions, startTime, finishTime);
+            RotaWindow rotaWindow = new RotaWindow(activeOfficers, Positions, startTime, finishTime);
             rotaWindow.ShowDialog();
+        }
+
+        private void txtAvailableOfficerSearch_Changed(object sender, RoutedEventArgs e)
+        {
+            if (txtAvailableOfficerSearch.Text == "")
+            {
+                lstAvailableOfficers.ItemsSource = availableOfficers;
+                return;
+            }
+
+            ObservableCollection<Officer> searchResults = availableOfficers.Where(o =>  o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
+                                                                                        o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
+                                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()));
+            lstAvailableOfficers.ItemsSource = searchResults;
+        }
+
+        private void txtAvailableOfficerSearch_Changed(object sender, RoutedEventArgs e)
+        {
+            if (txtActiveOfficerSearch.Text == "")
+            {
+                lstActiveOfficers.ItemsSource = activeOfficers;
+                return;
+            }
+
+            ObservableCollection<Officer> searchResults = activeOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
+                                                                                    o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
+                                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()));
+            lstActiveOfficers.ItemsSource = searchResults;
         }
     }
 }

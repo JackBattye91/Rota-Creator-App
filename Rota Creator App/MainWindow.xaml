@@ -33,7 +33,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <TextBox Grid.Row="1" HorizontalAlignment="Stretch" Text="" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
+                    <TextBox x:Name="txtAvailableOfficerSearch" Grid.Row="1" HorizontalAlignment="Stretch" Text="" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
 
                     <StackPanel Grid.Column="1">
                         <Button Content=">" Margin="5" Padding="5,2,5,2" Width="50"/>
@@ -52,7 +52,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <TextBox Grid.Row="1" HorizontalAlignment="Stretch" Text="" VerticalAlignment="Bottom" Grid.Column="2" Margin="5,0,5,0"/>
+                    <TextBox x:Name="txtActiveOfficerSearch" Grid.Row="1" HorizontalAlignment="Stretch" Text="" VerticalAlignment="Bottom" Grid.Column="2" Margin="5,0,5,0"/>
 
                     <Grid Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.RowSpan="2">
                         <ComboBox x:Name="cmbStartTime" HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>

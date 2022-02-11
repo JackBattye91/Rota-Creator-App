@@ -69,16 +69,6 @@ namespace Rota_Creator_App
                 }
             }));
 
-            // Add Times to start and finish times
-            for (int h = 0; h < 24; h++)
-            {
-                cmbStartTime.Items.Add(h.ToString("00") + ":00");
-                cmbFinishTime.Items.Add(h.ToString("00") + ":00");
-            }
-            // select default times
-            cmbStartTime.SelectedIndex = 6;
-            cmbFinishTime.SelectedIndex = 18;
-
             initializeSites();
             initializePositions();
             initializeOfficers();
@@ -95,8 +85,6 @@ namespace Rota_Creator_App
         {
             // cancel update status text thread
             statusTextThread.Abort();
-
-            //Site.Save(Sites);
         }
     }
 }

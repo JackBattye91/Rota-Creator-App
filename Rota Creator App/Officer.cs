@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rota_Creator_App
 {
-    public class Officer : ISQLiteable
+    public class Officer
     {
         [PrimaryKey]
         public int ID { get; set; }

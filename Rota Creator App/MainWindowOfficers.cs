@@ -62,7 +62,7 @@ namespace Rota_Creator_App
             {
                 updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
                 
-                SQLiteDatabase.Global?.Delete<Officer>(lstOfficers.SelectedItem as Officer);
+                SQLiteDatabase.Global?.Delete<Officer>(Officers[lstOfficers.SelectedIndex]);
                 Officers.RemoveAt(lstOfficers.SelectedIndex);
             }
         }
