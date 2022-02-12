@@ -30,7 +30,7 @@ namespace Rota_Creator_App
                 counter++;
             }
 
-            Site newSite = new Site(newSiteName);
+            Site newSite = new Site() { Name = newSiteName };
             Sites.Add(newSite);
             SQLiteDatabase.Global?.Insert<Site>(newSite);
         }

@@ -33,6 +33,10 @@ namespace Rota_Creator_App
             if (SQLiteDatabase.Global != null)
             {
                 List<Position> positionList = SQLiteDatabase.Global.Query<Position>();
+
+                if (positionList == null)
+                    return positions;
+
                 foreach(Position pos in positionList)
                 {
                     positions.Add(pos);

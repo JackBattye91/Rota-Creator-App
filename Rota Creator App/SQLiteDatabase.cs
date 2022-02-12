@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.IO;
 
+
 namespace Rota_Creator_App
 {
     [AttributeUsage(AttributeTargets.Property)]  
@@ -18,7 +19,6 @@ namespace Rota_Creator_App
     public class AutoIncrementAttribute : Attribute  
     {
     }
-
 
     public class SQLiteDatabase
     {
@@ -31,6 +31,7 @@ namespace Rota_Creator_App
         {
             ConnectionString = connectionString;
             connection = new SQLiteConnection(ConnectionString);
+            connection.Open();
 
             if (Global == null)
                 Global = this;
@@ -40,7 +41,7 @@ namespace Rota_Creator_App
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = commandString;
-            return (command.ExecuteNonQuery() != 0);
+            return command.ExecuteNonQuery() != 0;
         }
 
         public bool CreateTable<T>() where T : new()
@@ -54,27 +55,30 @@ namespace Rota_Creator_App
 
                 PropertyInfo prop = typeof(T).GetProperties()[p];
 
-                if( prop.GetType() == typeof(byte) || prop.GetType() == typeof(char) || 
-                    prop.GetType() == typeof(short) || prop.GetType() == typeof(ushort) ||
-                    prop.GetType() == typeof(int)|| prop.GetType() == typeof(uint) ||
-                    rop.GetType() == typeof(long) || prop.GetType() == typeof(ulong))
+                if (prop.PropertyType == typeof(byte) || prop.PropertyType == typeof(char) ||
+                    prop.PropertyType == typeof(short) || prop.PropertyType == typeof(ushort) ||
+                    prop.PropertyType == typeof(int) || prop.PropertyType == typeof(uint) ||
+                    prop.PropertyType == typeof(long) || prop.PropertyType == typeof(ulong))
                 {
                     dataDefinition += $"{prop.Name} INTEGER";
                 }
-                else if (prop.GetType() == typeof(float) || prop.GetType() == typeof(double))
+                else if (prop.PropertyType == typeof(float) || prop.PropertyType == typeof(double))
                 {
                     dataDefinition += $"{prop.Name} REAL";
                 }
-                else if (prop.GetType() == typeof(string))
+                else if (prop.PropertyType == typeof(string))
                 {
                     dataDefinition += $"{prop.Name} TEXT";
                 }
-                else if (prop.GetType() == typeof(decimal) || prop.GetType() == typeof(DateTime))
+                else if (prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(DateTime))
                 {
-                    createTable.CommandText += $"{prop.Name} NUMERIC, ";
+                    dataDefinition += $"{prop.Name} NUMERIC";
                 }
                 else
-                    createTable.CommandText += $"{prop.Name} BLOB, ";
+                {
+                    dataDefinition += $"{prop.Name} BLOB";
+                }
+               
 
                 if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
                 {
@@ -84,17 +88,32 @@ namespace Rota_Creator_App
                 {
                     dataDefinition += " AUTOINCREMENT";
                 }
+
+                
             }
 
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"CREATE TABLE {typeof(T).Name} ({dataDefinition})";
-            return (command.ExecuteNonQuery() != 0);
+            return command.ExecuteNonQuery() != 0;
         }
         public bool DeleteTable<T>(string tableName)
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"DROP TABLE [IF EXISTS] {typeof(T).Name}";
             return (command.ExecuteNonQuery() != 0);
+        }
+        public bool TableExists<T>()
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{typeof(T).Name}'";
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool Insert<T>(T item)
@@ -114,12 +133,12 @@ namespace Rota_Creator_App
 
                 propertyNames += prop.Name;
 
-                if( prop.GetType() == typeof(byte) || prop.GetType() == typeof(char) || 
-                    prop.GetType() == typeof(short) || prop.GetType() == typeof(ushort) ||
-                    prop.GetType() == typeof(int)|| prop.GetType() == typeof(uint) ||
-                    rop.GetType() == typeof(long) || prop.GetType() == typeof(ulong) ||
-                    prop.GetType() == typeof(float) || prop.GetType() == typeof(double) ||
-                    prop.GetType() == typeof(decimal) || prop.GetType() == typeof(DateTime))
+                if( prop.PropertyType== typeof(byte) || prop.PropertyType == typeof(char) || 
+                    prop.PropertyType == typeof(short) || prop.PropertyType == typeof(ushort) ||
+                    prop.PropertyType == typeof(int)|| prop.PropertyType == typeof(uint) ||
+                    prop.PropertyType == typeof(long) || prop.PropertyType == typeof(ulong) ||
+                    prop.PropertyType == typeof(float) || prop.PropertyType == typeof(double) ||
+                    prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(DateTime))
                 {
                     propertyValues += prop.GetValue(item).ToString();
 
@@ -128,9 +147,9 @@ namespace Rota_Creator_App
                         identifier += $"{prop.Name} = {prop.GetValue(item).ToString()}";
                     }
                 }
-                else if (prop.GetType() == typeof(string))
+                else if (prop.PropertyType == typeof(string))
                 {
-                    dataDefinition += $"'{prop.GetValue(item) as string}'";
+                    propertyValues += $"'{prop.GetValue(item) as string}'";
 
                     if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
                     {
@@ -139,12 +158,12 @@ namespace Rota_Creator_App
                 }
                 else
                 {
-                    dataDefinition += $"";
+                    propertyValues += $"'{prop.GetValue(item)}'";
                 }
             }
 
             SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"INSERT INTO {typeof(T).Name} ({propertyNames}) VALUES ({propertyValues}) WHERE {identifier}";
+            command.CommandText = $"INSERT INTO {typeof(T).Name} ({propertyNames}) VALUES ({propertyValues})";
             return command.ExecuteNonQuery() != 0;
         }
         public bool Update<T>(T item)
@@ -160,32 +179,31 @@ namespace Rota_Creator_App
                     propertyValues += ", ";
                 }
 
-                if( prop.GetType() == typeof(byte) || prop.GetType() == typeof(char) || 
-                    prop.GetType() == typeof(short) || prop.GetType() == typeof(ushort) ||
-                    prop.GetType() == typeof(int)|| prop.GetType() == typeof(uint) ||
-                    rop.GetType() == typeof(long) || prop.GetType() == typeof(ulong) ||
-                    prop.GetType() == typeof(float) || prop.GetType() == typeof(double) ||
-                    prop.GetType() == typeof(decimal) || prop.GetType() == typeof(DateTime))
+                if( prop.PropertyType == typeof(byte) || prop.PropertyType == typeof(char) || 
+                    prop.PropertyType == typeof(short) || prop.PropertyType == typeof(ushort) ||
+                    prop.PropertyType == typeof(int)|| prop.PropertyType == typeof(uint) ||
+                    prop.PropertyType == typeof(long) || prop.PropertyType == typeof(ulong) ||
+                    prop.PropertyType == typeof(float) || prop.PropertyType == typeof(double) ||
+                    prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(DateTime))
                 {
-                    propertyValues += $"{prop.Name} = {prop.GetValue(item).ToString()}";
-
                     if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
-                    {
                         identifier += $"{prop.Name} = {prop.GetValue(item).ToString()}";
-                    }
+                    else
+                        propertyValues += $"{prop.Name} = {prop.GetValue(item).ToString()}";
                 }
-                else if (prop.GetType() == typeof(string))
+                else if (prop.PropertyType == typeof(string))
                 {
-                    propertyValues += $"{prop.Name} = '{prop.GetValue(item).ToString()}'";
-
                     if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
                     {
                         identifier += $"{prop.Name} = '{prop.GetValue(item) as string}'";
                     }
+                    else
+                        propertyValues += $"{prop.Name} = '{prop.GetValue(item).ToString()}'";
                 }
                 else
                 {
-                    dataDefinition += $"";
+                    string value = System.Text.Json.JsonSerializer.Serialize<object>(prop.GetValue(item));
+                    propertyValues += $"{prop.Name} = '{value}'";
                 }
             }
 
@@ -200,27 +218,19 @@ namespace Rota_Creator_App
             {
                 PropertyInfo prop = typeof(T).GetProperties()[p];
 
-                if (p != 0)
-                {
-                    propertyNames += ", ";
-                    propertyValues += ", ";
-                }
-
-                propertyNames += prop.Name;
-
-                if( prop.GetType() == typeof(byte) || prop.GetType() == typeof(char) || 
-                    prop.GetType() == typeof(short) || prop.GetType() == typeof(ushort) ||
-                    prop.GetType() == typeof(int)|| prop.GetType() == typeof(uint) ||
-                    rop.GetType() == typeof(long) || prop.GetType() == typeof(ulong) ||
-                    prop.GetType() == typeof(float) || prop.GetType() == typeof(double) ||
-                    prop.GetType() == typeof(decimal) || prop.GetType() == typeof(DateTime))
+                if( prop.PropertyType == typeof(byte) || prop.PropertyType == typeof(char) || 
+                    prop.PropertyType == typeof(short) || prop.PropertyType == typeof(ushort) ||
+                    prop.PropertyType == typeof(int)|| prop.PropertyType == typeof(uint) ||
+                    prop.PropertyType == typeof(long) || prop.PropertyType == typeof(ulong) ||
+                    prop.PropertyType == typeof(float) || prop.PropertyType == typeof(double) ||
+                    prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(DateTime))
                 {
                     if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
                     {
                         identifier += $"{prop.Name} = {prop.GetValue(item).ToString()}";
                     }
                 }
-                else if (prop.GetType() == typeof(string))
+                else if (prop.PropertyType == typeof(string))
                 {
                     if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
                     {
@@ -239,7 +249,7 @@ namespace Rota_Creator_App
             List<T> items = new List<T>();
             SQLiteCommand command = connection.CreateCommand();
 
-            if (condition.Length == 0)
+            if (condition.Length != 0)
                 command.CommandText = $"SELECT {columns} FROM {typeof(T).Name} WHERE {condition}";
             else
                 command.CommandText = $"SELECT {columns} FROM {typeof(T).Name}";
@@ -257,10 +267,73 @@ namespace Rota_Creator_App
                     {
                         PropertyInfo prop = typeof(T).GetProperties()[p];
 
-                        object value = reader[prop.Name];
-
-                        if (value != null)
+                        if (prop.PropertyType == typeof(byte))
+                        {
+                            byte value = reader.GetByte(reader.GetOrdinal(prop.Name));
                             prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(char))
+                        {
+                            char value = reader.GetChar(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(short))
+                        {
+                            short value = reader.GetInt16(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(ushort))
+                        {
+                            ushort value = (ushort)reader.GetInt16(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(int))
+                        {
+                            int value = reader.GetInt32(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(uint))
+                        {
+                            uint value = (uint)reader.GetInt32(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(long))
+                        {
+                            long value = reader.GetInt64(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(ulong))
+                        {
+                            ulong value = (ulong)reader.GetInt64(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(float))
+                        {
+                            float value = reader.GetFloat(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(double))
+                        {
+                            double value = reader.GetDouble(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(decimal))
+                        {
+                            decimal value = reader.GetDecimal(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else if (prop.PropertyType == typeof(string))
+                        {
+                            string value = reader.GetString(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
+                        else
+                        {
+                            string data = reader.GetString(reader.GetOrdinal(prop.Name));
+                            object newItem = System.Text.Json.JsonSerializer.Deserialize<object>(data);
+                            string value = reader.GetString(reader.GetOrdinal(prop.Name));
+                            prop.SetValue(item, value);
+                        }
                     }
 
                     items.Add(item);

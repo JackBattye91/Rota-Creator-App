@@ -143,3 +143,7 @@ C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Securit
 C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.ValueTuple.xml
 C:\Users\jackb\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\RotaWindow.baml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Json.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Json.xml

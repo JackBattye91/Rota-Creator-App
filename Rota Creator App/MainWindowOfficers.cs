@@ -50,7 +50,7 @@ namespace Rota_Creator_App
             }
             
             int id = Officers[lstSites.SelectedIndex].ID;
-            Officers[lstOfficers.SelectedIndex] = new Officer() { ID = id, NAME = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team txtOfficerTeam.Text };
+            Officers[lstOfficers.SelectedIndex] = new Officer() { ID = id, Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text };
             SQLiteDatabase.Global?.Update<Officer>(Officers[lstOfficers.SelectedIndex]);
 
             updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " updated");

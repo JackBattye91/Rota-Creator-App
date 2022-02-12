@@ -35,6 +35,10 @@ namespace Rota_Creator_App
             if (SQLiteDatabase.Global != null)
             {
                 List<Officer> offList = SQLiteDatabase.Global.Query<Officer>();
+
+                if (offList == null)
+                    return officers;
+
                 foreach(Officer off in offList)
                     officers.Add(off);
             }   

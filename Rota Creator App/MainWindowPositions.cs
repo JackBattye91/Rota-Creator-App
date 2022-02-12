@@ -54,8 +54,9 @@ namespace Rota_Creator_App
             }
 
             int id = Positions[lstPositions.SelectedIndex].ID;
-            Positions[lstPositions.SelectedIndex] = new Position() { ID = id, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
-            SQLiteDatabase.Global?.Update<Position>(Positions[lstPositions.SelectedIndex]);
+            Position updatedPosition = new Position() { ID = id, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
+            Positions[lstPositions.SelectedIndex] = updatedPosition;
+            SQLiteDatabase.Global?.Update<Position>(updatedPosition);
         }
 
         private void btnDeletePosition_Click(object sender, RoutedEventArgs e)

@@ -11,7 +11,7 @@ namespace Rota_Creator_App
     public class Site
     {
         [PrimaryKey]
-        public int ID { get; protected set; }
+        public int ID { get; set; }
         public string Name { get; set; }
 
         public Site()
@@ -20,12 +20,22 @@ namespace Rota_Creator_App
             ID = rnd.Next();
         }
 
+        public override string ToString()
+        {
+            return $"ID : {ID}, Name : {Name}";
+            //return base.ToString();
+        }
+
         public static ObservableCollection<Site> Load()
         {
             ObservableCollection<Site> sites = new ObservableCollection<Site>();
             if (SQLiteDatabase.Global != null)
             {
                 List<Site> siteList = SQLiteDatabase.Global.Query<Site>();
+
+                if (siteList == null)
+                    return sites;
+
                 foreach(Site site in siteList)
                 {
                     sites.Add(site);

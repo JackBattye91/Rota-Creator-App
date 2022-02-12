@@ -66,8 +66,8 @@ namespace Rota_Creator_App
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            string[] startTimeParts = cmbStartTime.SelectedItem.ToString().Split(":");
-            string[] finishTimeParts = cmbFinishTime.SelectedItem.ToString().Split(":");
+            string[] startTimeParts = cmbStartTime.SelectedItem.ToString().Split(':');
+            string[] finishTimeParts = cmbFinishTime.SelectedItem.ToString().Split(':');
 
             int startHour = 0;
             int finishHour = 0;
@@ -77,12 +77,12 @@ namespace Rota_Creator_App
                 return;
             }
 
-            DateTime startTime = DateTime.Date + new TimeSpan(startHour, 0, 0);
-            DateTime finishTime = DateTime.Date + new TimeSpan(finishHour, 0, 0);
+            DateTime startTime = DateTime.Now.Date + new TimeSpan(startHour, 0, 0);
+            DateTime finishTime = DateTime.Now.Date + new TimeSpan(finishHour, 0, 0);
 
             // if shift finishes the next day
-            if (finishHours < startHours)
-				finishTime.AddDays(1);
+            if (startTime < finishTime)
+                finishTime.AddDays(1);
 
             RotaWindow rotaWindow = new RotaWindow(activeOfficers, Positions, startTime, finishTime);
             rotaWindow.ShowDialog();
@@ -90,19 +90,21 @@ namespace Rota_Creator_App
 
         private void txtAvailableOfficerSearch_Changed(object sender, RoutedEventArgs e)
         {
+
             if (txtAvailableOfficerSearch.Text == "")
             {
                 lstAvailableOfficers.ItemsSource = availableOfficers;
                 return;
             }
 
-            ObservableCollection<Officer> searchResults = availableOfficers.Where(o =>  o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
+
+            List<Officer> searchResults = availableOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
                                                                                         o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()));
+                                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList();
             lstAvailableOfficers.ItemsSource = searchResults;
         }
 
-        private void txtAvailableOfficerSearch_Changed(object sender, RoutedEventArgs e)
+        private void txtActiveOfficerSearch_Changed(object sender, RoutedEventArgs e)
         {
             if (txtActiveOfficerSearch.Text == "")
             {
@@ -110,9 +112,9 @@ namespace Rota_Creator_App
                 return;
             }
 
-            ObservableCollection<Officer> searchResults = activeOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
+            List<Officer> searchResults = activeOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
                                                                                     o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()));
+                                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList();
             lstActiveOfficers.ItemsSource = searchResults;
         }
     }

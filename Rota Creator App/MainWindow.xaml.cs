@@ -28,7 +28,21 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
-            if (!File.Exists("rotacreator.db"))
+            SQLiteDatabase.CreateDatabase("rotacreator.db");
+            SQLiteDatabase database = new SQLiteDatabase("Data Source=rotacreator.db");
+            if (!database.TableExists<Site>())
+                database.CreateTable<Site>();
+            if (!database.TableExists<Position>())
+                database.CreateTable<Position>();
+            if (!database.TableExists<Officer>())
+                database.CreateTable<Officer>();
+
+            if (database.Query<Site>("*", "name = 'Default'") == null)
+                database.Insert<Site>(new Site() { Name = "Default" });
+
+            database.RunCommand("DELETE FROM Position");
+
+            /*if (!File.Exists("rotacreator.db"))
             {
                 SQLiteConnection.CreateFile("rotacreator.db");
 
@@ -51,9 +65,8 @@ namespace Rota_Creator_App
                     SQLiteCommand createOfficerTable = connection.CreateCommand();
                     createOfficerTable.CommandText = "CREATE TABLE officers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, abbreviation TEXT, team TEXT )";
                     createOfficerTable.ExecuteNonQuery();
-                    
                 }
-            }
+            }*/
 
             // Create a thread to reset the status text
             statusTextThread = new Thread(new ParameterizedThreadStart((obj) => {
@@ -68,6 +81,7 @@ namespace Rota_Creator_App
                 {
                 }
             }));
+
 
             initializeSites();
             initializePositions();
