@@ -49,11 +49,12 @@ namespace Rota_Creator_App
                 return;
             }
             
-            int id = Officers[lstSites.SelectedIndex].ID;
-            Officers[lstOfficers.SelectedIndex] = new Officer() { ID = id, Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text };
-            SQLiteDatabase.Global?.Update<Officer>(Officers[lstOfficers.SelectedIndex]);
+            int id = Officers[lstOfficers.SelectedIndex].ID;
+            Officer newOfficer = new Officer() { ID = id, Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text };
+            Officers[lstOfficers.SelectedIndex] = newOfficer;
+            SQLiteDatabase.Global?.Update<Officer>(newOfficer);
 
-            updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " updated");
+            updateStatusText("Officer " + newOfficer.Name + " updated");
         }
 
         private void btnDeleteOfficer_Click(object sender, RoutedEventArgs e)

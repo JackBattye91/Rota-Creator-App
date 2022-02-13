@@ -11,6 +11,126 @@ using System.IO;
 
 namespace Rota_Creator_App
 {
+    public interface ISQLiteable
+    {
+        string SQLiteInsertScript();
+        string SQLiteUpdateScript();
+        string SQLiteDeleteScript();
+
+        void SQLiteParse(SQLiteDataReader reader);
+    }
+
+    public class SQLiteDatabase
+    {
+        public static SQLiteDatabase Global { get; set; } = null;
+
+        public string ConnectionString { get; protected set; }
+        SQLiteConnection connection;
+
+
+        public SQLiteDatabase(string connectionString)
+        {
+            ConnectionString = connectionString;
+            connection = new SQLiteConnection(ConnectionString);
+            connection.Open();
+
+            if (Global == null)
+                Global = this;
+        }
+
+        public bool RunCommand(string commandString)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = commandString;
+            return command.ExecuteNonQuery() != 0;
+        }
+
+        public bool CreateTable(string tableName, string columnDefinitions)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"CREATE TABLE {tableName}({columnDefinitions})";
+            return command.ExecuteNonQuery() != 0;
+        }
+
+        public bool DeleteTable(string tableName)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"DROP TABLE [IF EXISTS] {tableName}";
+            return command.ExecuteNonQuery() != 0;
+        }
+
+        public bool TableExists(string tableName)
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}'";
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool Insert<T>(T item) where T : ISQLiteable
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = item.SQLiteInsertScript();
+            return (command.ExecuteNonQuery() != 0);
+        }
+        public bool Update<T>(T item) where T : ISQLiteable
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = item.SQLiteUpdateScript();
+            return (command.ExecuteNonQuery() != 0);
+        }
+        public bool Delete<T>(T item) where T : ISQLiteable
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = item.SQLiteDeleteScript();
+            return (command.ExecuteNonQuery() != 0);
+        }
+
+        public List<T> Query<T>(string table, string columns = "*", string condition = "") where T : ISQLiteable, new()
+        {
+            SQLiteCommand command = connection.CreateCommand();
+            if (!condition.Equals(""))
+                command.CommandText = $"SELECT {columns} FROM {table} WHERE {condition}";
+            else
+                command.CommandText = $"SELECT {columns} FROM {table}";
+
+            List<T> list = new List<T>();
+            T item = new T();
+
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                if (!reader.HasRows)
+                    return list;
+
+                while (reader.Read())
+                {
+                    item.SQLiteParse(reader);
+                    list.Add(item);
+                }
+            }
+
+            return list;
+        }
+
+
+        public static bool CreateDatabase(string name)
+        {
+            if (!File.Exists(name))
+            {
+                SQLiteConnection.CreateFile(name);
+                return true;
+            }
+
+            return false;
+        }
+    }
+    /*
     [AttributeUsage(AttributeTargets.Property)]  
     public class PrimaryKeyAttribute : Attribute  
     {
@@ -79,7 +199,6 @@ namespace Rota_Creator_App
                     dataDefinition += $"{prop.Name} BLOB";
                 }
                
-
                 if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
                 {
                     dataDefinition += " PRIMARY KEY";
@@ -88,8 +207,6 @@ namespace Rota_Creator_App
                 {
                     dataDefinition += " AUTOINCREMENT";
                 }
-
-                
             }
 
             SQLiteCommand command = connection.CreateCommand();
@@ -156,6 +273,11 @@ namespace Rota_Creator_App
                         identifier += $"{prop.Name} = '{prop.GetValue(item) as string}'";
                     }
                 }
+                else if (prop.PropertyType == typeof(List<>))
+                {
+                    prop.GetValue(item).ToString();
+                    propertyValues += $""
+                }
                 else
                 {
                     propertyValues += $"'{prop.GetValue(item)}'";
@@ -170,14 +292,11 @@ namespace Rota_Creator_App
         {
             string propertyValues = "";
             string identifier = "";
+
+            Dictionary<string, string> properties = new Dictionary<string, string>();
             for(int p = 0; p < typeof(T).GetProperties().Count(); p++)
             {
                 PropertyInfo prop = typeof(T).GetProperties()[p];
-
-                if (p != 0)
-                {
-                    propertyValues += ", ";
-                }
 
                 if( prop.PropertyType == typeof(byte) || prop.PropertyType == typeof(char) || 
                     prop.PropertyType == typeof(short) || prop.PropertyType == typeof(ushort) ||
@@ -187,9 +306,9 @@ namespace Rota_Creator_App
                     prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(DateTime))
                 {
                     if (prop.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Count() != 0)
-                        identifier += $"{prop.Name} = {prop.GetValue(item).ToString()}";
+                        identifier += $"{prop.Name} = '{prop.GetValue(item).ToString()}'";
                     else
-                        propertyValues += $"{prop.Name} = {prop.GetValue(item).ToString()}";
+                        properties.Add(prop.Name, prop.GetValue(item).ToString());
                 }
                 else if (prop.PropertyType == typeof(string))
                 {
@@ -198,14 +317,22 @@ namespace Rota_Creator_App
                         identifier += $"{prop.Name} = '{prop.GetValue(item) as string}'";
                     }
                     else
-                        propertyValues += $"{prop.Name} = '{prop.GetValue(item).ToString()}'";
+                        properties.Add(prop.Name, $"'{prop.GetValue(item)}'");
                 }
                 else
                 {
-                    string value = System.Text.Json.JsonSerializer.Serialize<object>(prop.GetValue(item));
-                    propertyValues += $"{prop.Name} = '{value}'";
+                    string value = System.Text.Json.JsonSerializer.Serialize<object>(prop.GetValue(item).ToString());
+                    properties.Add(prop.Name, $"'{value}'");
                 }
             }
+
+            foreach (KeyValuePair<string, string> keyValue in properties)
+            {
+                propertyValues += $"{keyValue.Key} = {keyValue.Value}, ";
+            }
+
+            if (propertyValues.EndsWith(", "))
+                propertyValues = propertyValues.Remove(propertyValues.LastIndexOf(", "), 2);
 
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = $"UPDATE {typeof(T).Name} SET {propertyValues} WHERE {identifier}";
@@ -327,12 +454,17 @@ namespace Rota_Creator_App
                             string value = reader.GetString(reader.GetOrdinal(prop.Name));
                             prop.SetValue(item, value);
                         }
+                        else if (prop.PropertyType == typeof(List<>))
+                        {
+                            int length = (prop.GetValue(item) as List<object>).Count;
+                            object[] listItems = new object[length];
+
+                        }
                         else
                         {
                             string data = reader.GetString(reader.GetOrdinal(prop.Name));
-                            object newItem = System.Text.Json.JsonSerializer.Deserialize<object>(data);
-                            string value = reader.GetString(reader.GetOrdinal(prop.Name));
-                            prop.SetValue(item, value);
+                            object newItem = System.Text.Json.JsonSerializer.Deserialize<string>(data);
+                            prop.SetValue(item, newItem);
                         }
                     }
 
@@ -353,5 +485,5 @@ namespace Rota_Creator_App
 
             return false;
         }
-    }
+    }*/
 }

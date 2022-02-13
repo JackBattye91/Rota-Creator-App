@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Rota_Creator_App
 {
-    public class Officer
+    public class Officer : ISQLiteable
     {
-        [PrimaryKey]
+        //[PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
         public string Team { get; set; }
-        public ObservableCollection<Position> WorkablePositions { get; set; } = new ObservableCollection<Position>();
+        public List<Position> WorkablePositions { get; set; } = new List<Position>();
 
         public Officer()
         {
@@ -34,7 +34,7 @@ namespace Rota_Creator_App
 
             if (SQLiteDatabase.Global != null)
             {
-                List<Officer> offList = SQLiteDatabase.Global.Query<Officer>();
+                List<Officer> offList = SQLiteDatabase.Global.Query<Officer>("Officer");
 
                 if (offList == null)
                     return officers;
@@ -56,6 +56,32 @@ namespace Rota_Creator_App
                         SQLiteDatabase.Global.Update<Officer>(off);
                 }
             }
+        }
+
+        public void SQLiteParse(SQLiteDataReader reader)
+        {
+            if (reader.FieldCount != 2)
+                return;
+
+            ID = reader.GetInt32(0);
+            Name = reader.GetString(1);
+            Abbreviation = reader.GetString(2);
+            Team = reader.GetString(3);
+        }
+
+        public string SQLiteInsertScript()
+        {
+            return $"INSERT INTO Officer(ID, Name, Abbreviation, Team) VALUES ({ID}, '{Name}', '{Abbreviation}', '{Team}')";
+        }
+
+        public string SQLiteUpdateScript()
+        {
+            return $"UPDATE Officer SET Name='{Name}', Abbreviation='{Abbreviation}', Team='{Team}' WHERE ID={ID}";
+        }
+
+        public string SQLiteDeleteScript()
+        {
+            return $"DELETE FROM Officer WHERE ID={ID}";
         }
     }
 }

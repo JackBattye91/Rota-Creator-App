@@ -30,17 +30,17 @@ namespace Rota_Creator_App
 
             SQLiteDatabase.CreateDatabase("rotacreator.db");
             SQLiteDatabase database = new SQLiteDatabase("Data Source=rotacreator.db");
-            if (!database.TableExists<Site>())
-                database.CreateTable<Site>();
-            if (!database.TableExists<Position>())
-                database.CreateTable<Position>();
-            if (!database.TableExists<Officer>())
-                database.CreateTable<Officer>();
+            if (!database.TableExists("Site"))
+                database.CreateTable("Site", "ID INTEGER PRIMARY KEY, Name TEXT");
+            if (!database.TableExists("Position"))
+                database.CreateTable("Position", "ID INTEGER PRIMARY KEY, Name TEXT, Site INTEGER, Duration INTEGER");
+            if (!database.TableExists("Officer"))
+                database.CreateTable("Officer", "ID INTEGER PRIMARY KEY, Name TEXT, Abbreviation TEXT, Team TEXT");
 
-            if (database.Query<Site>("*", "name = 'Default'") == null)
+            if (database.Query<Site>("Site", "*", "name = 'Default'") == null)
                 database.Insert<Site>(new Site() { Name = "Default" });
 
-            database.RunCommand("DELETE FROM Position");
+            //database.RunCommand("DELETE FROM Position");
 
             /*if (!File.Exists("rotacreator.db"))
             {

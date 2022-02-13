@@ -43,8 +43,9 @@ namespace Rota_Creator_App
             }
 
             int id = Sites[lstSites.SelectedIndex].ID;
-            Sites[lstSites.SelectedIndex] = new Site() { ID = id, Name = txtSiteName.Text};
-            SQLiteDatabase.Global?.Update<Site>(Sites[lstSites.SelectedIndex]);
+            Site newSite = new Site() { ID = id, Name = txtSiteName.Text };
+            Sites[lstSites.SelectedIndex] = newSite;
+            SQLiteDatabase.Global?.Update<Site>(newSite);
         }
         private void btnDeleteSite_Click(object sender, RoutedEventArgs e)
         {

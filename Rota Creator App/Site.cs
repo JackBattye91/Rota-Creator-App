@@ -8,9 +8,9 @@ using System.Collections.ObjectModel;
 
 namespace Rota_Creator_App
 {
-    public class Site
+    public class Site : ISQLiteable
     {
-        [PrimaryKey]
+        //[PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
 
@@ -28,19 +28,11 @@ namespace Rota_Creator_App
 
         public static ObservableCollection<Site> Load()
         {
+            List<Site> siteList = SQLiteDatabase.Global?.Query<Site>("Site");
             ObservableCollection<Site> sites = new ObservableCollection<Site>();
-            if (SQLiteDatabase.Global != null)
-            {
-                List<Site> siteList = SQLiteDatabase.Global.Query<Site>();
 
-                if (siteList == null)
-                    return sites;
-
-                foreach(Site site in siteList)
-                {
-                    sites.Add(site);
-                }
-            }
+            foreach (Site site in siteList)
+                sites.Add(site);
 
             return sites;
         }
@@ -55,6 +47,30 @@ namespace Rota_Creator_App
                         SQLiteDatabase.Global.Update<Site>(site);
                 }
             }
+        }
+
+        public void SQLiteParse(SQLiteDataReader reader)
+        {
+            if (reader.FieldCount != 2)
+                return;
+
+            ID = reader.GetInt32(0);
+            Name = reader.GetString(1);
+        }
+
+        public string SQLiteInsertScript()
+        {
+            return $"INSERT INTO Site(ID, Name) VALUES ({ID}, '{Name}')";
+        }
+
+        public string SQLiteUpdateScript()
+        {
+           return $"UPDATE Site SET Name='{Name}' WHERE ID={ID}";
+        }
+
+        public string SQLiteDeleteScript()
+        {
+            return $"DELETE FROM Site WHERE ID={ID}";
         }
     }
 }
