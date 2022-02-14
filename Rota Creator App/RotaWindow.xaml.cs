@@ -61,7 +61,7 @@ namespace Rota_Creator_App
                 rotaGrid.Children.Add(label);
             }
 
-            foreach (Rota.RotaTimePosition timePos in rota.rotaTimePositions)
+            foreach (Rota.RotaTimePosition timePos in rota.RotaTimePositions)
             {
                 Binding officerBinding = new Binding("officer.Name") { Source = timePos };
 

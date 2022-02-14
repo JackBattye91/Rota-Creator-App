@@ -147,3 +147,5 @@ C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.T
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Json.dll
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Encodings.Web.xml
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Text.Json.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\PositionsWindow.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\PositionsWindow.baml

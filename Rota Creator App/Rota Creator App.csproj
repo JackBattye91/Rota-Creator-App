@@ -150,6 +150,9 @@
     </ApplicationDefinition>
     <Compile Include="MainWindowRota.cs" />
     <Compile Include="Officer.cs" />
+    <Compile Include="PositionsWindow.xaml.cs">
+      <DependentUpon>PositionsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Rota.cs" />
     <Compile Include="RotaWindow.xaml.cs">
       <DependentUpon>RotaWindow.xaml</DependentUpon>
@@ -169,6 +172,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PositionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RotaWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -30,43 +30,16 @@ namespace Rota_Creator_App
 
             SQLiteDatabase.CreateDatabase("rotacreator.db");
             SQLiteDatabase database = new SQLiteDatabase("Data Source=rotacreator.db");
+
             if (!database.TableExists("Site"))
+            {
                 database.CreateTable("Site", "ID INTEGER PRIMARY KEY, Name TEXT");
+                database.Insert<Site>(new Site() { ID = 1, Name = "Default" });
+            }
             if (!database.TableExists("Position"))
                 database.CreateTable("Position", "ID INTEGER PRIMARY KEY, Name TEXT, Site INTEGER, Duration INTEGER");
             if (!database.TableExists("Officer"))
-                database.CreateTable("Officer", "ID INTEGER PRIMARY KEY, Name TEXT, Abbreviation TEXT, Team TEXT");
-
-            if (database.Query<Site>("Site", "*", "name = 'Default'") == null)
-                database.Insert<Site>(new Site() { Name = "Default" });
-
-            //database.RunCommand("DELETE FROM Position");
-
-            /*if (!File.Exists("rotacreator.db"))
-            {
-                SQLiteConnection.CreateFile("rotacreator.db");
-
-                using (SQLiteConnection connection = new SQLiteConnection("Data Source=rotacreator.db"))
-                {
-                    connection.Open();
-                    
-                    SQLiteCommand createSiteTable = connection.CreateCommand();
-                    createSiteTable.CommandText = "CREATE TABLE sites(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)";
-                    createSiteTable.ExecuteNonQuery();
-                    
-                    SQLiteCommand createDefaultSite = connection.CreateCommand();
-                    createDefaultSite.CommandText = "INSERT INTO sites(id, name) VALUES (0, 'Default')";
-                    createDefaultSite.ExecuteNonQuery();
- 
-                    SQLiteCommand createPoitionTable = connection.CreateCommand();
-                    createPoitionTable.CommandText = "CREATE TABLE positions(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, site TEXT, duration INTEGER)";
-                    createPoitionTable.ExecuteNonQuery();
-                    
-                    SQLiteCommand createOfficerTable = connection.CreateCommand();
-                    createOfficerTable.CommandText = "CREATE TABLE officers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, abbreviation TEXT, team TEXT )";
-                    createOfficerTable.ExecuteNonQuery();
-                }
-            }*/
+                database.CreateTable("Officer", "ID INTEGER PRIMARY KEY, Name TEXT, Abbreviation TEXT, Team TEXT, WorkablePositions TEXT");
 
             // Create a thread to reset the status text
             statusTextThread = new Thread(new ParameterizedThreadStart((obj) => {
@@ -91,8 +64,8 @@ namespace Rota_Creator_App
 
         private void updateStatusText(string text)
         {
-            statusText.Text = text;
-            statusTextThread.Start();
+            //statusText.Text = text;
+            //statusTextThread.Start();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

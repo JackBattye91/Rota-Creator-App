@@ -21,7 +21,7 @@ namespace Rota_Creator_App
         public DateTime FinishTime { get; protected set; }
         public ObservableCollection<Position> Positions { get; protected set; }
         public ObservableCollection<Officer> Officers { get; protected set; }
-        public ObservableCollection<RotaTimePosition> rotaTimePositions { get; protected set; }
+        public ObservableCollection<RotaTimePosition> RotaTimePositions { get; protected set; }
         static Random rnd = new Random();
 
         // hide constructor
@@ -31,7 +31,7 @@ namespace Rota_Creator_App
 
         public Officer GetOfficer(Position position, DateTime time)
         {
-            foreach (RotaTimePosition timePos in rotaTimePositions)
+            foreach (RotaTimePosition timePos in RotaTimePositions)
             {
                 if (timePos.position.Equals(position) && timePos.time == time)
                     return timePos.officer;
@@ -40,7 +40,7 @@ namespace Rota_Creator_App
         }
         public Position GetPosition(Officer officer, DateTime time)
         {
-            foreach (RotaTimePosition timePos in rotaTimePositions)
+            foreach (RotaTimePosition timePos in RotaTimePositions)
             {
                 if (timePos.officer.Equals(officer) && timePos.time == time)
                     return timePos.position;
@@ -79,38 +79,38 @@ namespace Rota_Creator_App
         {
             if (ignoreDurations)
             {
-                for(int rt = 0; rt < rotaTimePositions.Count(); rt++)
+                for(int rt = 0; rt < RotaTimePositions.Count(); rt++)
                 {
-                    if (rotaTimePositions[rt].time == time)
-                        rotaTimePositions.RemoveAt(rt);
+                    if (RotaTimePositions[rt].time == time)
+                        RotaTimePositions.RemoveAt(rt);
                 }
 
                 return;
             }
 
-            for (int tp = 0; tp < rotaTimePositions.Count(); tp++)
+            for (int tp = 0; tp < RotaTimePositions.Count(); tp++)
             {
-                RotaTimePosition timePos = rotaTimePositions[tp];
+                RotaTimePosition timePos = RotaTimePositions[tp];
                 if (timePos.time != time)
                     continue;
 
                 if (timePos.position.Duration == 1)
-                    rotaTimePositions.Remove(timePos);
+                    RotaTimePositions.Remove(timePos);
                 else
                 {
                     if (GetOfficer(timePos.position, time - new TimeSpan(1, 0, 0)).Equals(timePos.officer))
                         continue;
                     else
-                        rotaTimePositions.Remove(timePos);
+                        RotaTimePositions.Remove(timePos);
                 }
             }
         }
         public void Clear(Position position)
         {
-            for (int rt = 0; rt < rotaTimePositions.Count(); rt++)
+            for (int rt = 0; rt < RotaTimePositions.Count(); rt++)
             {
-                if (rotaTimePositions[rt].position == position)
-                    rotaTimePositions.RemoveAt(rt);
+                if (RotaTimePositions[rt].position == position)
+                    RotaTimePositions.RemoveAt(rt);
             }
         }
 
@@ -121,12 +121,12 @@ namespace Rota_Creator_App
             FinishTime = finishTime;
             Positions = new ObservableCollection<Position>(positions);
             Officers = new ObservableCollection<Officer>(officers);
-            rotaTimePositions = new ObservableCollection<RotaTimePosition>();
+            RotaTimePositions = new ObservableCollection<RotaTimePosition>();
 
-            for (DateTime time = StartTime; time < FinishTime; time.AddHours(1))
+            for (DateTime time = StartTime; time < FinishTime; time += new TimeSpan(1, 0, 0))
             {
                 foreach(RotaTimePosition rotaTime in coverTime(time))
-                    rotaTimePositions.Add(rotaTime);
+                    RotaTimePositions.Add(rotaTime);
             }
         }
 

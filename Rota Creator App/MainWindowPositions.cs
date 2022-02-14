@@ -76,7 +76,7 @@ namespace Rota_Creator_App
             {
                 txtPositionName.Text = ((e.Source as ListView).SelectedItem as Position).Name;
                 txtPositionDuration.Text = ((e.Source as ListView).SelectedItem as Position).Duration.ToString();
-                cmbPositionSite.SelectedIndex = Sites.IndexOf(((e.Source as ListView).SelectedItem as Position).Site);
+                cmbPositionSite.SelectedItem = Sites.First(s => s.ID == ((e.Source as ListView).SelectedItem as Position).Site.ID);
             }
         }
     }

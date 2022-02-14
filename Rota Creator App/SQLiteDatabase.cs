@@ -27,7 +27,6 @@ namespace Rota_Creator_App
         public string ConnectionString { get; protected set; }
         SQLiteConnection connection;
 
-
         public SQLiteDatabase(string connectionString)
         {
             ConnectionString = connectionString;
@@ -55,7 +54,7 @@ namespace Rota_Creator_App
         public bool DeleteTable(string tableName)
         {
             SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = $"DROP TABLE [IF EXISTS] {tableName}";
+            command.CommandText = $"DROP TABLE {tableName}";
             return command.ExecuteNonQuery() != 0;
         }
 
@@ -77,19 +76,19 @@ namespace Rota_Creator_App
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = item.SQLiteInsertScript();
-            return (command.ExecuteNonQuery() != 0);
+            return command.ExecuteNonQuery() != 0;
         }
         public bool Update<T>(T item) where T : ISQLiteable
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = item.SQLiteUpdateScript();
-            return (command.ExecuteNonQuery() != 0);
+            return command.ExecuteNonQuery() != 0;
         }
         public bool Delete<T>(T item) where T : ISQLiteable
         {
             SQLiteCommand command = connection.CreateCommand();
             command.CommandText = item.SQLiteDeleteScript();
-            return (command.ExecuteNonQuery() != 0);
+            return command.ExecuteNonQuery() != 0;
         }
 
         public List<T> Query<T>(string table, string columns = "*", string condition = "") where T : ISQLiteable, new()
@@ -101,7 +100,7 @@ namespace Rota_Creator_App
                 command.CommandText = $"SELECT {columns} FROM {table}";
 
             List<T> list = new List<T>();
-            T item = new T();
+           
 
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
@@ -110,6 +109,7 @@ namespace Rota_Creator_App
 
                 while (reader.Read())
                 {
+                    T item = new T();
                     item.SQLiteParse(reader);
                     list.Add(item);
                 }

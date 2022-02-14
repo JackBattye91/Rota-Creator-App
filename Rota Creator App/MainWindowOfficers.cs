@@ -32,6 +32,7 @@ namespace Rota_Creator_App
 
             Officer newOfficer = new Officer() { Name = newOfficerName };
             Officers.Add(newOfficer);
+            availableOfficers.Add(newOfficer);
             SQLiteDatabase.Global?.Insert<Officer>(newOfficer);
         }
 
@@ -43,15 +44,33 @@ namespace Rota_Creator_App
                 return;
             }
 
-            if (Officers.Count(o => o.Abbreviation == txtOfficerAbbr.Text) > 0)
+            if (Officers.Count(o => o.Abbreviation == txtOfficerAbbr.Text) > 0 && Officers[lstOfficers.SelectedIndex].Abbreviation != txtOfficerAbbr.Text && txtOfficerAbbr.Text.Length != 0)
             {
                 updateStatusText("There is already a officer with the abbreviation " + txtOfficerAbbr.Text);
                 return;
             }
             
             int id = Officers[lstOfficers.SelectedIndex].ID;
-            Officer newOfficer = new Officer() { ID = id, Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text };
+            Officer newOfficer = new Officer() { ID = id, Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text, WorkablePositions = Officers[lstOfficers.SelectedIndex].WorkablePositions };
             Officers[lstOfficers.SelectedIndex] = newOfficer;
+            
+            for(int o = 0; o < availableOfficers.Count; o++)
+            {
+                if (availableOfficers[o].ID == id)
+                {
+                    availableOfficers[o] = newOfficer;
+                    break;
+                }
+            }
+            for (int o = 0; o < activeOfficers.Count; o++)
+            {
+                if (activeOfficers[o].ID == id)
+                {
+                    activeOfficers[o] = newOfficer;
+                    break;
+                }
+            }
+
             SQLiteDatabase.Global?.Update<Officer>(newOfficer);
 
             updateStatusText("Officer " + newOfficer.Name + " updated");
@@ -62,28 +81,35 @@ namespace Rota_Creator_App
             if (MessageBox.Show("Are you sure you want to delete officer: " + (lstOfficers.SelectedItem as Officer).Name, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
-                
-                SQLiteDatabase.Global?.Delete<Officer>(Officers[lstOfficers.SelectedIndex]);
-                Officers.RemoveAt(lstOfficers.SelectedIndex);
+
+                Officer officer = Officers[lstOfficers.SelectedIndex];
+
+                SQLiteDatabase.Global?.Delete<Officer>(officer);
+                Officers.Remove(officer);
+
+                activeOfficers.Remove(officer);
+                availableOfficers.Remove(officer);
             }
         }
 
         private void btnAddOfficerPosition_Click(object sender, RoutedEventArgs e)
         {
-            /*
             PositionsWindow positionsWindow = new PositionsWindow(Positions);
             bool? results = positionsWindow.ShowDialog();
             switch(results)
             {
                 case true:
-                    Officers[lstOfficers.SelectedIndex].WorkablePositions.Add(positionsWindow.PositionsToAdd);
+                    foreach(Position pos in positionsWindow.PositionsToAdd)
+                        Officers[lstOfficers.SelectedIndex].WorkablePositions.Add(pos);
+
+                    lstOfficerPositions.ItemsSource = Officers[lstOfficers.SelectedIndex].WorkablePositions;
+
                     break;
                 case false:
                     return;
                 default:
                     return;
             }
-            */
         }
         private void btnDeleteOfficerPosition_Click(object sender, RoutedEventArgs e)
         {

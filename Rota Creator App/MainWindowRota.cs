@@ -27,7 +27,12 @@ namespace Rota_Creator_App
             cmbStartTime.SelectedIndex = 6;
             cmbFinishTime.SelectedIndex = 18;
 
-            lstAvailableOfficers.ItemsSource = Officers;// availableOfficers;
+            foreach(Officer off in Officers)
+            {
+                availableOfficers.Add(off);
+            }
+
+            lstAvailableOfficers.ItemsSource = availableOfficers;
             lstActiveOfficers.ItemsSource = activeOfficers;
         }
 
@@ -38,20 +43,46 @@ namespace Rota_Creator_App
 
             if (((sender as TabControl).SelectedItem as TabItem).Header.ToString() == "Rota")
             {
-                availableOfficers.Clear();
-                activeOfficers.Clear();
-
-                availableOfficers = new ObservableCollection<Officer>(Officers);
-                lstAvailableOfficers.ItemsSource = availableOfficers;
+                /*foreach(Officer off in Officers)
+                {
+                    if (!availableOfficers.Contains(off))
+                        availableOfficers.Add(off);
+                }*/
+                
+                //lstAvailableOfficers.ItemsSource = availableOfficers;
             }
+        }
+
+        private void btnMoveOfficerRight_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(Officer off in lstAvailableOfficers.SelectedItems)
+            {
+                activeOfficers.Add(off);
+            }
+        }
+        private void btnMoveAllOfficersRight_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnMoveOfficerLeft_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnMoveAllOfficersLeft_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void lstAvailableOfficers_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                activeOfficers.Add(availableOfficers[lstAvailableOfficers.SelectedIndex]);
-                availableOfficers.RemoveAt(lstAvailableOfficers.SelectedIndex);
+                Officer officer = (sender as StackPanel).DataContext as Officer;
+
+                if (!activeOfficers.Contains(officer))
+                    activeOfficers.Add(officer);
+
+                availableOfficers.Remove(officer);
             }
         }
 
@@ -59,8 +90,11 @@ namespace Rota_Creator_App
         {
             if (e.ClickCount == 2)
             {
-                availableOfficers.Add(activeOfficers[lstActiveOfficers.SelectedIndex]);
-                activeOfficers.RemoveAt(lstActiveOfficers.SelectedIndex);
+                Officer officer = (sender as StackPanel).DataContext as Officer;
+                if (!availableOfficers.Contains(officer))
+                    availableOfficers.Add(officer);
+
+                activeOfficers.Remove(officer);
             }
         }
 
@@ -90,7 +124,6 @@ namespace Rota_Creator_App
 
         private void txtAvailableOfficerSearch_Changed(object sender, RoutedEventArgs e)
         {
-
             if (txtAvailableOfficerSearch.Text == "")
             {
                 lstAvailableOfficers.ItemsSource = availableOfficers;

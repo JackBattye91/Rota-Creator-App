@@ -15,7 +15,7 @@ namespace Rota_Creator_App
         public string Name { get; set; }
         public string Abbreviation { get; set; }
         public string Team { get; set; }
-        public List<Position> WorkablePositions { get; set; } = new List<Position>();
+        public ObservableCollection<Position> WorkablePositions { get; set; } = new ObservableCollection<Position>();
 
         public Officer()
         {
@@ -25,7 +25,7 @@ namespace Rota_Creator_App
 
         public bool CanWorkPosition(Position pos)
         {
-            return WorkablePositions.Contains(pos);
+            return WorkablePositions.Count(p => p.ID == pos.ID) > 0;
         }
 
         public static ObservableCollection<Officer> Load()
@@ -41,7 +41,7 @@ namespace Rota_Creator_App
 
                 foreach(Officer off in offList)
                     officers.Add(off);
-            }   
+            }
 
             return officers;
         }
@@ -60,13 +60,40 @@ namespace Rota_Creator_App
 
         public void SQLiteParse(SQLiteDataReader reader)
         {
-            if (reader.FieldCount != 2)
+            if (reader.FieldCount < 5)
                 return;
 
-            ID = reader.GetInt32(0);
-            Name = reader.GetString(1);
-            Abbreviation = reader.GetString(2);
-            Team = reader.GetString(3);
+            try
+            {
+                ID = reader.GetInt32(0);
+                Name = reader.GetString(1);
+                Abbreviation = reader.GetString(2);
+                Team = reader.GetString(3);
+
+                if (reader.FieldCount >= 5)
+                {
+                    string workableString = reader.GetString(4);
+
+                    if (workableString == null)
+                        return;
+
+                    string[] workables = reader.GetString(4).Split(',');
+                    foreach (string pos in workables)
+                    {
+                        int id = 0;
+                        if (int.TryParse(pos, out id))
+                        {
+                            List<Position> positions = SQLiteDatabase.Global?.Query<Position>("Position", "*", $"ID = {id}");
+                            if (positions != null && positions.Count > 0)
+                                WorkablePositions.Add(positions[0]);
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         public string SQLiteInsertScript()
@@ -76,7 +103,16 @@ namespace Rota_Creator_App
 
         public string SQLiteUpdateScript()
         {
-            return $"UPDATE Officer SET Name='{Name}', Abbreviation='{Abbreviation}', Team='{Team}' WHERE ID={ID}";
+            string script = $"UPDATE Officer SET Name='{Name}', Abbreviation='{Abbreviation}', Team='{Team}', WorkablePositions='";
+
+            foreach(Position pos in WorkablePositions)
+            {
+                script += $"{pos.ID},";
+            }
+
+            script += $"' WHERE ID={ID}";
+
+            return script;
         }
 
         public string SQLiteDeleteScript()
