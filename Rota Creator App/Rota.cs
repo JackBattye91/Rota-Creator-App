@@ -21,7 +21,7 @@ namespace Rota_Creator_App
         public DateTime FinishTime { get; protected set; }
         public ObservableCollection<Position> Positions { get; protected set; }
         public ObservableCollection<Officer> Officers { get; protected set; }
-        public ObservableCollection<RotaTimePosition> RotaTimePositions { get; protected set; }
+        public List<RotaTimePosition> RotaTimePositions { get; protected set; }
         static Random rnd = new Random();
 
         // hide constructor
@@ -79,12 +79,7 @@ namespace Rota_Creator_App
         {
             if (ignoreDurations)
             {
-                for(int rt = 0; rt < RotaTimePositions.Count(); rt++)
-                {
-                    if (RotaTimePositions[rt].time == time)
-                        RotaTimePositions.RemoveAt(rt);
-                }
-
+                RotaTimePositions.RemoveAll(tp => tp.time == time);
                 return;
             }
 
@@ -107,11 +102,7 @@ namespace Rota_Creator_App
         }
         public void Clear(Position position)
         {
-            for (int rt = 0; rt < RotaTimePositions.Count(); rt++)
-            {
-                if (RotaTimePositions[rt].position == position)
-                    RotaTimePositions.RemoveAt(rt);
-            }
+            RotaTimePositions.RemoveAll(tp => tp.position == position);
         }
 
         public void Generate(ObservableCollection<Officer> officers, ObservableCollection<Position> positions, DateTime startTime, DateTime finishTime)
@@ -121,7 +112,7 @@ namespace Rota_Creator_App
             FinishTime = finishTime;
             Positions = new ObservableCollection<Position>(positions);
             Officers = new ObservableCollection<Officer>(officers);
-            RotaTimePositions = new ObservableCollection<RotaTimePosition>();
+            RotaTimePositions = new List<RotaTimePosition>();
 
             for (DateTime time = StartTime; time < FinishTime; time += new TimeSpan(1, 0, 0))
             {
@@ -155,7 +146,7 @@ namespace Rota_Creator_App
             while(attempts < 4)
             {
                 // get all officers that can work position
-                ObservableCollection<Officer> offList = new ObservableCollection<Officer>(Officers.Where(o => o.CanWorkPosition(pos)));
+                List<Officer> offList = new List<Officer>(Officers.Where(o => o.CanWorkPosition(pos)));
 
                 if (offList.Count == 0)
                     throw new ArgumentException($"No officer can work this position: {pos.Name}");
@@ -234,7 +225,10 @@ namespace Rota_Creator_App
 
             if (lastPos != null && lastOff != null)
             {
-                if (GetOfficer(lastPos, time).Equals(lastOff) && GetPosition(lastOff, time).Equals(lastPos))
+                Officer currOffLastPos = GetOfficer(lastPos, time);
+                Position currPosLastOff = GetPosition(lastOff, time);
+
+                if (currOffLastPos != null && currPosLastOff != null && currOffLastPos.Equals(lastOff) && currPosLastOff.Equals(lastPos))
                     return true;
             }
 
