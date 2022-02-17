@@ -11,6 +11,7 @@ namespace Rota_Creator_App
     public class Position : ISQLiteable
     {
         public int ID { get; set; }
+        public int Index { get; set; }
         public string Name { get; set; }
         public Site Site { get; set; }
         public int Duration { get; set; }
@@ -25,10 +26,10 @@ namespace Rota_Creator_App
             return true;
         }
 
-        
         public static ObservableCollection<Position> Load()
         {
             List<Position> positionsList = SQLiteDatabase.Global?.Query<Position>("Position");
+
             ObservableCollection<Position> positions = new ObservableCollection<Position>();
 
             foreach (Position pos in positionsList)
@@ -54,20 +55,22 @@ namespace Rota_Creator_App
             ID = reader.GetInt32(0);
             Name = reader.GetString(1);
             Duration = reader.GetInt32(3);
+            Index = reader.GetInt32(4);
 
             List<Site> sites = SQLiteDatabase.Global.Query<Site>("Site", "*", $"ID = {reader.GetInt32(2)}");
             if (sites != null && sites.Count > 0)
                 Site = sites[0];
+            
         }
 
         public string SQLiteInsertScript()
         {
-            return $"INSERT INTO Position(ID, Name, Site, Duration) VALUES ({ID}, '{Name}', {Site.ID}, {Duration})";
+            return $"INSERT INTO Position(ID, Name, Site, Duration, Index) VALUES ({ID}, '{Name}', {Site.ID}, {Duration}, {Index})";
         }
 
         public string SQLiteUpdateScript()
         {
-            return $"UPDATE Position SET Name='{Name}', Site={Site.ID}, Duration={Duration} WHERE ID={ID}";
+            return $"UPDATE Position SET Name='{Name}', Site={Site.ID}, Duration={Duration}, Index={Index} WHERE ID={ID}";
         }
 
         public string SQLiteDeleteScript()
