@@ -17,7 +17,7 @@
         </Grid>
         
         <Grid Grid.Row="1">
-            <Button Content="Print"/>
+            <Button Content="Print" HorizontalAlignment="Right" Margin="5"/>
         </Grid>
     </Grid>
 </Window>

@@ -226,7 +226,6 @@ namespace Rota_Creator_App
             DateTime time = startTime;
             int attempts = 0;
             
-
             while (time < finishTime)
             {
                 List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
@@ -252,7 +251,7 @@ namespace Rota_Creator_App
                     {
                         SystemLog.Add(notFound);
 
-                        // cover for duration of position
+                        // add blank positions as not officer can work it
                         for (int d = 0; d < pos.Duration; d++)
                         {
                             DateTime coverTime = time + new TimeSpan(d, 0, 0);
@@ -269,7 +268,6 @@ namespace Rota_Creator_App
                     }
                 }
 
-                // if the number of currTimePos == positions.count then all the positions are covered for this time
                 if (!retry || attempts >= 4)
                 {
                     attempts = 0;
