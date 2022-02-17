@@ -52,9 +52,9 @@ namespace Rota_Creator_App
                 }
                 catch(Exception e)
                 {
+                    SystemLog.Add(e);
                 }
             }));
-
 
             initializeSites();
             initializePositions();
@@ -64,7 +64,10 @@ namespace Rota_Creator_App
 
         private void updateStatusText(string text)
         {
-            //statusText.Text = text;
+            SystemLog.Add($"Status: {text}");
+            statusText.Text = text;
+
+            //if (statusTextThread.ThreadState & (state1 | state2) > 0)
             //statusTextThread.Start();
         }
 
@@ -72,6 +75,7 @@ namespace Rota_Creator_App
         {
             // cancel update status text thread
             statusTextThread.Abort();
+            SystemLog.Dump();
         }
     }
 }

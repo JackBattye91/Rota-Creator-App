@@ -9,6 +9,43 @@ namespace Rota_Creator_App
 {
     public class Rota
     {
+        protected class CrossoverException : Exception
+        {
+            public CrossoverException()
+            {
+            }
+            public CrossoverException(string message) : base(message)
+            {
+            }
+            public CrossoverException(string message, Exception inner) : base(message, inner)
+            {
+            }
+        }
+        protected class PreviousWorkingException : Exception
+        {
+            public PreviousWorkingException()
+            {
+            }
+            public PreviousWorkingException(string message) : base(message)
+            {
+            }
+            public PreviousWorkingException(string message, Exception inner) : base(message, inner)
+            {
+            }
+        }
+        protected class AlreadyWorkingException : Exception
+        {
+            public AlreadyWorkingException()
+            {
+            }
+            public AlreadyWorkingException(string message) : base(message)
+            {
+            }
+            public AlreadyWorkingException(string message, Exception inner) : base(message, inner)
+            {
+            }
+        }
+
         public class RotaTimePosition
         {
             public Position position;
@@ -155,9 +192,16 @@ namespace Rota_Creator_App
                         // get random officer
                         Officer off = offList[rnd.Next(offList.Count)];
 
-                        // try cover position
-                        if (!positionOfficer(rota, off, pos, time))
-                            offList.Remove(off);
+                        try
+                        {
+                            // try cover position
+                            if (!positionOfficer(rota, off, pos, time))
+                                offList.Remove(off);
+                        }
+                        catch(Exception e)
+                        {
+                            SystemLog.Add(e);
+                        }
                     }
 
                     // if not covered then add to rota empty
@@ -178,12 +222,12 @@ namespace Rota_Creator_App
             return rota;
         }
 
-        private static bool positionOfficer(Rota rota, Officer off, Position pos, DateTime time)
+        private static void positionOfficer(Rota rota, Officer off, Position pos, DateTime time)
         {
             // if officer is already working a position
             if (rota.GetPosition(off, time) != null)
             {
-                return false;
+                throw new AlreadyWorkingException($"Officer: {off.Name} is already working at {pos.Name} at {time}");
             }
 
             // if has previous time
@@ -194,8 +238,7 @@ namespace Rota_Creator_App
                 // did officer work previous time at position
                 if (rota.IsCovered(pos, prevTime) != null && rota.GetOfficer(pos, prevTime).Equals(off))
                 {
-                    // remove officer
-                    return false;
+                    throw new PreviousWorkingException($"Officer: {off.Name} worked at {pos.Name} in the last hour");
                 }
 
                 // if there a straight swap off officers move to next officer
@@ -206,15 +249,14 @@ namespace Rota_Creator_App
                 {
                     if (rota.GetOfficer(lastPos, time).Equals(lastOff) && rota.GetPosition(lastOff, time).Equals(lastPos))
                     {
-                        return false;
+                        throw new CrossoverException("There is a crossover between {off.Name} and {lastOff.Name}");
                     }
                 }
 
                 // if officer has worked positions before then try another officer
                 if (rota.GetOfficers(pos).Contains(off))
                 {
-                    offList.Remove(off);
-                    continue;
+                    throw new PreviousWorkingException($"Officer: {off.Name} has worked this position previously");
                 }
             }
 
