@@ -31,7 +31,7 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
-            rota.Generate(officers, positions, startTime, finishTime);
+            rota.Generate(officers.ToList(), positions.ToList(), startTime, finishTime);
 
             // add columns to grid
             rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });

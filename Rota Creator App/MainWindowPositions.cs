@@ -24,6 +24,12 @@ namespace Rota_Creator_App
 
         private void btnAddPosition_Click(object sender, RoutedEventArgs e)
         {
+            int index = 0;
+            while (Positions.Count(p => p.Index == index) > 0)
+            {
+                index++;
+            }
+
             string newPositionsName = "New Position";
             int counter = 1;
             while (Positions.Count(p => p.Name == newPositionsName) > 0)
@@ -32,7 +38,7 @@ namespace Rota_Creator_App
                 counter++;
             }
 
-            Position newPosition = new Position() { Name = newPositionsName, Duration = 1, Site = Sites[0] };
+            Position newPosition = new Position() { Index = index, Name = newPositionsName, Duration = 1, Site = Sites[0], Index = 0 };
             Positions.Add(newPosition);
             SQLiteDatabase.Global?.Insert<Position>(newPosition);
         }
@@ -46,7 +52,6 @@ namespace Rota_Creator_App
             }
 
             int duration = 1;
-
             if (!int.TryParse(txtPositionDuration.Text, out duration))
             {
                 updateStatusText("Unable to parse duration");
@@ -54,7 +59,7 @@ namespace Rota_Creator_App
             }
 
             int id = Positions[lstPositions.SelectedIndex].ID;
-            Position updatedPosition = new Position() { ID = id, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
+            Position updatedPosition = new Position() { ID = id, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex], Index = 0 };
             Positions[lstPositions.SelectedIndex] = updatedPosition;
             SQLiteDatabase.Global?.Update<Position>(updatedPosition);
         }
@@ -74,9 +79,33 @@ namespace Rota_Creator_App
 
             if (lstPositions.SelectedIndex != -1)
             {
+                txtPositionIndex.Text = ((e.Source as ListView).SelectedItem as Position).Index;
                 txtPositionName.Text = ((e.Source as ListView).SelectedItem as Position).Name;
                 txtPositionDuration.Text = ((e.Source as ListView).SelectedItem as Position).Duration.ToString();
                 cmbPositionSite.SelectedItem = Sites.First(s => s.ID == ((e.Source as ListView).SelectedItem as Position).Site.ID);
+            }
+        }
+
+        private void lstPositions_Sort(object sender, RoutedEventArgs e)
+        {
+            string selection = "";
+            if (selection == "Name(A-Z)")
+            {
+            }
+            else if (selection == "Name(Z-A)")
+            {
+            }
+            else if (selection == "Site(A-Z)")
+            {   
+            }
+            else if (selection == "Site(Z-A)")
+            {
+            }
+            else if (selection == "Index(1-9)")
+            {
+            }
+            else if (selection == "Index(9-1)")
+            {
             }
         }
     }

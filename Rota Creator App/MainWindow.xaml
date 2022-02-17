@@ -148,6 +148,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="5">
+                                    <TextBlock Text="{Binding Path=Index}" Width="20"/>
                                     <TextBlock Text="{Binding Path=Name}" Width="200"/>
                                     <TextBlock Text="{Binding Path=Duration}" Width="200"/>
                                     <TextBlock Text="{Binding Path=Site.Name}"/>
@@ -157,6 +158,9 @@
                     </ListView>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Index" Margin="5,5,5,0"/>
+                        <TextBox x:Name="txtPositionNIndex" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
+
                         <TextBlock Text="Name" Margin="5,5,5,0"/>
                         <TextBox x:Name="txtPositionName" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 

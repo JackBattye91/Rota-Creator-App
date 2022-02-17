@@ -32,7 +32,9 @@ namespace Rota_Creator_App
 
             ObservableCollection<Position> positions = new ObservableCollection<Position>();
 
-            foreach (Position pos in positionsList)
+            List<Position> sortedList = positionsList.OrderBy(p => p.Index).ToList();
+
+            foreach (Position pos in sortedList)
                 positions.Add(pos);
 
             return positions;

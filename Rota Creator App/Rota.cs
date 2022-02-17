@@ -219,7 +219,7 @@ namespace Rota_Creator_App
             Rota rota = new Rota();
             rota.rotaTimePositions = new List<RotaTimePosition>();
             rota.Officers = new List<Officer>(officers);
-            rota.Positions = new List<Position>(positions);
+            rota.Positions = new List<Position>(positions.OrderBy(p => p.Index));
             rota.Start = startTime;
             rota.FinishTime = finishTime;
 
