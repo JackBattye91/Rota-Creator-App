@@ -10,7 +10,6 @@ namespace Rota_Creator_App
 {
     public class Site : ISQLiteable
     {
-        //[PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
 
@@ -23,7 +22,6 @@ namespace Rota_Creator_App
         public override string ToString()
         {
             return $"ID : {ID}, Name : {Name}";
-            //return base.ToString();
         }
 
         public static ObservableCollection<Site> Load()

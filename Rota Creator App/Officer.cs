@@ -10,7 +10,6 @@ namespace Rota_Creator_App
 {
     public class Officer : ISQLiteable
     {
-        //[PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }

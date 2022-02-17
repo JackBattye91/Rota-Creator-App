@@ -10,7 +10,6 @@ namespace Rota_Creator_App
 {
     public class Position : ISQLiteable
     {
-        //[PrimaryKey]
         public int ID { get; set; }
         public string Name { get; set; }
         public Site Site { get; set; }

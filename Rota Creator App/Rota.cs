@@ -17,21 +17,20 @@ namespace Rota_Creator_App
             public bool isActive = true;
         }
 
-        public DateTime StartTime { get; protected set; }
-        public DateTime FinishTime { get; protected set; }
-        public ObservableCollection<Position> Positions { get; protected set; }
-        public ObservableCollection<Officer> Officers { get; protected set; }
-        public List<RotaTimePosition> RotaTimePositions { get; protected set; }
-        static Random rnd = new Random();
+        DateTime StartTime { get; protected set; }
+        DateTime FinishTime { get; protected set; }
+        List<Position> Positions { get; protected set; }
+        List<Officer> Officers { get; protected set; }
+        List<RotaTimePosition> rotaTimePositions { get; protected set; }
 
         // hide constructor
-        public Rota()
+        private Rota()
         {
         }
 
         public Officer GetOfficer(Position position, DateTime time)
         {
-            foreach (RotaTimePosition timePos in RotaTimePositions)
+            foreach(RotaTimePosition timePos in rotaTimePositions)
             {
                 if (timePos.position.Equals(position) && timePos.time == time)
                     return timePos.officer;
@@ -40,7 +39,7 @@ namespace Rota_Creator_App
         }
         public Position GetPosition(Officer officer, DateTime time)
         {
-            foreach (RotaTimePosition timePos in RotaTimePositions)
+            foreach(RotaTimePosition timePos in rotaTimePositions)
             {
                 if (timePos.officer.Equals(officer) && timePos.time == time)
                     return timePos.position;
@@ -48,16 +47,29 @@ namespace Rota_Creator_App
             return null;
         }
 
+        private List<Officer> GetOfficers(Position position)
+        {
+            List<Officer> officers = new List<Officer>();
+
+            foreach(RotaTimePosition timePos in rotaTimePositions)
+            {
+                if (timePos.position.Equals(position))
+                    officers.Add(timePos.officer);
+            }
+
+            return officers;
+        }
+        
         public bool IsCovered(Position position, DateTime time)
         {
             if (!position.IsActive(time))
                 return true;
-
-            return GetOfficer(position, time) != null;
+            
+            return GetOfficer(Position, time) != null;
         }
         public bool IsCovered(Position Position)
         {
-            for (DateTime time = StartTime; time < FinishTime; time.AddHours(1))
+            foreach(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
             {
                 if (!IsCovered(Position, time))
                     return false;
@@ -67,7 +79,7 @@ namespace Rota_Creator_App
         }
         public bool IsCovered(DateTime time)
         {
-            foreach (Position pos in Positions)
+            foreach(Position pos in Positions)
             {
                 if (!IsCovered(pos, time))
                     return false;
@@ -78,132 +90,140 @@ namespace Rota_Creator_App
         public void Clear(DateTime time, bool ignoreDurations = true)
         {
             if (ignoreDurations)
+                rotaTimePositions.RemoveAll(tp => tp.time == time);
+            else
             {
-                RotaTimePositions.RemoveAll(tp => tp.time == time);
-                return;
-            }
-
-            for (int tp = 0; tp < RotaTimePositions.Count(); tp++)
-            {
-                RotaTimePosition timePos = RotaTimePositions[tp];
-                if (timePos.time != time)
-                    continue;
-
-                if (timePos.position.Duration == 1)
-                    RotaTimePositions.Remove(timePos);
-                else
+                for(int tp = 0; tp < rotaTimePositions.Count(); tp++)
                 {
-                    if (GetOfficer(timePos.position, time - new TimeSpan(1, 0, 0)).Equals(timePos.officer))
-                        continue;
-                    else
-                        RotaTimePositions.Remove(timePos);
+                    RotaTimePosition timePos = rotaTimePositions[tp];
+                    if (timePos.time == time)
+                    {
+                        if (timePos.duration == 1)
+                            rotaTimePositions.Remove(timePos);
+                        else
+                        {
+                            if (GetOfficer(timePos.position, time - new TimeSpan(1, 0, 0)).Equals(timePos.officer))
+                                continue;
+                            else
+                                rotaTimePositions.Remove(timePos);
+                        }
+                    }
                 }
             }
         }
         public void Clear(Position position)
         {
-            RotaTimePositions.RemoveAll(tp => tp.position == position);
+            rotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
         }
 
-        public void Generate(ObservableCollection<Officer> officers, ObservableCollection<Position> positions, DateTime startTime, DateTime finishTime)
+        static Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
         {
             // initialize properties
-            StartTime = startTime;
-            FinishTime = finishTime;
-            Positions = new ObservableCollection<Position>(positions);
-            Officers = new ObservableCollection<Officer>(officers);
-            RotaTimePositions = new List<RotaTimePosition>();
+            Rota rota = new Rota();
+            rota.rotaTimePositions = new List<RotaTimePosition>();
+            rota.Officers = new List<Officer>(officers);
+            rota.Positions = new List<Position>(positions);
+            rota.Start = startTime;
+            rota.FinishTime = finishTime;
 
-            for (DateTime time = StartTime; time < FinishTime; time += new TimeSpan(1, 0, 0))
-            {
-                foreach(RotaTimePosition rotaTime in coverTime(time))
-                    RotaTimePositions.Add(rotaTime);
-            }
-        }
-
-        private List<RotaTimePosition> coverTime(DateTime time)
-        {
-            List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
-
-            foreach (Position pos in Positions)
-            {
-                try
-                {
-                    currTimePos.AddRange(coverPosition(time, pos));
-                }
-                catch(Exception e)
-                {
-                    
-                }
-            }
-
-            return currTimePos;
-        }
-        private List<RotaTimePosition> coverPosition(DateTime time, Position pos)
-        {
+            DateTime time = startTime;
             int attempts = 0;
+            Random rnd = new Random();
 
-            while(attempts < 4)
+            while (time < finishTime)
             {
-                // get all officers that can work position
-                List<Officer> offList = new List<Officer>(Officers.Where(o => o.CanWorkPosition(pos)));
+                List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
 
-                if (offList.Count == 0)
-                    throw new ArgumentException($"No officer can work this position: {pos.Name}");
-                else if (offList.Count == 1)
-                    return coverPosition(time, pos, offList[0]);
-
-                while (offList.Count() > 0)
+                foreach(Position pos in positions)
                 {
-                    // get random officer
-                    Officer off = offList[rnd.Next(offList.Count)];
+                    // is position covered
+                    if (rota.IsCovered(pos, time))
+                        continue;
 
-                    // if officer is already working a position
-                    if (GetPosition(off, time) != null)
+                    // is not active then add as inactive and move to next position
+                    if (!pos.IsActive(time))
                     {
-                        offList.Remove(off);
+                        currTimePos.Add(new RotaTimePosition() { time = time, position = pos, isActive = false });
                         continue;
                     }
 
-                    // if has previous time
-                    if (time > StartTime)
+                    // get all officers that can work position
+                    List<Officer> offList = officers.Where(o => o.CanWorkPosition(pos)).ToList();
+
+                    while(offList.Count() > 0 && !rota.IsCovered(pos, time))
                     {
-                        DateTime prevTime = time - new TimeSpan(1, 0, 0);
+                        // get random officer
+                        Officer off = offList[rnd.Next(offList.Count)];
 
-                        // did officer work previous time at position
-                        if (IsCovered(pos, prevTime) && GetOfficer(pos, prevTime).Equals(off))
-                        {
-                            // remove officer
+                        // try cover position
+                        if (!positionOfficer(rota, off, pos, time))
                             offList.Remove(off);
-                            continue;
-                        }
-
-                        if (isHereOfficerCrossover(time, pos, off))
-                        {
-                            offList.Remove(off);
-                            continue;
-                        }
                     }
 
-                    return coverPosition(time, pos, off);
+                    // if not covered then add to rota empty
+                    if (!currTimePos.IsCovered(pos))
+                        currTimePos.Add(new RotaTimePosition() { time = time, position = pos });
                 }
-                
-                attempts++;
+
+                if (rota.IsCovered(time) || attempts >= 4)
+                {
+                    attempts = 0;
+                    time.AddHours(1);
+                    rota.rotaTimePositions.AddRange(currTimePos);
+                }
+                else
+                    attempts++;
             }
 
-            throw new Exception("Officers list exhausted");
+            return rota;
         }
 
-        private List<RotaTimePosition> coverPosition(DateTime time, Position pos, Officer off)
+        private static bool positionOfficer(Rota rota, Officer off, Position pos, DateTime time)
         {
-            List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
+            // if officer is already working a position
+            if (rota.GetPosition(off, time) != null)
+            {
+                return false;
+            }
+
+            // if has previous time
+            if (time > rota.StartTime)
+            {
+                DateTime prevTime = time - new TimeSpan(1, 0, 0);
+
+                // did officer work previous time at position
+                if (rota.IsCovered(pos, prevTime) != null && rota.GetOfficer(pos, prevTime).Equals(off))
+                {
+                    // remove officer
+                    return false;
+                }
+
+                // if there a straight swap off officers move to next officer
+                Position lastPos = rota.GetPosition(off, prevTime); // the position of curr officer last hour
+                Officer lastOff = rota.GetOfficer(pos, prevTime); // officer in this position last hour
+
+                if (lastPos != null && lastOff != null)
+                {
+                    if (rota.GetOfficer(lastPos, time).Equals(lastOff) && rota.GetPosition(lastOff, time).Equals(lastPos))
+                    {
+                        return false;
+                    }
+                }
+
+                // if officer has worked positions before then try another officer
+                if (rota.GetOfficers(pos).Contains(off))
+                {
+                    offList.Remove(off);
+                    continue;
+                }
+            }
 
             // cover for duration of position
             for (int d = 0; d < pos.Duration; d++)
             {
                 DateTime coverTime = time + new TimeSpan(d, 0, 0);
 
-                if (coverTime > FinishTime)
+                if (coverTime > rota.FinishTime)
                     break;
 
                 if (!pos.IsActive(coverTime))
@@ -211,28 +231,6 @@ namespace Rota_Creator_App
                 else
                     currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, officer = off });
             }
-
-            return currTimePos;
-        }
-
-        private bool isHereOfficerCrossover(DateTime time, Position pos, Officer off)
-        {
-            DateTime prevTime = time - new TimeSpan(1, 0, 0);
-
-            // if there a straight swap off officers move to next officer
-            Position lastPos = GetPosition(off, prevTime); // the position of curr officer last hour
-            Officer lastOff = GetOfficer(pos, prevTime); // officer in this position last hour
-
-            if (lastPos != null && lastOff != null)
-            {
-                Officer currOffLastPos = GetOfficer(lastPos, time);
-                Position currPosLastOff = GetPosition(lastOff, time);
-
-                if (currOffLastPos != null && currPosLastOff != null && currOffLastPos.Equals(lastOff) && currPosLastOff.Equals(lastPos))
-                    return true;
-            }
-
-            return false;
         }
     }
 }
