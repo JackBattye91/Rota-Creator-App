@@ -60,19 +60,32 @@ namespace Rota_Creator_App
             foreach(Officer off in lstAvailableOfficers.SelectedItems)
             {
                 activeOfficers.Add(off);
+                availableOfficers.Remove(off);
             }
         }
         private void btnMoveAllOfficersRight_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach(Officer off in lstAvailableOfficers.Items)
+            {
+                activeOfficers.Add(off);
+                availableOfficers.Remove(off);
+            }
         }
         private void btnMoveOfficerLeft_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach(Officer off in lstAvailableOfficers.SelectedItems)
+            {
+                availableOfficers.Add(off);
+                activeOfficers.Remove(off);
+            }
         }
         private void btnMoveAllOfficersLeft_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach(Officer off in lstAvailableOfficers.Items)
+            {
+                availableOfficers.Add(off);
+                activeOfficers.Remove(off);
+            }
         }
 
         private void lstAvailableOfficers_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -134,10 +147,9 @@ namespace Rota_Creator_App
                 return;
             }
 
-
-            List<Officer> searchResults = availableOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                        o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList();
+            List<Officer> searchResults = availableOfficers.Where(o =>  o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
+                                                                        o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
+                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList();
             lstAvailableOfficers.ItemsSource = searchResults;
         }
 
@@ -150,8 +162,8 @@ namespace Rota_Creator_App
             }
 
             List<Officer> searchResults = activeOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
-                                                                                    o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList();
+                                                                    o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
+                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList();
             lstActiveOfficers.ItemsSource = searchResults;
         }
     }
