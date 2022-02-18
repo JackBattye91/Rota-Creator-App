@@ -89,5 +89,9 @@ namespace Rota_Creator_App
                 printDialog.PrintVisual(rotaGrid, "Rota");
             }
         }
+        private void btnClose_Click(Object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

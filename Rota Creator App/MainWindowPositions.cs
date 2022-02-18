@@ -38,13 +38,20 @@ namespace Rota_Creator_App
                 counter++;
             }
 
-            Position newPosition = new Position() { Index = index, Name = newPositionsName, Duration = 1, Site = Sites[0], Index = 0 };
+            Position newPosition = new Position() { Index = index, Name = newPositionsName, Duration = 1, Site = Sites[0] };
             Positions.Add(newPosition);
             SQLiteDatabase.Global?.Insert<Position>(newPosition);
         }
 
         private void btnUpdatePosition_Click(object sender, RoutedEventArgs e)
         {
+            int index = 0;
+            if (!int.TryParse(txtPositionIndex.Text, out index))
+            {
+                updateStatusText("Unable to parse index");
+                return;
+            }
+
             if (Positions.Count(p => p.Name == txtPositionName.Text) > 0 && Positions[lstPositions.SelectedIndex].Name != txtPositionName.Text)
             {
                 updateStatusText("There is already a position named " + txtPositionName.Text);
@@ -59,7 +66,7 @@ namespace Rota_Creator_App
             }
 
             int id = Positions[lstPositions.SelectedIndex].ID;
-            Position updatedPosition = new Position() { ID = id, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex], Index = 0 };
+            Position updatedPosition = new Position() { ID = id, Index = index, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
             Positions[lstPositions.SelectedIndex] = updatedPosition;
             SQLiteDatabase.Global?.Update<Position>(updatedPosition);
         }
@@ -75,7 +82,7 @@ namespace Rota_Creator_App
 
         private void lstPositions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btnUpdatePosition.IsEnabled = btnDeletePosition.IsEnabled = txtPositionName.IsEnabled = txtPositionDuration.IsEnabled = cmbPositionSite.IsEnabled = lstPositions.SelectedIndex != -1;
+            btnUpdatePosition.IsEnabled = btnDeletePosition.IsEnabled = txtPositionIndex.IsEnabled = txtPositionName.IsEnabled = txtPositionDuration.IsEnabled = cmbPositionSite.IsEnabled = lstPositions.SelectedIndex != -1;
 
             if (lstPositions.SelectedIndex != -1)
             {

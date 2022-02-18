@@ -58,6 +58,14 @@
                         <ComboBox x:Name="cmbStartTime" HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
                         <Label Content="to" HorizontalAlignment="Left" Margin="130,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.143,0.423"/>
                         <ComboBox x:Name="cmbFinishTime" HorizontalAlignment="Left" Margin="156,5,0,0" VerticalAlignment="Top" Width="120"/>
+
+                        <ComboBox x:Name="cmbRotaSite" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button Content="Generate" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnGenerate_Click"/>
                     </Grid>
                 </Grid>
@@ -159,7 +167,7 @@
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <TextBlock Text="Index" Margin="5,5,5,0"/>
-                        <TextBox x:Name="txtPositionNIndex" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
+                        <TextBox x:Name="txtPositionIndex" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
                         <TextBlock Text="Name" Margin="5,5,5,0"/>
                         <TextBox x:Name="txtPositionName" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>

@@ -34,6 +34,8 @@ namespace Rota_Creator_App
 
             lstAvailableOfficers.ItemsSource = availableOfficers;
             lstActiveOfficers.ItemsSource = activeOfficers;
+            cmbRotaSite.ItemsSource = Sites;
+            cmbRotaSite.SelectedIndex = 0;
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -118,7 +120,9 @@ namespace Rota_Creator_App
             if (startTime < finishTime)
                 finishTime.AddDays(1);
 
-            RotaWindow rotaWindow = new RotaWindow(activeOfficers, Positions, startTime, finishTime);
+            ObservableCollection<Position> sitePositions = Positions.Where(p => p.Site == cmbRotaSite.SelectedItem as Site);
+
+            RotaWindow rotaWindow = new RotaWindow(activeOfficers, sitePositions, startTime, finishTime);
             rotaWindow.ShowDialog();
         }
 
