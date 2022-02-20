@@ -52,7 +52,7 @@ namespace Rota_Creator_App
                 }
                 catch(Exception e)
                 {
-                    SystemLog.Add(e);
+                    //SystemLog.Add(e);
                 }
             }));
 
@@ -64,7 +64,7 @@ namespace Rota_Creator_App
 
         private void updateStatusText(string text)
         {
-            SystemLog.Add($"Status: {text}");
+            //SystemLog.Add($"Status: {text}");
             statusText.Text = text;
 
             //if (statusTextThread.ThreadState & (state1 | state2) > 0)
@@ -75,7 +75,7 @@ namespace Rota_Creator_App
         {
             // cancel update status text thread
             statusTextThread.Abort();
-            SystemLog.Dump();
+            //SystemLog.Dump();
         }
     }
 }

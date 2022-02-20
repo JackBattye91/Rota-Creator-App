@@ -35,13 +35,13 @@ namespace Rota_Creator_App
         }
         protected class OfficerPreviousWorkingException : Exception
         {
-            public PreviousWorkingException()
+            public OfficerPreviousWorkingException()
             {
             }
-            public PreviousWorkingException(string message) : base(message)
+            public OfficerPreviousWorkingException(string message) : base(message)
             {
             }
-            public PreviousWorkingException(string message, Exception inner) : base(message, inner)
+            public OfficerPreviousWorkingException(string message, Exception inner) : base(message, inner)
             {
             }
         }
@@ -114,11 +114,11 @@ namespace Rota_Creator_App
             public bool isActive = true;
         }
 
-        DateTime StartTime { get; protected set; }
-        DateTime FinishTime { get; protected set; }
-        List<Position> Positions { get; protected set; }
-        List<Officer> Officers { get; protected set; }
-        List<RotaTimePosition> rotaTimePositions { get; protected set; }
+        public DateTime StartTime { get; protected set; }
+        public DateTime FinishTime { get; protected set; }
+        public List<Position> Positions { get; protected set; }
+        public List<Officer> Officers { get; protected set; }
+        public List<RotaTimePosition> RotaTimePositions { get; protected set; }
 
         // hide constructor
         private Rota()
@@ -127,7 +127,7 @@ namespace Rota_Creator_App
 
         public Officer GetOfficer(Position position, DateTime time)
         {
-            foreach(RotaTimePosition timePos in rotaTimePositions)
+            foreach(RotaTimePosition timePos in RotaTimePositions)
             {
                 if (timePos.position.Equals(position) && timePos.time == time)
                     return timePos.officer;
@@ -136,7 +136,7 @@ namespace Rota_Creator_App
         }
         public Position GetPosition(Officer officer, DateTime time)
         {
-            foreach(RotaTimePosition timePos in rotaTimePositions)
+            foreach(RotaTimePosition timePos in RotaTimePositions)
             {
                 if (timePos.officer.Equals(officer) && timePos.time == time)
                     return timePos.position;
@@ -148,7 +148,7 @@ namespace Rota_Creator_App
         {
             List<Officer> officers = new List<Officer>();
 
-            foreach(RotaTimePosition timePos in rotaTimePositions)
+            foreach(RotaTimePosition timePos in RotaTimePositions)
             {
                 if (timePos.position.Equals(position))
                     officers.Add(timePos.officer);
@@ -162,11 +162,11 @@ namespace Rota_Creator_App
             if (!position.IsActive(time))
                 return true;
             
-            return GetOfficer(Position, time) != null;
+            return GetOfficer(position, time) != null;
         }
         public bool IsCovered(Position Position)
         {
-            foreach(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
+            for(DateTime time = StartTime; time < FinishTime; time.AddHours(1))
             {
                 if (!IsCovered(Position, time))
                     return false;
@@ -187,22 +187,22 @@ namespace Rota_Creator_App
         public void Clear(DateTime time, bool ignoreDurations = true)
         {
             if (ignoreDurations)
-                rotaTimePositions.RemoveAll(tp => tp.time == time);
+                RotaTimePositions.RemoveAll(tp => tp.time == time);
             else
             {
-                for(int tp = 0; tp < rotaTimePositions.Count(); tp++)
+                for(int tp = 0; tp < RotaTimePositions.Count(); tp++)
                 {
-                    RotaTimePosition timePos = rotaTimePositions[tp];
+                    RotaTimePosition timePos = RotaTimePositions[tp];
                     if (timePos.time == time)
                     {
-                        if (timePos.duration == 1)
-                            rotaTimePositions.Remove(timePos);
+                        if (timePos.position.Duration == 1)
+                            RotaTimePositions.Remove(timePos);
                         else
                         {
                             if (GetOfficer(timePos.position, time - new TimeSpan(1, 0, 0)).Equals(timePos.officer))
                                 continue;
                             else
-                                rotaTimePositions.Remove(timePos);
+                                RotaTimePositions.Remove(timePos);
                         }
                     }
                 }
@@ -210,17 +210,17 @@ namespace Rota_Creator_App
         }
         public void Clear(Position position)
         {
-            rotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
+            RotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
         }
 
-        static Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
+        public static Rota Create(List<Officer> officers, List<Position> positions, DateTime startTime, DateTime finishTime)
         {
             // initialize properties
             Rota rota = new Rota();
-            rota.rotaTimePositions = new List<RotaTimePosition>();
+            rota.RotaTimePositions = new List<RotaTimePosition>();
             rota.Officers = new List<Officer>(officers);
             rota.Positions = new List<Position>(positions.OrderBy(p => p.Index));
-            rota.Start = startTime;
+            rota.StartTime = startTime;
             rota.FinishTime = finishTime;
 
             DateTime time = startTime;
@@ -240,7 +240,7 @@ namespace Rota_Creator_App
                     catch(PositionsNotActiveException notActive)
                     {
                         currTimePos.Add(new RotaTimePosition() { time = time, position = pos, isActive = false });
-                        SystemLog.Add(notActive);
+                        //SystemLog.Add(notActive);
                     }
                     catch(PositionsNotCoveredException notCovered)
                     {
@@ -249,7 +249,7 @@ namespace Rota_Creator_App
                     }
                     catch(OfficerNotFoundException notFound)
                     {
-                        SystemLog.Add(notFound);
+                        //SystemLog.Add(notFound);
 
                         // add blank positions as not officer can work it
                         for (int d = 0; d < pos.Duration; d++)
@@ -264,7 +264,7 @@ namespace Rota_Creator_App
                     }
                     catch(Exception e)
                     {
-                        SystemLog.Add(e);
+                        //SystemLog.Add(e);
                     }
                 }
 
@@ -272,7 +272,7 @@ namespace Rota_Creator_App
                 {
                     attempts = 0;
                     time.AddHours(1);
-                    rota.rotaTimePositions.AddRange(currTimePos);
+                    rota.RotaTimePositions.AddRange(currTimePos);
                 }
                 else
                     attempts++;
@@ -298,7 +298,7 @@ namespace Rota_Creator_App
             List<Officer> offList = rota.Officers.Where(o => o.CanWorkPosition(pos)).ToList();
 
             if(offList.Count() == 0)
-                throw new OfficerNotFound($"There are no officers that can work: {pos.Name}");
+                throw new OfficerNotFoundException($"There are no officers that can work: {pos.Name}");
 
             while(offList.Count() > 0 && !rota.IsCovered(pos, time))
             {
@@ -312,25 +312,25 @@ namespace Rota_Creator_App
                 }
                 catch(OfficerAlreadyWorkingException working)
                 {
-                    SystemLog.Add(working);
+                    //SystemLog.Add(working);
                     offList.Remove(off);
                 }
                 catch(OfficerCrossoverException crossover)
                 {
-                    SystemLog.Add(crossover);
+                    //SystemLog.Add(crossover);
                     offList.Remove(off);
                 }
                 catch(Exception e)
                 {
-                    SystemLog.Add(e);
+                    //SystemLog.Add(e);
                 }
             }
 
-            // if not covered then add to rota empty
+            /*// if not covered then add to rota empty
             if (!currTimePos.IsCovered(pos))
             {
                 throw new PositionsNotCoveredException($"Positions: {pos.Name} could not be covered at {time}");
-            }
+            }*/
 
             return timePos;
         }
@@ -349,7 +349,7 @@ namespace Rota_Creator_App
                 DateTime prevTime = time - new TimeSpan(1, 0, 0);
 
                 // did officer work previous time at position
-                if (rota.IsCovered(pos, prevTime) != null && rota.GetOfficer(pos, prevTime).Equals(off))
+                if (rota.IsCovered(pos, prevTime) && rota.GetOfficer(pos, prevTime).Equals(off))
                 {
                     throw new OfficerPreviousWorkingException($"Officer: {off.Name} worked at {pos.Name} in the last hour");
                 }
@@ -382,10 +382,12 @@ namespace Rota_Creator_App
                     break;
 
                 if (!pos.IsActive(coverTime))
-                    return new RotaTimePosition() { time = coverTime, position = pos, isActive = false };
+                    return new List<RotaTimePosition>(new RotaTimePosition[] { new RotaTimePosition() { time = coverTime, position = pos, isActive = false } });
                 else
-                    return new RotaTimePosition() { time = coverTime, position = pos, officer = off };
+                    return new List<RotaTimePosition>(new RotaTimePosition[] { new RotaTimePosition() { time = coverTime, position = pos, officer = off } });
             }
+
+            return new List<RotaTimePosition>(new RotaTimePosition[] { new RotaTimePosition() });
         }
     }
 }

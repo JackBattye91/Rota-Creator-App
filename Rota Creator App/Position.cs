@@ -51,15 +51,16 @@ namespace Rota_Creator_App
         
         public void SQLiteParse(SQLiteDataReader reader)
         {
-            if (reader.FieldCount != 4)
+            if (reader.FieldCount != 5)
                 return;
 
-            ID = reader.GetInt32(0);
-            Name = reader.GetString(1);
-            Duration = reader.GetInt32(3);
-            Index = reader.GetInt32(4);
+            ID = reader.GetInt32(reader.GetOrdinal("ID"));
+            Name = reader.GetString(reader.GetOrdinal("Name"));
+            // Site
+            Duration = reader.GetInt32(reader.GetOrdinal("Duration"));
+            Index = reader.GetInt32(reader.GetOrdinal("Index"));
 
-            List<Site> sites = SQLiteDatabase.Global.Query<Site>("Site", "*", $"ID = {reader.GetInt32(2)}");
+            List<Site> sites = SQLiteDatabase.Global.Query<Site>("Site", "*", $"ID = {reader.GetInt32(reader.GetOrdinal("Site"))}");
             if (sites != null && sites.Count > 0)
                 Site = sites[0];
             

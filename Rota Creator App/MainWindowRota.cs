@@ -133,7 +133,7 @@ namespace Rota_Creator_App
             if (startTime < finishTime)
                 finishTime.AddDays(1);
 
-            ObservableCollection<Position> sitePositions = Positions.Where(p => p.Site == cmbRotaSite.SelectedItem as Site);
+            ObservableCollection<Position> sitePositions = new ObservableCollection<Position>(Positions.Where(p => p.Site == cmbRotaSite.SelectedItem as Site).ToList());
 
             RotaWindow rotaWindow = new RotaWindow(activeOfficers, sitePositions, startTime, finishTime);
             rotaWindow.ShowDialog();
@@ -147,9 +147,9 @@ namespace Rota_Creator_App
                 return;
             }
 
-            ObservableCollection<Officer> searchResults = availableOfficers.Where(o =>  o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
+            ObservableCollection<Officer> searchResults = new ObservableCollection<Officer>(availableOfficers.Where(o =>  o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
                                                                                         o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()));
+                                                                                        o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())).ToList());
             lstAvailableOfficers.ItemsSource = searchResults;
         }
 
@@ -161,9 +161,9 @@ namespace Rota_Creator_App
                 return;
             }
 
-            ObservableCollection<Officer> searchResults = activeOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
+            ObservableCollection<Officer> searchResults = new ObservableCollection<Officer>(activeOfficers.Where(o => o.Name.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) || 
                                                                                     o.Team.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()) ||
-                                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower()));
+                                                                                    o.Abbreviation.ToLower().Contains(txtAvailableOfficerSearch.Text.ToLower())));
             lstActiveOfficers.ItemsSource = searchResults;
         }
     }

@@ -59,7 +59,7 @@
                         <Label Content="to" HorizontalAlignment="Left" Margin="130,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.143,0.423"/>
                         <ComboBox x:Name="cmbFinishTime" HorizontalAlignment="Left" Margin="156,5,0,0" VerticalAlignment="Top" Width="120"/>
 
-                        <ComboBox x:Name="cmbRotaSite" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2">
+                        <ComboBox x:Name="cmbRotaSite" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,5,70,5" Padding="5,2,5,2" Width="132">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Name}"/>
@@ -228,7 +228,7 @@
         <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <TextBlock x:Name="statusText" TextWrapping="Wrap" Text="Okay"/>
         </StatusBar>
-        
+
         <Menu HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0">
             <MenuItem Header="File">
                 <MenuItem Header="New">

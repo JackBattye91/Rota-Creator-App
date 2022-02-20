@@ -86,7 +86,7 @@ namespace Rota_Creator_App
 
             if (lstPositions.SelectedIndex != -1)
             {
-                txtPositionIndex.Text = ((e.Source as ListView).SelectedItem as Position).Index;
+                txtPositionIndex.Text = ((e.Source as ListView).SelectedItem as Position).Index.ToString();
                 txtPositionName.Text = ((e.Source as ListView).SelectedItem as Position).Name;
                 txtPositionDuration.Text = ((e.Source as ListView).SelectedItem as Position).Duration.ToString();
                 cmbPositionSite.SelectedItem = Sites.First(s => s.ID == ((e.Source as ListView).SelectedItem as Position).Site.ID);

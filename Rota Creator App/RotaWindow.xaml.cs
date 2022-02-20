@@ -20,7 +20,7 @@ namespace Rota_Creator_App
     /// </summary>
     public partial class RotaWindow : Window
     {
-        Rota rota = new Rota();
+        Rota rota;
 
         public RotaWindow()
         {
@@ -31,7 +31,7 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
-            rota.Generate(officers.ToList(), positions.ToList(), startTime, finishTime);
+            rota = Rota.Create(officers.ToList(), positions.ToList(), startTime, finishTime);
 
             // add columns to grid
             rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
