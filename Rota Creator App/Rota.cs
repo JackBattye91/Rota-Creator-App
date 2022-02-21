@@ -138,7 +138,7 @@ namespace Rota_Creator_App
         {
             foreach(RotaTimePosition timePos in RotaTimePositions)
             {
-                if (timePos.officer.Equals(officer) && timePos.time == time)
+                if (timePos.officer != null && timePos.officer.Equals(officer) && timePos.time == time)
                     return timePos.position;
             }
             return null;
@@ -258,8 +258,10 @@ namespace Rota_Creator_App
 
                             if (coverTime > rota.FinishTime)
                                 break;
-                            
-                            currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = true, officer = null });
+                            if (pos.IsActive(coverTime))
+                                currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = true, officer = null });
+                            else
+                                currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = false, officer = null });
                         }
                     }
                     catch(Exception e)
@@ -271,7 +273,7 @@ namespace Rota_Creator_App
                 if (!retry || attempts >= 4)
                 {
                     attempts = 0;
-                    time.AddHours(1);
+                    time = time + new TimeSpan(1, 0, 0);
                     rota.RotaTimePositions.AddRange(currTimePos);
                 }
                 else
@@ -309,6 +311,7 @@ namespace Rota_Creator_App
                 {
                     // try cover position
                     timePos.AddRange(positionOfficer(rota, off, pos, time));
+                    break;
                 }
                 catch(OfficerAlreadyWorkingException working)
                 {
@@ -373,6 +376,8 @@ namespace Rota_Creator_App
                 }
             }
 
+            List<RotaTimePosition> retValue = new List<RotaTimePosition>();
+
             // cover for duration of position
             for (int d = 0; d < pos.Duration; d++)
             {
@@ -382,12 +387,12 @@ namespace Rota_Creator_App
                     break;
 
                 if (!pos.IsActive(coverTime))
-                    return new List<RotaTimePosition>(new RotaTimePosition[] { new RotaTimePosition() { time = coverTime, position = pos, isActive = false } });
+                    retValue.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = false });
                 else
-                    return new List<RotaTimePosition>(new RotaTimePosition[] { new RotaTimePosition() { time = coverTime, position = pos, officer = off } });
+                    retValue.Add(new RotaTimePosition() { time = coverTime, position = pos, officer = off });
             }
 
-            return new List<RotaTimePosition>(new RotaTimePosition[] { new RotaTimePosition() });
+            return retValue;
         }
     }
 }

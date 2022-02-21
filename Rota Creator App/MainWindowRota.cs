@@ -133,7 +133,7 @@ namespace Rota_Creator_App
             if (startTime < finishTime)
                 finishTime.AddDays(1);
 
-            ObservableCollection<Position> sitePositions = new ObservableCollection<Position>(Positions.Where(p => p.Site == cmbRotaSite.SelectedItem as Site).ToList());
+            ObservableCollection<Position> sitePositions = new ObservableCollection<Position>(Positions.Where(p => p.Site.ID == (cmbRotaSite.SelectedItem as Site).ID).ToList());
 
             RotaWindow rotaWindow = new RotaWindow(activeOfficers, sitePositions, startTime, finishTime);
             rotaWindow.ShowDialog();
