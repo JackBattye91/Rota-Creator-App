@@ -73,7 +73,7 @@ namespace Rota_Creator_App
 
         public string SQLiteUpdateScript()
         {
-            return $"UPDATE Position SET Name='{Name}', Site={Site.ID}, Duration={Duration}, Index={Index} WHERE ID={ID}";
+            return $"UPDATE Position SET 'Name'='{Name}', 'Site'={Site.ID}, 'Duration'={Duration}, 'Index'={Index} WHERE ID={ID}";
         }
 
         public string SQLiteDeleteScript()

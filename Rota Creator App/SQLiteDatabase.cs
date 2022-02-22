@@ -80,9 +80,16 @@ namespace Rota_Creator_App
         }
         public bool Update<T>(T item) where T : ISQLiteable
         {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = item.SQLiteUpdateScript();
-            return command.ExecuteNonQuery() != 0;
+            try
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = item.SQLiteUpdateScript();
+                return command.ExecuteNonQuery() != 0;
+            }
+            catch(SQLiteException ex)
+            {
+                return false;
+            }
         }
         public bool Delete<T>(T item) where T : ISQLiteable
         {

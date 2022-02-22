@@ -156,6 +156,16 @@ namespace Rota_Creator_App
 
             return officers;
         }
+
+        private bool IsWorking(Officer off, DateTime time)
+        {
+            foreach(RotaTimePosition timePos in RotaTimePositions)
+            {
+                if (timePos.officer != null && timePos.officer.Equals(off) && timePos.time == time)
+                    return true;
+            }
+            return false;
+        }
         
         public bool IsCovered(Position position, DateTime time)
         {
@@ -223,10 +233,9 @@ namespace Rota_Creator_App
             rota.StartTime = startTime;
             rota.FinishTime = finishTime;
 
-            DateTime time = startTime;
             int attempts = 0;
             
-            while (time < finishTime)
+            for(DateTime time = startTime; time < finishTime; time += new TimeSpan(1, 0, 0))
             {
                 List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
 
@@ -235,7 +244,7 @@ namespace Rota_Creator_App
                 {
                     try
                     {
-                        currTimePos.AddRange(coverPosition(rota, pos, time));
+                        rota.RotaTimePositions.AddRange(coverPosition(rota, pos, time));
                     }
                     catch(PositionsNotActiveException notActive)
                     {
@@ -302,7 +311,7 @@ namespace Rota_Creator_App
             if(offList.Count() == 0)
                 throw new OfficerNotFoundException($"There are no officers that can work: {pos.Name}");
 
-            while(offList.Count() > 0 && !rota.IsCovered(pos, time))
+            while(offList.Count() > 0 && !rota.IsCovered(pos, time) && timePos.Count == 0)
             {
                 // get random officer
                 Officer off = offList[rnd.Next(offList.Count)];
@@ -323,17 +332,15 @@ namespace Rota_Creator_App
                     //SystemLog.Add(crossover);
                     offList.Remove(off);
                 }
+                catch(OfficerPreviousWorkingException prevWork)
+                {
+                    offList.Remove(off);
+                }
                 catch(Exception e)
                 {
                     //SystemLog.Add(e);
                 }
             }
-
-            /*// if not covered then add to rota empty
-            if (!currTimePos.IsCovered(pos))
-            {
-                throw new PositionsNotCoveredException($"Positions: {pos.Name} could not be covered at {time}");
-            }*/
 
             return timePos;
         }
@@ -341,7 +348,7 @@ namespace Rota_Creator_App
         private static List<RotaTimePosition> positionOfficer(Rota rota, Officer off, Position pos, DateTime time)
         {
             // if officer is already working a position
-            if (rota.GetPosition(off, time) != null)
+            if (rota.IsWorking(off, time))
             {
                 throw new OfficerAlreadyWorkingException($"Officer: {off.Name} is already working at {pos.Name} at {time}");
             }

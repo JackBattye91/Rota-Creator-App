@@ -48,8 +48,8 @@ namespace Rota_Creator_App
                 TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 16, FontWeight = FontWeights.Bold };
                 
                 Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                Grid.SetRow(label, 0);
-                Grid.SetColumn(label, p + 1);
+                Grid.SetRow(border, 0);
+                Grid.SetColumn(border, p + 1);
                 rotaGrid.Children.Add(border);
             }
 
@@ -59,8 +59,8 @@ namespace Rota_Creator_App
                 TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5, 0, 5, 0), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
                 
                 Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                Grid.SetRow(label, h + 1);
-                Grid.SetColumn(label, 0);
+                Grid.SetRow(border, h + 1);
+                Grid.SetColumn(border, 0);
                 rotaGrid.Children.Add(border);
             }
 
