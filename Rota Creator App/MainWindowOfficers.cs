@@ -99,8 +99,11 @@ namespace Rota_Creator_App
             switch(results)
             {
                 case true:
-                    foreach(Position pos in positionsWindow.PositionsToAdd)
-                        Officers[lstOfficers.SelectedIndex].WorkablePositions.Add(pos);
+                    foreach (Position pos in positionsWindow.PositionsToAdd)
+                    {
+                        if (!Officers[lstActiveOfficers.SelectedIndex].WorkablePositions.Contains(pos))
+                            Officers[lstOfficers.SelectedIndex].WorkablePositions.Add(pos);
+                    }
 
                     lstOfficerPositions.ItemsSource = Officers[lstOfficers.SelectedIndex].WorkablePositions;
 

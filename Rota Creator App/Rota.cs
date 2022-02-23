@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Rota_Creator_App
 {
@@ -278,15 +279,6 @@ namespace Rota_Creator_App
                         //SystemLog.Add(e);
                     }
                 }
-
-                if (!retry || attempts >= 4)
-                {
-                    attempts = 0;
-                    time = time + new TimeSpan(1, 0, 0);
-                    rota.RotaTimePositions.AddRange(currTimePos);
-                }
-                else
-                    attempts++;
             }
 
             return rota;
@@ -311,7 +303,7 @@ namespace Rota_Creator_App
             if(offList.Count() == 0)
                 throw new OfficerNotFoundException($"There are no officers that can work: {pos.Name}");
 
-            while(offList.Count() > 0 && !rota.IsCovered(pos, time) && timePos.Count == 0)
+            while(offList.Count() > 0)
             {
                 // get random officer
                 Officer off = offList[rnd.Next(offList.Count)];
@@ -342,6 +334,9 @@ namespace Rota_Creator_App
                 }
             }
 
+            if (offList.Count() == 0)
+                throw new OfficerNotFoundException($"There are no officers that can work: {pos.Name}");
+
             return timePos;
         }
 
@@ -370,7 +365,9 @@ namespace Rota_Creator_App
 
                 if (lastPos != null && lastOff != null)
                 {
-                    if (rota.GetOfficer(lastPos, time).Equals(lastOff) && rota.GetPosition(lastOff, time).Equals(lastPos))
+                    Officer nOff = rota.GetOfficer(lastPos, time);
+                    Position nPos = rota.GetPosition(lastOff, time);
+                    if (nOff != null && nOff.Equals(lastOff) && nPos != null && nPos.Equals(lastPos))
                     {
                         throw new OfficerCrossoverException("There is a crossover between {off.Name} and {lastOff.Name}");
                     }

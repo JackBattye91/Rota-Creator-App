@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Rota_Creator_App
 {
@@ -22,6 +23,10 @@ namespace Rota_Creator_App
     {
         Rota rota;
 
+        ObservableCollection<Officer> Officers;
+        ObservableCollection<Position> Positions;
+        DateTime StartTime, FinishTime;
+
         public RotaWindow()
         {
             InitializeComponent();
@@ -31,53 +36,71 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
-            rota = Rota.Create(officers.ToList(), positions.ToList(), startTime, finishTime);
+            Officers = new ObservableCollection<Officer>(officers);
+            Positions = new ObservableCollection<Position>(positions);
+            StartTime = startTime;
+            FinishTime = finishTime;
 
-            // add columns to grid
-            rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-            foreach (Position pos in rota.Positions)
-                rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            ThreadStart threadStart = new ThreadStart(generateRota);
+            Thread thread = new Thread(threadStart);
+            thread.Start();
+        }
 
-            // add rows to grid
-            rotaGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
-            for (int time = 0; time < (finishTime - startTime).Hours; time++)
-                rotaGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+        private void generateRota()
+        {
+            rota = Rota.Create(Officers.ToList(), Positions.ToList(), StartTime, FinishTime);
 
-            for (int p = 0; p < rota.Positions.Count; p++)
-            {
-                TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 16, FontWeight = FontWeights.Bold };
-                
-                Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                Grid.SetRow(border, 0);
-                Grid.SetColumn(border, p + 1);
-                rotaGrid.Children.Add(border);
-            }
 
-            for (int h = 0; h < (rota.FinishTime - rota.StartTime).Hours; h++)
-            {
-                DateTime time = rota.StartTime + new TimeSpan(h, 0, 0);
-                TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5, 0, 5, 0), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-                
-                Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                Grid.SetRow(border, h + 1);
-                Grid.SetColumn(border, 0);
-                rotaGrid.Children.Add(border);
-            }
+            Dispatcher.Invoke(new Action(() => {
+                // add columns to grid
+                rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+                foreach (Position pos in rota.Positions)
+                    rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
-            for (int tp = 0; tp < rota.RotaTimePositions.Count; tp++)
-            {
-                Rota.RotaTimePosition timePos = rota.RotaTimePositions[tp];
-                Binding officerBinding = new Binding("Name") { Source = rota.RotaTimePositions[tp].officer };
-                TextBlock label = new TextBlock() { TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-                label.SetBinding(TextBlock.TextProperty, officerBinding);
+                // add rows to grid
+                rotaGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
+                for (int time = 0; time < (FinishTime - StartTime).Hours; time++)
+                    rotaGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 
-                Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                int column = positions.IndexOf(timePos.position) + 1;
-                int row = (timePos.time - rota.StartTime).Hours + 1;
-                Grid.SetRow(border, row);
-                Grid.SetColumn(border, column);
-                rotaGrid.Children.Add(border);
-            }
+                for (int p = 0; p < rota.Positions.Count; p++)
+                {
+                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 16, FontWeight = FontWeights.Bold };
+
+                    Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+                    Grid.SetRow(border, 0);
+                    Grid.SetColumn(border, p + 1);
+                    rotaGrid.Children.Add(border);
+                }
+
+                for (int h = 0; h < (rota.FinishTime - rota.StartTime).Hours; h++)
+                {
+                    DateTime time = rota.StartTime + new TimeSpan(h, 0, 0);
+                    TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5, 0, 5, 0), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+
+                    Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+                    Grid.SetRow(border, h + 1);
+                    Grid.SetColumn(border, 0);
+                    rotaGrid.Children.Add(border);
+                }
+
+                for (int tp = 0; tp < rota.RotaTimePositions.Count; tp++)
+                {
+                    Rota.RotaTimePosition timePos = rota.RotaTimePositions[tp];
+                    Binding officerBinding = new Binding("Name") { Source = rota.RotaTimePositions[tp].officer };
+                    TextBlock label = new TextBlock() { TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+                    label.SetBinding(TextBlock.TextProperty, officerBinding);
+
+                    Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+                    int column = Positions.IndexOf(timePos.position) + 1;
+                    int row = (timePos.time - rota.StartTime).Hours + 1;
+                    Grid.SetRow(border, row);
+                    Grid.SetColumn(border, column);
+                    rotaGrid.Children.Add(border);
+                }
+
+                progLoading.Visibility = Visibility.Collapsed;
+                btnPrint.IsEnabled = true;
+            }));
         }
 
         private void btnPrint_Click(Object sender, RoutedEventArgs e)
