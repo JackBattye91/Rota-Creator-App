@@ -13,13 +13,16 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="rotaGrid">
+            <Grid.ContextMenu>
+                <ContextMenu/>
+            </Grid.ContextMenu>
             <ProgressBar x:Name="progLoading" HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="105" IsIndeterminate="True"/>
 
         </Grid>
 
         <Grid Grid.Row="1">
-            <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="0,5,61,5" Width="49" Click="btnPrint_Click"/>
-            <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="0,5,10,5" Width="46" Click="btnClose_Click"/>
+            <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="0,5,64,5" Width="49" Click="btnPrint_Click" RenderTransformOrigin="0.184,0.55"/>
+            <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="0,5,10,5" Width="49" Click="btnClose_Click"/>
         </Grid>
     </Grid>
 </Window>

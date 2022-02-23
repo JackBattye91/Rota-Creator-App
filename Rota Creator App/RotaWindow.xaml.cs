@@ -64,7 +64,7 @@ namespace Rota_Creator_App
 
                 for (int p = 0; p < rota.Positions.Count; p++)
                 {
-                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 16, FontWeight = FontWeights.Bold };
+                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     Grid.SetRow(border, 0);
@@ -96,11 +96,34 @@ namespace Rota_Creator_App
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, column);
                     rotaGrid.Children.Add(border);
+
+
+                    // create context Menu
+                    ContextMenu context = new ContextMenu();
+                    foreach(Officer off in Officers)
+                    {
+                        Binding binding = new Binding("Name") { Source = off };
+
+                        TextBlock textBlock = new TextBlock();
+                        textBlock.SetBinding(TextBlock.TextProperty, binding);
+
+                        textBlock.MouseLeftButtonDown += (object sender, MouseButtonEventArgs e) => 
+                        { 
+
+                        };
+
+                        context.Items.Add(textBlock);
+                    }
+                    border.ContextMenu = context;
                 }
 
                 progLoading.Visibility = Visibility.Collapsed;
                 btnPrint.IsEnabled = true;
             }));
+        }
+
+        private void Label_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
         }
 
         private void btnPrint_Click(Object sender, RoutedEventArgs e)
@@ -112,6 +135,7 @@ namespace Rota_Creator_App
                 printDialog.PrintVisual(rotaGrid, "Rota");
             }
         }
+
         private void btnClose_Click(Object sender, RoutedEventArgs e)
         {
             Close();
