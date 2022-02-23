@@ -102,14 +102,22 @@ namespace Rota_Creator_App
                     ContextMenu context = new ContextMenu();
                     foreach(Officer off in Officers)
                     {
+                        if (!off.CanWorkPosition(timePos.position))
+                        {
+                            continue;
+                        }
+
                         Binding binding = new Binding("Name") { Source = off };
 
                         TextBlock textBlock = new TextBlock();
                         textBlock.SetBinding(TextBlock.TextProperty, binding);
 
-                        textBlock.MouseLeftButtonDown += (object sender, MouseButtonEventArgs e) => 
-                        { 
+                        textBlock.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
+                        {
+                            timePos.officer = off;
 
+                            Binding offTextBind = new Binding("Name") { Source = off };
+                            label.SetBinding(TextBlock.TextProperty, offTextBind);
                         };
 
                         context.Items.Add(textBlock);
@@ -120,10 +128,6 @@ namespace Rota_Creator_App
                 progLoading.Visibility = Visibility.Collapsed;
                 btnPrint.IsEnabled = true;
             }));
-        }
-
-        private void Label_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
         }
 
         private void btnPrint_Click(Object sender, RoutedEventArgs e)

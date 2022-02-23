@@ -234,13 +234,10 @@ namespace Rota_Creator_App
             rota.StartTime = startTime;
             rota.FinishTime = finishTime;
 
-            int attempts = 0;
-            
             for(DateTime time = startTime; time < finishTime; time += new TimeSpan(1, 0, 0))
             {
                 List<RotaTimePosition> currTimePos = new List<RotaTimePosition>();
 
-                bool retry = false;
                 foreach(Position pos in positions)
                 {
                     try
@@ -254,7 +251,6 @@ namespace Rota_Creator_App
                     }
                     catch(PositionsNotCoveredException notCovered)
                     {
-                        retry = true;
                         break;
                     }
                     catch(OfficerNotFoundException notFound)
