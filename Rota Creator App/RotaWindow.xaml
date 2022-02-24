@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rota_Creator_App"
         mc:Ignorable="d"
-        Title="Rota" Height="450" Width="800">
+        Title="Rota" Height="450" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -17,11 +17,10 @@
                 <ContextMenu/>
             </Grid.ContextMenu>
             <ProgressBar x:Name="progLoading" HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="105" IsIndeterminate="True"/>
-
         </Grid>
 
         <Grid Grid.Row="1">
-            <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="0,5,64,5" Width="49" Click="btnPrint_Click" RenderTransformOrigin="0.184,0.55"/>
+            <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="0,5,64,5" Width="49" Click="btnPrint_Click" IsEnabled="False"/>
             <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="0,5,10,5" Width="49" Click="btnClose_Click"/>
         </Grid>
     </Grid>

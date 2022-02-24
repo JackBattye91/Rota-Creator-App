@@ -1,0 +1,76 @@
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Azure.Cosmos.ServiceInterop.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Cosmos.CRTCompat.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Rota Creator App.exe.config
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Rota Creator App.exe.manifest
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Rota Creator App.application
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Rota Creator App.exe
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Rota Creator App.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Azure.Core.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\EntityFramework.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Azure.Cosmos.Client.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Azure.Cosmos.Core.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Azure.Cosmos.Direct.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Bcl.HashCode.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Newtonsoft.Json.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Buffers.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Collections.Immutable.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Configuration.ConfigurationManager.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Data.SQLite.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Data.SQLite.EF6.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Data.SQLite.Linq.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Memory.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Numerics.Vectors.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Security.AccessControl.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Security.Permissions.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Security.Principal.Windows.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Text.Encodings.Web.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Text.Json.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Threading.Tasks.Extensions.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.ValueTuple.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Azure.Core.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\EntityFramework.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Azure.Cosmos.Client.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Microsoft.Bcl.HashCode.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\Newtonsoft.Json.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Buffers.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Collections.Immutable.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Configuration.ConfigurationManager.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Data.SQLite.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Memory.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Numerics.Vectors.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Security.AccessControl.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Security.Permissions.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Security.Principal.Windows.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Text.Encodings.Web.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Text.Json.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.Threading.Tasks.Extensions.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Release\System.ValueTuple.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.csproj.AssemblyReference.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\MainWindow.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\PositionsWindow.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\RotaWindow.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\App.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App_MarkupCompile.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App_MarkupCompile.lref
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\MainWindow.baml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\PositionsWindow.baml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\RotaWindow.baml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.g.resources
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota_Creator_App.Properties.Resources.resources
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.csproj.GenerateResource.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.csproj.CoreCompileInputs.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.TrustInfo.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.exe.manifest
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.application
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.csproj.CopyComplete
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.exe
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Release\Rota Creator App.pdb

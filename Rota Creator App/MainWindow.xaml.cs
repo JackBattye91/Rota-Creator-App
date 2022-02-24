@@ -37,9 +37,9 @@ namespace Rota_Creator_App
                 database.Insert<Site>(new Site() { ID = 1, Name = "Default" });
             }
             if (!database.TableExists("Position"))
-                database.CreateTable("Position", "ID INTEGER PRIMARY KEY, Name TEXT, Site INTEGER, Duration INTEGER");
+                database.CreateTable("Position", "'ID' INTEGER PRIMARY KEY, 'Name' TEXT, 'Site' INTEGER, 'Duration' INTEGER, 'Index' INTEGER");
             if (!database.TableExists("Officer"))
-                database.CreateTable("Officer", "ID INTEGER PRIMARY KEY, Name TEXT, Abbreviation TEXT, Team TEXT, WorkablePositions TEXT");
+                database.CreateTable("Officer", "'ID' INTEGER PRIMARY KEY, 'Name' TEXT, 'Abbreviation' TEXT, 'Team' TEXT, 'WorkablePositions' TEXT");
 
             // Create a thread to reset the status text
             statusTextThread = new Thread(new ParameterizedThreadStart((obj) => {

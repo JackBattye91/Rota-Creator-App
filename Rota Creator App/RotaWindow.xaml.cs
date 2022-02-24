@@ -64,7 +64,7 @@ namespace Rota_Creator_App
 
                 for (int p = 0; p < rota.Positions.Count; p++)
                 {
-                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold };
+                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold, Padding = new Thickness(5) };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     Grid.SetRow(border, 0);
@@ -75,7 +75,7 @@ namespace Rota_Creator_App
                 for (int h = 0; h < (rota.FinishTime - rota.StartTime).Hours; h++)
                 {
                     DateTime time = rota.StartTime + new TimeSpan(h, 0, 0);
-                    TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5, 0, 5, 0), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+                    TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontWeight = FontWeights.Bold };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     Grid.SetRow(border, h + 1);
@@ -83,45 +83,56 @@ namespace Rota_Creator_App
                     rotaGrid.Children.Add(border);
                 }
 
-                for (int tp = 0; tp < rota.RotaTimePositions.Count; tp++)
+                foreach (Rota.RotaTimePosition tp in rota.RotaTimePositions)
                 {
-                    Rota.RotaTimePosition timePos = rota.RotaTimePositions[tp];
-                    Binding officerBinding = new Binding("Name") { Source = rota.RotaTimePositions[tp].officer };
-                    TextBlock label = new TextBlock() { TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+                    Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
+                    TextBlock label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
                     label.SetBinding(TextBlock.TextProperty, officerBinding);
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                    int column = Positions.IndexOf(timePos.position) + 1;
-                    int row = (timePos.time - rota.StartTime).Hours + 1;
+                    int column = Positions.IndexOf(tp.position) + 1;
+                    int row = (tp.time - rota.StartTime).Hours + 1;
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, column);
-                    rotaGrid.Children.Add(border);
-
 
                     // create context Menu
                     ContextMenu context = new ContextMenu();
-                    foreach(Officer off in Officers)
+                    context.UseLayoutRounding = true;
+                    MenuItem blankPosition = new MenuItem() { Header = "Empty" };
+                    blankPosition.Click += (object sender, RoutedEventArgs e) =>
                     {
-                        if (!off.CanWorkPosition(timePos.position))
+                        tp.officer = null;
+                        label.Text = "Empty";
+                    };
+
+                    foreach (Officer off in Officers)
+                    {
+                        if (!off.CanWorkPosition(tp.position))
                         {
                             continue;
                         }
 
-                        Binding binding = new Binding("Name") { Source = off };
+                        MenuItem menuItem = new MenuItem() { Header = off.Name };
+                        context.Items.Add(menuItem);
 
-                        TextBlock textBlock = new TextBlock();
-                        textBlock.SetBinding(TextBlock.TextProperty, binding);
+                        menuItem.Click += (object sener, RoutedEventArgs e) => {
+                            tp.officer = off;
 
-                        textBlock.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
-                        {
-                            timePos.officer = off;
+                            Binding textBind = new Binding("Name") { Source = off };
+                            label.SetBinding(TextBlock.TextProperty, textBind);
 
-                            Binding offTextBind = new Binding("Name") { Source = off };
-                            label.SetBinding(TextBlock.TextProperty, offTextBind);
+                            foreach(Rota.RotaTimePosition rotaTime in rota.RotaTimePositions)
+                            {
+                                if (rotaTime.time == tp.time && rotaTime.officer == off)
+                                {
+
+                                }
+                            }
+
+                            e.Handled = true;
                         };
-
-                        context.Items.Add(textBlock);
                     }
+                    rotaGrid.Children.Add(border);
                     border.ContextMenu = context;
                 }
 

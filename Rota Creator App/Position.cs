@@ -68,17 +68,17 @@ namespace Rota_Creator_App
 
         public string SQLiteInsertScript()
         {
-            return $"INSERT INTO Position(ID, Name, Site, Duration, Index) VALUES ({ID}, '{Name}', {Site.ID}, {Duration}, {Index})";
+            return $"INSERT INTO Position('ID', 'Name', 'Site', 'Duration', 'Index') VALUES ({ID}, '{Name}', {Site.ID}, {Duration}, {Index})";
         }
 
         public string SQLiteUpdateScript()
         {
-            return $"UPDATE Position SET 'Name'='{Name}', 'Site'={Site.ID}, 'Duration'={Duration}, 'Index'={Index} WHERE ID={ID}";
+            return $"UPDATE Position SET 'Name'='{Name}', 'Site'={Site.ID}, 'Duration'={Duration}, 'Index'={Index} WHERE 'ID'={ID}";
         }
 
         public string SQLiteDeleteScript()
         {
-            return $"DELETE FROM Position WHERE ID={ID}";
+            return $"DELETE FROM Position WHERE 'ID'={ID}";
         }
     }
 }

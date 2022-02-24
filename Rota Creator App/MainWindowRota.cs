@@ -55,62 +55,70 @@ namespace Rota_Creator_App
             }
         }
 
+        
+
         private void btnMoveOfficerRight_Click(object sender, RoutedEventArgs e)
         {
-            foreach(Officer off in lstAvailableOfficers.SelectedItems)
+            while(lstAvailableOfficers.SelectedItems.Count != 0)
             {
+                Officer off = lstAvailableOfficers.SelectedItems[0] as Officer;
+
                 activeOfficers.Add(off);
                 availableOfficers.Remove(off);
             }
         }
         private void btnMoveAllOfficersRight_Click(object sender, RoutedEventArgs e)
         {
-            foreach(Officer off in lstAvailableOfficers.Items)
+            while (lstAvailableOfficers.Items.Count != 0)
             {
+                Officer off = lstAvailableOfficers.Items[0] as Officer;
+
                 activeOfficers.Add(off);
                 availableOfficers.Remove(off);
             }
         }
         private void btnMoveOfficerLeft_Click(object sender, RoutedEventArgs e)
         {
-            foreach(Officer off in lstAvailableOfficers.SelectedItems)
+            while (lstActiveOfficers.SelectedItems.Count != 0)
             {
-                availableOfficers.Add(off);
+                Officer off = lstActiveOfficers.SelectedItems[0] as Officer;
+
                 activeOfficers.Remove(off);
+                availableOfficers.Add(off);
             }
         }
         private void btnMoveAllOfficersLeft_Click(object sender, RoutedEventArgs e)
         {
-            foreach(Officer off in lstAvailableOfficers.Items)
+            while (lstActiveOfficers.Items.Count != 0)
             {
-                availableOfficers.Add(off);
+                Officer off = lstActiveOfficers.Items[0] as Officer;
+
                 activeOfficers.Remove(off);
+                availableOfficers.Add(off);
             }
         }
 
-        private void lstAvailableOfficers_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void lstAvailableOfficers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
-            {
-                Officer officer = (sender as StackPanel).DataContext as Officer;
+            ListView listView = (ListView)sender;
+            Officer off = listView.SelectedItem as Officer;
 
-                if (!activeOfficers.Contains(officer))
-                    activeOfficers.Add(officer);
+            if (!activeOfficers.Contains(off))
+                activeOfficers.Add(off);
 
-                availableOfficers.Remove(officer);
-            }
+            availableOfficers.Remove(off);
         }
 
-        private void lstActiveOfficers_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-            {
-                Officer officer = (sender as StackPanel).DataContext as Officer;
-                if (!availableOfficers.Contains(officer))
-                    availableOfficers.Add(officer);
 
-                activeOfficers.Remove(officer);
-            }
+        private void lstActiveOfficers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListView listView = (ListView)sender;
+            Officer off = listView.SelectedItem as Officer;
+
+            if (!availableOfficers.Contains(off))
+                availableOfficers.Add(off);
+
+            activeOfficers.Remove(off);
         }
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
