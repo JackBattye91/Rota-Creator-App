@@ -122,7 +122,7 @@ namespace Rota_Creator_App
         public List<RotaTimePosition> RotaTimePositions { get; protected set; }
 
         // hide constructor
-        private Rota()
+        protected Rota()
         {
         }
 
@@ -145,7 +145,7 @@ namespace Rota_Creator_App
             return null;
         }
 
-        private List<Officer> GetOfficers(Position position)
+        protected List<Officer> GetOfficers(Position position)
         {
             List<Officer> officers = new List<Officer>();
 
@@ -158,7 +158,7 @@ namespace Rota_Creator_App
             return officers;
         }
 
-        private bool IsWorking(Officer off, DateTime time)
+        protected bool IsWorking(Officer off, DateTime time)
         {
             foreach(RotaTimePosition timePos in RotaTimePositions)
             {
@@ -261,13 +261,10 @@ namespace Rota_Creator_App
                             else
                                 currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = false, officer = null });
                         }
-                        
                         break;
                     }
                     catch(OfficerNotFoundException notFound)
                     {
-                        //SystemLog.Add(notFound);
-
                         // add blank positions as not officer can work it
                         for (int d = 0; d < pos.Duration; d++)
                         {
@@ -283,7 +280,6 @@ namespace Rota_Creator_App
                     }
                     catch(Exception e)
                     {
-                        //SystemLog.Add(e);
                     }
                 }
             }
@@ -291,7 +287,7 @@ namespace Rota_Creator_App
             return rota;
         }
 
-        private static List<RotaTimePosition> coverPosition(Rota rota, Position pos, DateTime time)
+        protected static List<RotaTimePosition> coverPosition(Rota rota, Position pos, DateTime time)
         {
             List<RotaTimePosition> timePos = new List<RotaTimePosition>();
             Random rnd = new Random();
@@ -347,7 +343,7 @@ namespace Rota_Creator_App
             return timePos;
         }
 
-        private static List<RotaTimePosition> positionOfficer(Rota rota, Officer off, Position pos, DateTime time)
+        protected static List<RotaTimePosition> positionOfficer(Rota rota, Officer off, Position pos, DateTime time)
         {
             // if officer is already working a position
             if (rota.IsWorking(off, time))

@@ -109,7 +109,6 @@ namespace Rota_Creator_App
             availableOfficers.Remove(off);
         }
 
-
         private void lstActiveOfficers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListView listView = (ListView)sender;
