@@ -85,9 +85,17 @@ namespace Rota_Creator_App
 
                 foreach (Rota.RotaTimePosition tp in rota.RotaTimePositions)
                 {
-                    Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
-                    TextBlock label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
-                    label.SetBinding(TextBlock.TextProperty, officerBinding);
+                    TextBlock label = null;
+                    if (tp.officer != null)
+                    {
+                        Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
+                        label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
+                        label.SetBinding(TextBlock.TextProperty, officerBinding);
+                    }
+                    else
+                    {
+                        label = new TextBlock() { Text = "<EMPTY>" HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
+                    }
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     int column = Positions.IndexOf(tp.position) + 1;
@@ -102,7 +110,7 @@ namespace Rota_Creator_App
                     blankPosition.Click += (object sender, RoutedEventArgs e) =>
                     {
                         tp.officer = null;
-                        label.Text = "Empty";
+                        label.Text = "<EMPTY>";
                     };
 
                     foreach (Officer off in Officers)

@@ -246,11 +246,22 @@ namespace Rota_Creator_App
                     }
                     catch(PositionsNotActiveException notActive)
                     {
-                        currTimePos.Add(new RotaTimePosition() { time = time, position = pos, isActive = false });
-                        //SystemLog.Add(notActive);
+                        currTimePos.Add(new RotaTimePosition() { time = time, position = pos, officer = null, isActive = false });
                     }
                     catch(PositionsNotCoveredException notCovered)
                     {
+                        for (int d = 0; d < pos.Duration; d++)
+                        {
+                            DateTime coverTime = time + new TimeSpan(d, 0, 0);
+
+                            if (coverTime > rota.FinishTime)
+                                break;
+                            if (pos.IsActive(coverTime))
+                                currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = true, officer = null });
+                            else
+                                currTimePos.Add(new RotaTimePosition() { time = coverTime, position = pos, isActive = false, officer = null });
+                        }
+                        
                         break;
                     }
                     catch(OfficerNotFoundException notFound)
