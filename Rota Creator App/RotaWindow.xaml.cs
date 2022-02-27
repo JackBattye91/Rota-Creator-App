@@ -124,20 +124,8 @@ namespace Rota_Creator_App
                         context.Items.Add(menuItem);
 
                         menuItem.Click += (object sener, RoutedEventArgs e) => {
-                            tp.officer = off;
-
-                            Binding textBind = new Binding("Name") { Source = off };
-                            label.SetBinding(TextBlock.TextProperty, textBind);
-
-                            foreach(Rota.RotaTimePosition rotaTime in rota.RotaTimePositions)
-                            {
-                                if (rotaTime.time == tp.time && rotaTime.officer == off)
-                                {
-                                    
-                                }
-                            }
-
-                            e.Handled = true;
+                            rota.Update(tp.position, tp.time, off, chkPropagateChanges.IsChecked);
+                            updateLayout();
                         };
                     }
                     rotaGrid.Children.Add(border);
@@ -147,6 +135,40 @@ namespace Rota_Creator_App
                 progLoading.Visibility = Visibility.Collapsed;
                 btnPrint.IsEnabled = true;
             }));
+        }
+
+        private void updateLayout()
+        {
+            // disable UI
+            progLoading.Visibility = Visibility.Visible;
+            btnPrint.IsEnabled = false;
+            rotaGrid.IsEnabled = false;
+
+            foreach (Rota.RotaTimePosition tp in rota.RotaTimePositions)
+            {
+                // calc the grid position
+                int column = Positions.IndexOf(tp.position) + 1;
+                int row = (tp.time - StartTime).Hours + 1;
+
+                // get the frist UI element at the grid position and cast to Border
+                Border border = rotaGrid.Children.First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == column) as Border;
+                if (border == null)
+                    continue;
+
+                // get label from border
+                TextBlock label = border.Child as TextBlock;
+                if (label == null)
+                    continue;
+
+                // set label text
+                Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
+                label.SetBinding(TextBlock.TextProperty, officerBinding);
+            }
+
+            // active UI
+            progLoading.Visibility = Visibility.Collapsed;
+            btnPrint.IsEnabled = true;
+            rotaGrid.IsEnabled = true;
         }
 
         private void btnPrint_Click(Object sender, RoutedEventArgs e)

@@ -20,6 +20,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
+            <CheckBox x:Name="chkPropagateChanged" Content="Propagate Changes" IsChecked="True" Margin="5"/>
             <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="0,5,64,5" Width="49" Click="btnPrint_Click" IsEnabled="False"/>
             <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="0,5,10,5" Width="49" Click="btnClose_Click"/>
         </Grid>
