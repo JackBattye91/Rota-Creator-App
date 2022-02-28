@@ -125,9 +125,7 @@ namespace Rota_Creator_App
             string[] startTimeParts = cmbStartTime.SelectedItem.ToString().Split(':');
             string[] finishTimeParts = cmbFinishTime.SelectedItem.ToString().Split(':');
 
-            int startHour = 0;
-            int finishHour = 0;
-            if (!int.TryParse(startTimeParts[0], out startHour) || !int.TryParse(finishTimeParts[0], out finishHour))
+            if (!int.TryParse(startTimeParts[0], out int startHour) || !int.TryParse(finishTimeParts[0], out int finishHour))
             {
                 updateStatusText("Unable to parse start and finish time");
                 return;

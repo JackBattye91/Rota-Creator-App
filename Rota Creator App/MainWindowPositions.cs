@@ -45,8 +45,7 @@ namespace Rota_Creator_App
 
         private void btnUpdatePosition_Click(object sender, RoutedEventArgs e)
         {
-            int index = 0;
-            if (!int.TryParse(txtPositionIndex.Text, out index))
+            if (!int.TryParse(txtPositionIndex.Text, out int index))
             {
                 updateStatusText("Unable to parse index");
                 return;
@@ -58,8 +57,7 @@ namespace Rota_Creator_App
                 return;
             }
 
-            int duration = 1;
-            if (!int.TryParse(txtPositionDuration.Text, out duration))
+            if (!int.TryParse(txtPositionDuration.Text, out int duration))
             {
                 updateStatusText("Unable to parse duration");
                 return;
@@ -68,7 +66,10 @@ namespace Rota_Creator_App
             int id = Positions[lstPositions.SelectedIndex].ID;
             Position updatedPosition = new Position() { ID = id, Index = index, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
             Positions[lstPositions.SelectedIndex] = updatedPosition;
-            SQLiteDatabase.Global?.Update<Position>(updatedPosition);
+            if (SQLiteDatabase.Global?.Update<Position>(updatedPosition) == false)
+            {
+                new UnhandledExceptionEventArgs(null, true);
+            }
         }
 
         private void btnDeletePosition_Click(object sender, RoutedEventArgs e)

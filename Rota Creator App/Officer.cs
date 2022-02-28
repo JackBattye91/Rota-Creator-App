@@ -79,8 +79,7 @@ namespace Rota_Creator_App
                     string[] workables = reader.GetString(4).Split(',');
                     foreach (string pos in workables)
                     {
-                        int id = 0;
-                        if (int.TryParse(pos, out id))
+                        if (int.TryParse(pos, out int id))
                         {
                             List<Position> positions = SQLiteDatabase.Global?.Query<Position>("Position", "*", $"ID = {id}");
                             if (positions != null && positions.Count > 0)

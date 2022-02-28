@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.IO;
 
-
 namespace Rota_Creator_App
 {
     public interface ISQLiteable
@@ -86,16 +85,23 @@ namespace Rota_Creator_App
                 command.CommandText = item.SQLiteUpdateScript();
                 return command.ExecuteNonQuery() != 0;
             }
-            catch(SQLiteException ex)
+            catch(Exception ex)
             {
                 return false;
             }
         }
         public bool Delete<T>(T item) where T : ISQLiteable
         {
-            SQLiteCommand command = connection.CreateCommand();
-            command.CommandText = item.SQLiteDeleteScript();
-            return command.ExecuteNonQuery() != 0;
+            try
+            {
+                SQLiteCommand command = connection.CreateCommand();
+                command.CommandText = item.SQLiteDeleteScript();
+                return command.ExecuteNonQuery() != 0;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
         public List<T> Query<T>(string table, string columns = "*", string condition = "") where T : ISQLiteable, new()

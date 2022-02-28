@@ -79,6 +79,198 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Api.CommonProtos.dll" size="356352">
+      <assemblyIdentity name="Google.Api.CommonProtos" version="2.5.0.0" publicKeyToken="3EC5EA7F18953E47" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>El3D14i+mNVw/2viw1Caa8uXzdEOOr+gVuAUo+I271k=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Api.Gax.dll" size="78848">
+      <assemblyIdentity name="Google.Api.Gax" version="3.6.0.0" publicKeyToken="3EC5EA7F18953E47" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>7l1TyZwXXeA8MoyQ4QrRfwfQWx1JDFDqzgtaUyL2sAc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Api.Gax.Grpc.dll" size="107520">
+      <assemblyIdentity name="Google.Api.Gax.Grpc" version="3.6.0.0" publicKeyToken="3EC5EA7F18953E47" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>OhseI69JPo83/vaBm0Of8ddN7zzEwB5y5n+OgiadD1Y=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Api.Gax.Grpc.GrpcCore.dll" size="8192">
+      <assemblyIdentity name="Google.Api.Gax.Grpc.GrpcCore" version="3.6.0.0" publicKeyToken="3EC5EA7F18953E47" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>c38oStaMEu56zxUHUnwlP04glfHXYHAgb5AzUL90Uhc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.dll" size="80896">
+      <assemblyIdentity name="Google.Apis" version="1.55.0.0" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>U96uDZuUEqRv0spCBxWCgiXN9cUOcvClat8KyRAuyyg=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.Auth.dll" size="161280">
+      <assemblyIdentity name="Google.Apis.Auth" version="1.55.0.0" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>NjSnSggoS7d06ncpGmwBcs2VzXDgcjFpJ0Pkfm8J4KA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.Auth.PlatformServices.dll" size="5120">
+      <assemblyIdentity name="Google.Apis.Auth.PlatformServices" version="1.55.0.0" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>I6cXr53iW4D1QnTLEHW5MdL4V7d0dD5C3q2OWzIPYbs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.Core.dll" size="77312">
+      <assemblyIdentity name="Google.Apis.Core" version="1.55.0.0" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Wy3E6EMN7PZCAv3C5RyTufZD78/V1JPOOWgLx003SrE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.PlatformServices.dll" size="4608">
+      <assemblyIdentity name="Google.Apis.PlatformServices" version="1.55.0.0" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>oC2ZosiSfwrrtsrw/EfZwt4QkxreNwMZhEwOtmG9vf8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Cloud.Firestore.dll" size="154624">
+      <assemblyIdentity name="Google.Cloud.Firestore" version="2.5.0.0" publicKeyToken="185C282632E132A0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>cJGsQAxSowvMPTBWtH6/D3M7yKnc39dc3QLlUXn02fQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Cloud.Firestore.V1.dll" size="238592">
+      <assemblyIdentity name="Google.Cloud.Firestore.V1" version="2.5.0.0" publicKeyToken="185C282632E132A0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>R3FLp8ytlrkpXufnJ25rV9IBOp1HGrE2rLIyB8vlkMU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.LongRunning.dll" size="58368">
+      <assemblyIdentity name="Google.LongRunning" version="2.3.0.0" publicKeyToken="185C282632E132A0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>kwdXv+VcO8BOIyNh2bhVjtQABOLtMsTmYttAszhIRCc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Protobuf.dll" size="402264">
+      <assemblyIdentity name="Google.Protobuf" version="3.18.0.0" publicKeyToken="A7D26565BAC4D604" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>CmETP8XQJpl9ozhjsDnri0kOXPI36Ul4jwdiTEAVCNw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Grpc.Auth.dll" size="17752">
+      <assemblyIdentity name="Grpc.Auth" version="2.0.0.0" publicKeyToken="D754F35622E28BAD" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>VwNgHnSx0//VvMhOU+qpLGMdADjEcfXoKtTjhMRsaF0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Grpc.Core.dll" size="479576">
+      <assemblyIdentity name="Grpc.Core" version="2.0.0.0" publicKeyToken="D754F35622E28BAD" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>puTanRFCcwSjA+bOZrij/t4alNDk6zRJOJ1RIfDuD7k=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Grpc.Core.Api.dll" size="55128">
+      <assemblyIdentity name="Grpc.Core.Api" version="2.0.0.0" publicKeyToken="D754F35622E28BAD" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>gt0IWkmBWgVxnmoOhfk9YVvKG2HTisgsAaBV2FpYnPY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Azure.Cosmos.Client.dll" size="2533264">
       <assemblyIdentity name="Microsoft.Azure.Cosmos.Client" version="3.24.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -151,26 +343,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="652288">
-      <assemblyIdentity name="Newtonsoft.Json" version="10.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="701992">
+      <assemblyIdentity name="Newtonsoft.Json" version="13.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bMDLzVxHCcahyX9VgcNH2T5YbnzA1kv/tNMsbnU0dqQ=</dsig:DigestValue>
+        <dsig:DigestValue>tiSUnfiw46YVP9+3MKfG9JkLZZLuDZIuF4hDPSdmEPM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rota Creator App.exe" size="144848">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rota Creator App.exe" size="146384">
       <assemblyIdentity name="Rota Creator App" version="1.0.0.0" publicKeyToken="F411E81D611E7E60" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Kd397q1PbumRRluPsmXsxITbU31lL1qMPU/UldBPBXQ=</dsig:DigestValue>
+        <dsig:DigestValue>d68MJXsjzD7Lpb/FOb7heVS4nigWGDlTqJt+KcagQPE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -255,6 +447,18 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>9xszk37YnN7gFNrElgsGTklWbcZGdqLmp6bwwAEm+VA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Linq.Async.dll" size="1044432">
+      <assemblyIdentity name="System.Linq.Async" version="4.0.0.0" publicKeyToken="94BC3704CDDFC263" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>zO7RMeWxXe7Igsh8B/pJKOyIwTeBiirV9XiEHHMwZjU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -387,6 +591,42 @@
       <dsig:DigestValue>lO+B3suAC6V/4FKhsgeYGPJd3pAotvp2rqifGSRTBlA=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="grpc_csharp_ext.x64.dll" size="10473816">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>s3YJPyDYJ3hWX2Kb1boTPWoTJnHLoL5KHhELHbnWEK0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="grpc_csharp_ext.x86.dll" size="8116056">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tcEW6vsfR2Gf/zaTfz3/5hxzsK3EMiXtcF0JwNsL3+o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="libgrpc_csharp_ext.x64.dylib" size="9055592">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OxfKuslehMwYTnZd0F1n/yyT5Rke6RO+76tRAKSjLNM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="libgrpc_csharp_ext.x64.so" size="6773064">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RbJbab+RJdXRhVYaZ5e8sKH1o2shXzrcDdFDtj+AZ9g=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Microsoft.Azure.Cosmos.ServiceInterop.dll" size="7465352">
     <hash>
       <dsig:Transforms>
@@ -405,13 +645,13 @@
       <dsig:DigestValue>OeZbVyDaSCTc/oufjohJrH3/yij3tTc/v8qDlk55L4c=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Rota Creator App.exe.config" size="3139">
+  <file name="Rota Creator App.exe.config" size="5336">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>sKO51xES1jb5C3c7oqyFa3wsjfMKWSayXg9DNe4/kos=</dsig:DigestValue>
+      <dsig:DigestValue>nN0AWO+OCGWgVGbQmM1thdhzZ5YPKdnugpoJtpDOvQU=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

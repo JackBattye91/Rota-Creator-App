@@ -101,7 +101,7 @@ namespace Rota_Creator_App
                 case true:
                     foreach (Position pos in positionsWindow.PositionsToAdd)
                     {
-                        if (!Officers[lstActiveOfficers.SelectedIndex].WorkablePositions.Contains(pos))
+                        if (!Officers[lstOfficers.SelectedIndex].WorkablePositions.Contains(pos))
                             Officers[lstOfficers.SelectedIndex].WorkablePositions.Add(pos);
                     }
 

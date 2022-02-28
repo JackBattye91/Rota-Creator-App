@@ -154,3 +154,54 @@ C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Rota Cre
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.TrustInfo.xml
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.exe.manifest
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.application
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\grpc_csharp_ext.x86.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\grpc_csharp_ext.x64.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\libgrpc_csharp_ext.x64.so
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\libgrpc_csharp_ext.x64.dylib
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.CommonProtos.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.Grpc.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.Grpc.GrpcCore.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Auth.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Auth.PlatformServices.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Core.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.PlatformServices.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Cloud.Firestore.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Cloud.Firestore.V1.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.LongRunning.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Protobuf.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Auth.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.Api.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Linq.Async.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.CommonProtos.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.CommonProtos.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.Grpc.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.Grpc.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.Grpc.GrpcCore.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Api.Gax.Grpc.GrpcCore.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Auth.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Auth.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Core.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Apis.Core.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Cloud.Firestore.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Cloud.Firestore.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Cloud.Firestore.V1.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Cloud.Firestore.V1.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.LongRunning.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.LongRunning.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Protobuf.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Google.Protobuf.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Auth.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Auth.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.Api.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.Api.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Linq.Async.xml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App_Content.g.cs

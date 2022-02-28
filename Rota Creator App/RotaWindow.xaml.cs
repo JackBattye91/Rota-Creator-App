@@ -94,7 +94,7 @@ namespace Rota_Creator_App
                     }
                     else
                     {
-                        label = new TextBlock() { Text = "<EMPTY>" HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
+                        label = new TextBlock() { Text = "<EMPTY>", HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
                     }
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
@@ -105,13 +105,14 @@ namespace Rota_Creator_App
 
                     // create context Menu
                     ContextMenu context = new ContextMenu();
-                    context.UseLayoutRounding = true;
                     MenuItem blankPosition = new MenuItem() { Header = "Empty" };
                     blankPosition.Click += (object sender, RoutedEventArgs e) =>
                     {
                         tp.officer = null;
                         label.Text = "<EMPTY>";
                     };
+
+                    context.Items.Add(blankPosition);
 
                     foreach (Officer off in Officers)
                     {
@@ -124,7 +125,7 @@ namespace Rota_Creator_App
                         context.Items.Add(menuItem);
 
                         menuItem.Click += (object sener, RoutedEventArgs e) => {
-                            rota.Update(tp.position, tp.time, off, chkPropagateChanges.IsChecked);
+                            rota.Update(tp, off, chkPropagateChanges.IsChecked.Value);
                             updateLayout();
                         };
                     }
@@ -137,7 +138,7 @@ namespace Rota_Creator_App
             }));
         }
 
-        private void updateLayout()
+        protected void updateLayout()
         {
             // disable UI
             progLoading.Visibility = Visibility.Visible;
@@ -151,18 +152,33 @@ namespace Rota_Creator_App
                 int row = (tp.time - StartTime).Hours + 1;
 
                 // get the frist UI element at the grid position and cast to Border
-                Border border = rotaGrid.Children.First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == column) as Border;
+                Border border = null;
+                foreach (UIElement ui in rotaGrid.Children)
+                {
+                    if (Grid.GetRow(ui) == row && Grid.GetColumn(ui) == column)
+                    {
+                        border = ui as Border;
+                        break;
+                    }
+                }
+
                 if (border == null)
                     continue;
 
                 // get label from border
-                TextBlock label = border.Child as TextBlock;
-                if (label == null)
+                if (!(border.Child is TextBlock label))
                     continue;
 
-                // set label text
-                Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
-                label.SetBinding(TextBlock.TextProperty, officerBinding);
+                if (tp.officer == null)
+                {
+                    label.Text = "<EMPTY>";
+                }
+                else
+                {
+                    // set label text
+                    Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
+                    label.SetBinding(TextBlock.TextProperty, officerBinding);
+                }
             }
 
             // active UI

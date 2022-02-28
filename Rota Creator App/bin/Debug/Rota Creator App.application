@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Rota Creator App.exe.manifest" size="25023">
+    <dependentAssembly dependencyType="install" codebase="Rota Creator App.exe.manifest" size="38375">
       <assemblyIdentity name="Rota Creator App.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yTlPkncc1gFurEcsC6S899xpRpk9fyoJoPUYryGeIBU=</dsig:DigestValue>
+        <dsig:DigestValue>WSHA66W9uIXIzU0BRbqzipT3dWmD23sSKV2tN6cJsFM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
