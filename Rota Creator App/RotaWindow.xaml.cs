@@ -23,8 +23,8 @@ namespace Rota_Creator_App
     {
         Rota rota;
 
-        ObservableCollection<Officer> Officers;
-        ObservableCollection<Position> Positions;
+        ObservableCollection<Rota.IEmployee> Officers;
+        ObservableCollection<Rota.IPosition> Positions;
         DateTime StartTime, FinishTime;
 
         public RotaWindow()
@@ -36,8 +36,8 @@ namespace Rota_Creator_App
         {
             InitializeComponent();
 
-            Officers = new ObservableCollection<Officer>(officers);
-            Positions = new ObservableCollection<Position>(positions);
+            Officers = new ObservableCollection<Rota.IEmployee>(officers);
+            Positions = new ObservableCollection<Rota.IPosition>(positions);
             StartTime = startTime;
             FinishTime = finishTime;
 
@@ -64,7 +64,7 @@ namespace Rota_Creator_App
 
                 for (int p = 0; p < rota.Positions.Count; p++)
                 {
-                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold, Padding = new Thickness(5) };
+                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name(), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold, Padding = new Thickness(5) };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     Grid.SetRow(border, 0);
@@ -86,19 +86,19 @@ namespace Rota_Creator_App
                 foreach (Rota.RotaTimePosition tp in rota.RotaTimePositions)
                 {
                     TextBlock label = null;
-                    if (tp.officer != null)
+                    if (tp.employee != null)
                     {
-                        Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
+                        Binding officerBinding = new Binding("Abbreviation") { Source = tp.employee };
                         label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
                         label.SetBinding(TextBlock.TextProperty, officerBinding);
                     }
                     else
                     {
-                        label = new TextBlock() { Text = "<EMPTY>" HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
+                        label = new TextBlock() { Text = "<EMPTY>", HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
                     }
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                    int column = Positions.IndexOf(tp.position) + 1;
+                    int column = Positions.IndexOf(tp.position as Position) + 1;
                     int row = (tp.time - rota.StartTime).Hours + 1;
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, column);
@@ -109,22 +109,22 @@ namespace Rota_Creator_App
                     MenuItem blankPosition = new MenuItem() { Header = "Empty" };
                     blankPosition.Click += (object sender, RoutedEventArgs e) =>
                     {
-                        tp.officer = null;
+                        tp.employee = null;
                         label.Text = "<EMPTY>";
                     };
 
                     foreach (Officer off in Officers)
                     {
-                        if (!off.CanWorkPosition(tp.position))
+                        if (!off.CanWork(tp.position))
                         {
                             continue;
                         }
 
-                        MenuItem menuItem = new MenuItem() { Header = off.Name };
+                        MenuItem menuItem = new MenuItem() { Header = off.Name() };
                         context.Items.Add(menuItem);
 
                         menuItem.Click += (object sener, RoutedEventArgs e) => {
-                            rota.Update(tp.position, tp.time, off, chkPropagateChanges.IsChecked);
+                            rota.Update(tp.position, tp.time, off, chkPropagateChanges.IsChecked.Value);
                             updateLayout();
                         };
                     }
@@ -151,7 +151,15 @@ namespace Rota_Creator_App
                 int row = (tp.time - StartTime).Hours + 1;
 
                 // get the frist UI element at the grid position and cast to Border
-                Border border = rotaGrid.Children.First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == column) as Border;
+                Border border = null;
+                foreach (UIElement ui in rotaGrid.Children)
+                {
+                    if (Grid.GetRow(ui) == row && Grid.GetColumn(ui) == column)
+                    {
+                        border = ui as Border;
+                        break;
+                    }
+                }
                 if (border == null)
                     continue;
 
@@ -161,7 +169,7 @@ namespace Rota_Creator_App
                     continue;
 
                 // set label text
-                Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
+                Binding officerBinding = new Binding("Abbreviation") { Source = tp.employee };
                 label.SetBinding(TextBlock.TextProperty, officerBinding);
             }
 

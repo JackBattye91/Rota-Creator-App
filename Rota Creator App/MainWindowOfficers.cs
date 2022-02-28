@@ -24,13 +24,13 @@ namespace Rota_Creator_App
             string newOfficerName = "New Officer";
             int counter = 1;
 
-            while (Officers.Count(p => p.Name == newOfficerName) > 0)
+            while (Officers.Count(p => p.Name() == newOfficerName) > 0)
             {
                 newOfficerName = "New Officer " + counter.ToString();
                 counter++;
             }
 
-            Officer newOfficer = new Officer() { Name = newOfficerName };
+            Officer newOfficer = new Officer() { name = newOfficerName };
             Officers.Add(newOfficer);
             availableOfficers.Add(newOfficer);
             SQLiteDatabase.Global?.Insert<Officer>(newOfficer);
@@ -38,25 +38,25 @@ namespace Rota_Creator_App
 
         private void btnUpdateOfficer_Click(object sender, RoutedEventArgs e)
         {
-            if (Officers.Count(o => o.Name == txtOfficerName.Text) > 0 && Officers[lstOfficers.SelectedIndex].Name != txtOfficerName.Text)
+            if (Officers.Count(o => o.Name() == txtOfficerName.Text) > 0 && Officers[lstOfficers.SelectedIndex].Name() != txtOfficerName.Text)
             {
                 updateStatusText("There is already an officer named " + txtOfficerName.Text);
                 return;
             }
 
-            if (Officers.Count(o => o.Abbreviation == txtOfficerAbbr.Text) > 0 && Officers[lstOfficers.SelectedIndex].Abbreviation != txtOfficerAbbr.Text && txtOfficerAbbr.Text.Length != 0)
+            if (Officers.Count(o => o.abbreviation == txtOfficerAbbr.Text) > 0 && Officers[lstOfficers.SelectedIndex].abbreviation != txtOfficerAbbr.Text && txtOfficerAbbr.Text.Length != 0)
             {
                 updateStatusText("There is already a officer with the abbreviation " + txtOfficerAbbr.Text);
                 return;
             }
             
-            int id = Officers[lstOfficers.SelectedIndex].ID;
-            Officer newOfficer = new Officer() { ID = id, Name = txtOfficerName.Text, Abbreviation = txtOfficerAbbr.Text, Team = txtOfficerTeam.Text, WorkablePositions = Officers[lstOfficers.SelectedIndex].WorkablePositions };
+            int id = Officers[lstOfficers.SelectedIndex].ID();
+            Officer newOfficer = new Officer() { id = id, name = txtOfficerName.Text, abbreviation = txtOfficerAbbr.Text, team = txtOfficerTeam.Text, WorkablePositions = Officers[lstOfficers.SelectedIndex].WorkablePositions };
             Officers[lstOfficers.SelectedIndex] = newOfficer;
             
             for(int o = 0; o < availableOfficers.Count; o++)
             {
-                if (availableOfficers[o].ID == id)
+                if (availableOfficers[o].ID() == id)
                 {
                     availableOfficers[o] = newOfficer;
                     break;
@@ -64,7 +64,7 @@ namespace Rota_Creator_App
             }
             for (int o = 0; o < activeOfficers.Count; o++)
             {
-                if (activeOfficers[o].ID == id)
+                if (activeOfficers[o].ID() == id)
                 {
                     activeOfficers[o] = newOfficer;
                     break;
@@ -73,14 +73,14 @@ namespace Rota_Creator_App
 
             SQLiteDatabase.Global?.Update<Officer>(newOfficer);
 
-            updateStatusText("Officer " + newOfficer.Name + " updated");
+            updateStatusText("Officer " + newOfficer.Name() + " updated");
         }
 
         private void btnDeleteOfficer_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete officer: " + (lstOfficers.SelectedItem as Officer).Name, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete officer: " + (lstOfficers.SelectedItem as Officer).Name(), "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name + " deleted");
+                updateStatusText("Officer " + (lstOfficers.SelectedItem as Officer).Name() + " deleted");
 
                 Officer officer = Officers[lstOfficers.SelectedIndex];
 
@@ -116,7 +116,7 @@ namespace Rota_Creator_App
         }
         private void btnDeleteOfficerPosition_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to remove " + (lstOfficerPositions.SelectedItem as Position).Name + " from this officer", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to remove " + (lstOfficerPositions.SelectedItem as Position).Name() + " from this officer", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 Officers[lstOfficers.SelectedIndex].WorkablePositions.RemoveAt(lstOfficerPositions.SelectedIndex);
         }
 
@@ -126,9 +126,9 @@ namespace Rota_Creator_App
 
             if (lstOfficers.SelectedIndex != -1)
             {
-                txtOfficerName.Text = (lstOfficers.SelectedItem as Officer).Name;
-                txtOfficerAbbr.Text = (lstOfficers.SelectedItem as Officer).Abbreviation;
-                txtOfficerTeam.Text = (lstOfficers.SelectedItem as Officer).Team;
+                txtOfficerName.Text = (lstOfficers.SelectedItem as Officer).Name();
+                txtOfficerAbbr.Text = (lstOfficers.SelectedItem as Officer).abbreviation;
+                txtOfficerTeam.Text = (lstOfficers.SelectedItem as Officer).team;
                 lstOfficerPositions.ItemsSource = (lstOfficers.SelectedItem as Officer).WorkablePositions;
             }
             else

@@ -8,23 +8,30 @@ using System.Threading.Tasks;
 
 namespace Rota_Creator_App
 {
-    public class Officer : ISQLiteable
+    public class Officer : ISQLiteable, Rota.IEmployee
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
-        public string Team { get; set; }
-        public ObservableCollection<Position> WorkablePositions { get; set; } = new ObservableCollection<Position>();
+        public int id { get; set; }
+        public string name { get; set; }
+        public string abbreviation { get; set; }
+        public string team { get; set; }
+        public ObservableCollection<Rota.IPosition> WorkablePositions { get; set; } = new ObservableCollection<Rota.IPosition>();
+
+        public int ID() { return id; }
+        public string Name() { return name; }
+        public bool CanWork(Rota.IPosition position)
+        {
+            return CanWorkPosition(position);
+        }
 
         public Officer()
         {
             Random rnd = new Random();
-            ID = rnd.Next();
+            id = rnd.Next();
         }
 
-        public bool CanWorkPosition(Position pos)
+        public bool CanWorkPosition(Rota.IPosition pos)
         {
-            return WorkablePositions.Count(p => p.ID == pos.ID) > 0;
+            return WorkablePositions.Count(p => p.ID() == pos.ID()) > 0;
         }
 
         public static ObservableCollection<Officer> Load()
@@ -64,10 +71,10 @@ namespace Rota_Creator_App
 
             try
             {
-                ID = reader.GetInt32(0);
-                Name = reader.GetString(1);
-                Abbreviation = reader.GetString(2);
-                Team = reader.GetString(3);
+                id = reader.GetInt32(0);
+                name = reader.GetString(1);
+                abbreviation = reader.GetString(2);
+                team = reader.GetString(3);
 
                 if (reader.FieldCount >= 5)
                 {
@@ -97,26 +104,26 @@ namespace Rota_Creator_App
 
         public string SQLiteInsertScript()
         {
-            return $"INSERT INTO Officer(ID, Name, Abbreviation, Team) VALUES ({ID}, '{Name}', '{Abbreviation}', '{Team}')";
+            return $"INSERT INTO Officer(ID, Name, Abbreviation, Team) VALUES ({id}, '{name}', '{abbreviation}', '{team}')";
         }
 
         public string SQLiteUpdateScript()
         {
-            string script = $"UPDATE Officer SET Name='{Name}', Abbreviation='{Abbreviation}', Team='{Team}', WorkablePositions='";
+            string script = $"UPDATE Officer SET Name='{name}', Abbreviation='{abbreviation}', Team='{team}', WorkablePositions='";
 
             foreach(Position pos in WorkablePositions)
             {
-                script += $"{pos.ID},";
+                script += $"{pos.ID()},";
             }
 
-            script += $"' WHERE ID={ID}";
+            script += $"' WHERE ID={id}";
 
             return script;
         }
 
         public string SQLiteDeleteScript()
         {
-            return $"DELETE FROM Officer WHERE ID={ID}";
+            return $"DELETE FROM Officer WHERE ID={id}";
         }
     }
 }

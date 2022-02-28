@@ -1,0 +1,13 @@
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\bin\Debug\Schedule.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\bin\Debug\Schedule.pdb
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.csproj.AssemblyReference.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\UserControl1.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule_MarkupCompile.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule_MarkupCompile.lref
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\UserControl1.baml
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.g.resources
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.Properties.Resources.resources
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.csproj.GenerateResource.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.csproj.CoreCompileInputs.cache
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.dll
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Schedule\obj\Debug\Schedule.pdb

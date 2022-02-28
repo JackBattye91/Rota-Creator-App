@@ -163,14 +163,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rota Creator App.exe" size="144848">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rota Creator App.exe" size="146896">
       <assemblyIdentity name="Rota Creator App" version="1.0.0.0" publicKeyToken="F411E81D611E7E60" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Kd397q1PbumRRluPsmXsxITbU31lL1qMPU/UldBPBXQ=</dsig:DigestValue>
+        <dsig:DigestValue>KNcqIx5w91Eqh3w2ZN9IxUwx7s+4HmUWcGFObOBRKYE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

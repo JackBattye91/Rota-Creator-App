@@ -25,20 +25,20 @@ namespace Rota_Creator_App
         private void btnAddPosition_Click(object sender, RoutedEventArgs e)
         {
             int index = 0;
-            while (Positions.Count(p => p.Index == index) > 0)
+            while (Positions.Count(p => p.Index() == index) > 0)
             {
                 index++;
             }
 
             string newPositionsName = "New Position";
             int counter = 1;
-            while (Positions.Count(p => p.Name == newPositionsName) > 0)
+            while (Positions.Count(p => p.Name() == newPositionsName) > 0)
             {
                 newPositionsName = "New Position " + counter.ToString();
                 counter++;
             }
 
-            Position newPosition = new Position() { Index = index, Name = newPositionsName, Duration = 1, Site = Sites[0] };
+            Position newPosition = new Position() { index = index, name = newPositionsName, duration = 1, site = Sites[0] };
             Positions.Add(newPosition);
             SQLiteDatabase.Global?.Insert<Position>(newPosition);
         }
@@ -52,7 +52,7 @@ namespace Rota_Creator_App
                 return;
             }
 
-            if (Positions.Count(p => p.Name == txtPositionName.Text) > 0 && Positions[lstPositions.SelectedIndex].Name != txtPositionName.Text)
+            if (Positions.Count(p => p.Name() == txtPositionName.Text) > 0 && Positions[lstPositions.SelectedIndex].Name() != txtPositionName.Text)
             {
                 updateStatusText("There is already a position named " + txtPositionName.Text);
                 return;
@@ -65,15 +65,15 @@ namespace Rota_Creator_App
                 return;
             }
 
-            int id = Positions[lstPositions.SelectedIndex].ID;
-            Position updatedPosition = new Position() { ID = id, Index = index, Name = txtPositionName.Text, Duration = duration, Site = Sites[cmbPositionSite.SelectedIndex] };
+            int id = Positions[lstPositions.SelectedIndex].ID();
+            Position updatedPosition = new Position() { id = id, index = index, name = txtPositionName.Text, duration = duration, site = Sites[cmbPositionSite.SelectedIndex] };
             Positions[lstPositions.SelectedIndex] = updatedPosition;
             SQLiteDatabase.Global?.Update<Position>(updatedPosition);
         }
 
         private void btnDeletePosition_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete position: " + (lstPositions.SelectedItem as Position).Name, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete position: " + (lstPositions.SelectedItem as Position).Name(), "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 SQLiteDatabase.Global?.Delete<Position>(Positions[lstPositions.SelectedIndex]);
                 Positions.RemoveAt(lstPositions.SelectedIndex);
@@ -86,10 +86,10 @@ namespace Rota_Creator_App
 
             if (lstPositions.SelectedIndex != -1)
             {
-                txtPositionIndex.Text = ((e.Source as ListView).SelectedItem as Position).Index.ToString();
-                txtPositionName.Text = ((e.Source as ListView).SelectedItem as Position).Name;
-                txtPositionDuration.Text = ((e.Source as ListView).SelectedItem as Position).Duration.ToString();
-                cmbPositionSite.SelectedItem = Sites.First(s => s.ID == ((e.Source as ListView).SelectedItem as Position).Site.ID);
+                txtPositionIndex.Text = ((e.Source as ListView).SelectedItem as Position).Index().ToString();
+                txtPositionName.Text = ((e.Source as ListView).SelectedItem as Position).Name();
+                txtPositionDuration.Text = ((e.Source as ListView).SelectedItem as Position).Duration().ToString();
+                cmbPositionSite.SelectedItem = Sites.First(s => s.ID == ((e.Source as ListView).SelectedItem as Position).site.ID);
             }
         }
 
