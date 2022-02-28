@@ -5,18 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rota_Creator_App"
         mc:Ignorable="d"
-        Title="Rota" Height="450" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
+        Title="Rota" Height="450" Width="800" SizeToContent="WidthAndHeight" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="rotaGrid">
-            <Grid.ContextMenu>
-                <ContextMenu/>
-            </Grid.ContextMenu>
-           
+        <Grid x:Name="rotaGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </Grid>
 
         <Grid Grid.Row="1">

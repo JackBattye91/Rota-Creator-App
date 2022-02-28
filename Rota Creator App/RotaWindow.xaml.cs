@@ -205,6 +205,7 @@ namespace Rota_Creator_App
 
         private void btnRegenarate_Click(object sender, RoutedEventArgs e)
         {
+            rotaGrid.Children.Clear();
             progLoading.Visibility = Visibility.Visible;
             ThreadStart threadStart = new ThreadStart(generateRota);
             Thread thread = new Thread(threadStart);
