@@ -242,7 +242,7 @@ namespace Rota_Creator_App
                 }
             }
 
-            if (oldOfficer != null && oldPosition != null)
+            if (oldPosition != null)
             {
                 // place old officer in old position
                 foreach(RotaTimePosition timePos in RotaTimePositions)

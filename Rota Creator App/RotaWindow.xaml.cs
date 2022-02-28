@@ -50,7 +50,6 @@ namespace Rota_Creator_App
         {
             rota = Rota.Create(Officers.ToList(), Positions.ToList(), StartTime, FinishTime);
 
-
             Dispatcher.Invoke(new Action(() => {
                 // add columns to grid
                 rotaGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
@@ -129,12 +128,14 @@ namespace Rota_Creator_App
                             updateLayout();
                         };
                     }
+
                     rotaGrid.Children.Add(border);
                     border.ContextMenu = context;
                 }
 
                 progLoading.Visibility = Visibility.Collapsed;
                 btnPrint.IsEnabled = true;
+                btnRegenerate.IsEnabled = true;
             }));
         }
 
@@ -200,6 +201,15 @@ namespace Rota_Creator_App
         private void btnClose_Click(Object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void btnRegenarate_Click(object sender, RoutedEventArgs e)
+        {
+            progLoading.Visibility = Visibility.Visible;
+            ThreadStart threadStart = new ThreadStart(generateRota);
+            Thread thread = new Thread(threadStart);
+            thread.Start();
+            progLoading.Visibility = Visibility.Collapsed;
         }
     }
 }

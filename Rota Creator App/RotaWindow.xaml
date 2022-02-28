@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rota_Creator_App"
         mc:Ignorable="d"
-        Title="Rota" Height="450" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
+        Title="Rota" Height="450" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,13 +16,24 @@
             <Grid.ContextMenu>
                 <ContextMenu/>
             </Grid.ContextMenu>
-            <ProgressBar x:Name="progLoading" HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="105" IsIndeterminate="True"/>
+           
         </Grid>
 
         <Grid Grid.Row="1">
-            <CheckBox x:Name="chkPropagateChanges" Content="Propagate Changes" IsChecked="True" Margin="5"/>
-            <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="0,5,64,5" Width="49" Click="btnPrint_Click" IsEnabled="False"/>
-            <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="0,5,10,5" Width="49" Click="btnClose_Click"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <CheckBox x:Name="chkPropagateChanges" Content="Propagate Changes" IsChecked="True" Margin="5" VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+                <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnClose_Click"/>
+                <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnPrint_Click" IsEnabled="False"/>
+                <Button x:Name="btnRegenerate" Content="Regenerate" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnRegenarate_Click" IsEnabled="False"/>
+            </StackPanel>
         </Grid>
+
+        <ProgressBar x:Name="progLoading" HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="105" IsIndeterminate="True"/>
     </Grid>
 </Window>
