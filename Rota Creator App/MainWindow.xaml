@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rota_Creator_App"
         mc:Ignorable="d"
-        Title="Rota Creator" Height="530.825" Width="1002.262" Closing="Window_Closing" Icon="Resources/icons8-schedule-96.ico" WindowState="Maximized">
+        Title="Rota Creator" Height="601.602" Width="939.227" Closing="Window_Closing" Icon="Resources/icons8-schedule-96.ico" WindowState="Maximized">
     <Grid>
-        <TabControl HorizontalAlignment="Stretch" Margin="0,18,0,22" VerticalAlignment="Stretch" SelectionChanged="tabControl_SelectionChanged">
+        <TabControl HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Stretch" SelectionChanged="tabControl_SelectionChanged">
             <!-- Rota Tab -->
             <TabItem Header="Rota">
                 <Grid Background="#FFE5E5E5">
@@ -224,32 +224,64 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+
+            <TabItem Header="About" >
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Rota Creator" HorizontalAlignment="Left" Margin="115,27,0,0" VerticalAlignment="Top" FontSize="42"/>
+                    <Image HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Source="Resources/icons8-schedule-96.ico"/>
+                    <StackPanel Grid.Row="1" Margin="20">
+                        <TextBlock x:Name="lblVersion" Text="Version" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+                        <TextBlock Text="Created by Jack Battye" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="5" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top">
+                            <Hyperlink NavigateUri="https://github.com/JackBattye91/Rota-Creator-App">Website</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="5">
+                            Icons provided by
+                            <Hyperlink NavigateUri="https://icons8.com/">Icons8</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+
+
+                    <Grid Grid.Column="1" Grid.RowSpan="2" Margin="5">
+                        <ScrollViewer>
+                            <TextBlock TextWrapping="Wrap">
+                                MIT License<LineBreak/><LineBreak/>
+                                Copyright (c) 2022 JackBattye91<LineBreak/><LineBreak/>
+
+                                Permission is hereby granted, free of charge, to any person obtaining a copy
+                                of this software and associated documentation files (the "Software"), to deal
+                                in the Software without restriction, including without limitation the rights
+                                to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                                copies of the Software, and to permit persons to whom the Software is
+                                furnished to do so, subject to the following conditions:<LineBreak/><LineBreak/>
+
+                                The above copyright notice and this permission notice shall be included in all
+                                copies or substantial portions of the Software.<LineBreak/><LineBreak/>
+
+                                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                                IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                                FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                                AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                                LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                                OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+                                SOFTWARE.
+                            </TextBlock>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </TabItem>
         </TabControl>
         <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <TextBlock x:Name="statusText" TextWrapping="Wrap" Text="Okay"/>
         </StatusBar>
-
-        <Menu HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0">
-            <MenuItem Header="File">
-                <MenuItem Header="New">
-                    <MenuItem Header="Officer"/>
-                    <MenuItem Header="Position"/>
-                    <MenuItem Header="Site"/>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Close"/>
-            </MenuItem>
-
-            <MenuItem Header="Edit">
-                <MenuItem Header="Undo"/>
-                <MenuItem Header="Redo"/>
-                <Separator/>
-                <MenuItem Header="Cut"/>
-                <MenuItem Header="Copy"/>
-                <MenuItem Header="Paste"/>
-                <Separator/>
-                <MenuItem Header="Select All"/>
-            </MenuItem>
-        </Menu>
     </Grid>
 </Window>

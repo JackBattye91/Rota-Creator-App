@@ -205,12 +205,20 @@ namespace Rota_Creator_App
 
         private void btnRegenarate_Click(object sender, RoutedEventArgs e)
         {
-            rotaGrid.Children.Clear();
             progLoading.Visibility = Visibility.Visible;
-            ThreadStart threadStart = new ThreadStart(generateRota);
-            Thread thread = new Thread(threadStart);
+            rotaGrid.IsEnabled = false;
+
+            Thread thread = new Thread(new ThreadStart(regRota));
             thread.Start();
-            progLoading.Visibility = Visibility.Collapsed;
+        }
+
+        protected void regRota()
+        {
+            rota = Rota.Create(Officers.ToList(), Positions.ToList(), StartTime, FinishTime);
+
+            Dispatcher.Invoke(new Action(() => {
+                updateLayout();
+            }));
         }
     }
 }

@@ -246,6 +246,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainWindowAbout.cs" />
     <Compile Include="MainWindowRota.cs" />
     <Compile Include="Officer.cs" />
     <Compile Include="PositionsWindow.xaml.cs">
