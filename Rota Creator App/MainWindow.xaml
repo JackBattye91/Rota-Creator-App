@@ -241,12 +241,13 @@
                     <StackPanel Grid.Row="1" Margin="20">
                         <TextBlock x:Name="lblVersion" Text="Version" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
                         <TextBlock Text="Created by Jack Battye" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="5" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top">
-                            <Hyperlink NavigateUri="https://github.com/JackBattye91/Rota-Creator-App">Website</Hyperlink>
+                        <TextBlock Margin="5">
+                            Rota Creator
+                            <Hyperlink NavigateUri="https://github.com/JackBattye91/Rota-Creator-App" Click="Hyperlink_Click">Website</Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="5">
                             Icons provided by
-                            <Hyperlink NavigateUri="https://icons8.com/">Icons8</Hyperlink>
+                            <Hyperlink NavigateUri="https://icons8.com/" Click="Hyperlink_Click">Icons8</Hyperlink>
                         </TextBlock>
                     </StackPanel>
 

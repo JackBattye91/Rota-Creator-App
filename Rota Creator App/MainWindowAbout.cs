@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Rota_Creator_App
 {
@@ -15,6 +16,12 @@ namespace Rota_Creator_App
         {
             lblVersion.Text = "Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            System.Diagnostics.Process.Start(link.NavigateUri.AbsoluteUri);
         }
     }
 }
