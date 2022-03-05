@@ -15,6 +15,7 @@ namespace Rota_Creator_App
         public string Name { get; set; }
         public Site Site { get; set; }
         public int Duration { get; set; }
+        public List<int> ActiveTimes { get; set; }
 
         public Position()
         {
