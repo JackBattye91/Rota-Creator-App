@@ -53,7 +53,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Schedule.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
+      <DependentUpon>Schedule.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
