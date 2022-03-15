@@ -105,8 +105,16 @@
                         <TextBlock Text="Team" Margin="5,5,5,0"/>
                         <TextBox x:Name="txtOfficerTeam" Text="" VerticalAlignment="Top" Margin="5,0,5,5" IsEnabled="False"/>
 
-                        <TextBlock Text="Positions" Margin="5,5,5,0"/>
+                        <TextBlock Text="Start Position" Margin="5,5,5,0"/>
+                        <ComboBox x:Name="cmbOfficerStartPos" Margin="5,0,5,5">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
+                        <TextBlock Text="Positions" Margin="5,5,5,0"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>

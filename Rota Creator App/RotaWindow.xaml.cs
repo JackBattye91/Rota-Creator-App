@@ -61,11 +61,20 @@ namespace Rota_Creator_App
                 for (int time = 0; time < (FinishTime - StartTime).Hours; time++)
                     rotaGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 
+                Brush evenBackground = Brushes.LightGray;
+                Brush oddBackground = Brushes.LightBlue;
+
                 for (int p = 0; p < rota.Positions.Count; p++)
                 {
                     TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold, Padding = new Thickness(5) };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+
+                    if (p % 2 == 0)
+                        label.Background = evenBackground;
+                    else
+                        label.Background = oddBackground;
+
                     Grid.SetRow(border, 0);
                     Grid.SetColumn(border, p + 1);
                     rotaGrid.Children.Add(border);
@@ -77,13 +86,21 @@ namespace Rota_Creator_App
                     TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontWeight = FontWeights.Bold };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+
+                    if (h % 2 == 0)
+                        label.Background = evenBackground;
+                    else
+                        label.Background = oddBackground;
+
                     Grid.SetRow(border, h + 1);
                     Grid.SetColumn(border, 0);
                     rotaGrid.Children.Add(border);
                 }
 
-                foreach (Rota.RotaTimePosition tp in rota.RotaTimePositions)
+                for (int r = 0 r < rota.RotaTimePositions.Count(); r++)
                 {
+                    Rota.RotaTimePosition tp = rota.RotaTimePositions[r];
+
                     TextBlock label = null;
                     if (tp.officer != null)
                     {
@@ -96,6 +113,11 @@ namespace Rota_Creator_App
                         label = new TextBlock() { Text = "<EMPTY>", HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
                     }
 
+                    if (r % 2 == 0)
+                        label.Background = evenBackground;
+                    else
+                        label.Background = oddBackground;
+
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     int column = Positions.IndexOf(tp.position) + 1;
                     int row = (tp.time - rota.StartTime).Hours + 1;
@@ -104,14 +126,29 @@ namespace Rota_Creator_App
 
                     // create context Menu
                     ContextMenu context = new ContextMenu();
-                    MenuItem blankPosition = new MenuItem() { Header = "Empty" };
+                    MenuItem lockRota = new MenuItem() { Header = "Lock" };
+                    lockRota.Click += (object sender, RoutedEventArgs e) => 
+                    {
+                        tp.locked = !tp.locked;
+
+                        if (tp.locked)
+                            lockRota.Header = "Unlock";
+                        else
+                            lockRota.Header = "Lock";
+                    };
+                    context.Items.Add(lockRota);
+
+                    context.Items.Add(new Seperator());
+
+                    MenuItem blankPosition = new MenuItem() { Header = "Clear" };
                     blankPosition.Click += (object sender, RoutedEventArgs e) =>
                     {
                         tp.officer = null;
                         label.Text = "<EMPTY>";
                     };
-
                     context.Items.Add(blankPosition);
+
+                    context.Items.Add(new Seperator());
 
                     foreach (Officer off in Officers)
                     {

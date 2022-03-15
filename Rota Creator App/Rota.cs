@@ -114,6 +114,7 @@ namespace Rota_Creator_App
             public DateTime time;
             public Officer officer;
             public bool isActive = true;
+            public bool locked = false;
         }
 
         public DateTime StartTime { get; protected set; }
@@ -227,6 +228,9 @@ namespace Rota_Creator_App
 
         public void Update(RotaTimePosition tp, Officer newOfficer, bool propagateChanges = false)
         {
+            if (tp.locked)
+                return;
+
             // get officer that was working the position
             Officer oldOfficer = tp.officer;
             // get positions the new officer was working
@@ -338,8 +342,19 @@ namespace Rota_Creator_App
             // while the list 
             while(offList.Count() > 0)
             {
+                Officer off = null;
+
+                // position officer is their start position
+                if (time == rota.StartTime)
+                {
+                    List<Officer> startOffs = rota.Officers.Where(o => o.StartPosition == pos);
+                    if (startOffs.Count() != 0)
+                        off = startOffs[rnd.Next(startOffs.Count)];
+                }
+
                 // get random officer
-                Officer off = offList[rnd.Next(offList.Count)];
+                if (off == null)
+                    off = offList[rnd.Next(offList.Count)];
 
                 try
                 {

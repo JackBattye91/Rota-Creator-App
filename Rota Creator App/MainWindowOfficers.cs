@@ -17,6 +17,7 @@ namespace Rota_Creator_App
         {
             Officers = Officer.Load();
             lstOfficers.ItemsSource = Officers;
+            cmbOfficerStartPos.ItemsSource = Positions;
         }
 
         private void btnAddOfficer_Click(object sender, RoutedEventArgs e)
