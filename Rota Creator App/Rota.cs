@@ -344,7 +344,7 @@ namespace Rota_Creator_App
             {
                 Officer off = null;
 
-                // position officer is their start position
+                // position officer if their start position
                 if (time == rota.StartTime)
                 {
                     List<Officer> startOffs = rota.Officers.Where(o => o.StartPosition == pos);

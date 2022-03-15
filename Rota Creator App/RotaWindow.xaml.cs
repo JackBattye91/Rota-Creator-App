@@ -94,6 +94,22 @@ namespace Rota_Creator_App
                 {
                     Rota.RotaTimePosition tp = rota.RotaTimePositions[r];
 
+                    if (tp.isActive == false)
+                    {
+                        Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+                        int column = Positions.IndexOf(tp.position) + 1;
+                        int row = (tp.time - rota.StartTime).Hours + 1;
+
+                        // set grid position
+                        Grid.SetRow(border, row);
+                        Grid.SetColumn(border, column);
+
+                        // add to grid
+                        rotaGrid.Children.Add(border);
+
+                        continue;
+                    }
+
                     TextBlock label = null;
                     if (tp.officer != null)
                     {
