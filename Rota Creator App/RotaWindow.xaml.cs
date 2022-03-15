@@ -70,11 +70,6 @@ namespace Rota_Creator_App
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
 
-                    if (p % 2 == 0)
-                        label.Background = evenBackground;
-                    else
-                        label.Background = oddBackground;
-
                     Grid.SetRow(border, 0);
                     Grid.SetColumn(border, p + 1);
                     rotaGrid.Children.Add(border);
@@ -87,9 +82,7 @@ namespace Rota_Creator_App
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
 
-                    if (h % 2 == 0)
-                        label.Background = evenBackground;
-                    else
+                    if (h % 2 == 1)
                         label.Background = oddBackground;
 
                     Grid.SetRow(border, h + 1);
@@ -113,19 +106,22 @@ namespace Rota_Creator_App
                         label = new TextBlock() { Text = "<EMPTY>", HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
                     }
 
-                    if (r % 2 == 0)
-                        label.Background = evenBackground;
-                    else
-                        label.Background = oddBackground;
-
+                    // add border
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
                     int column = Positions.IndexOf(tp.position) + 1;
                     int row = (tp.time - rota.StartTime).Hours + 1;
+                    // set grid position
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, column);
 
+                    // set background of label
+                    if (row % 2 == 1)
+                        label.Background = oddBackground;
+
                     // create context Menu
                     ContextMenu context = new ContextMenu();
+
+                    // add lock button to context menu
                     MenuItem lockRota = new MenuItem() { Header = "Lock" };
                     lockRota.Click += (object sender, RoutedEventArgs e) => 
                     {
@@ -138,8 +134,10 @@ namespace Rota_Creator_App
                     };
                     context.Items.Add(lockRota);
 
+                    // add seperator
                     context.Items.Add(new Seperator());
 
+                    // add clear position button to context menu 
                     MenuItem blankPosition = new MenuItem() { Header = "Clear" };
                     blankPosition.Click += (object sender, RoutedEventArgs e) =>
                     {
@@ -148,21 +146,31 @@ namespace Rota_Creator_App
                     };
                     context.Items.Add(blankPosition);
 
+                    // add seperator
                     context.Items.Add(new Seperator());
 
+                    // add officers to context menu
                     foreach (Officer off in Officers)
                     {
+                        // can officer work position
                         if (!off.CanWorkPosition(tp.position))
                         {
                             continue;
                         }
 
+                        // add to menu
                         MenuItem menuItem = new MenuItem() { Header = off.Name };
                         context.Items.Add(menuItem);
 
                         menuItem.Click += (object sener, RoutedEventArgs e) => {
                             rota.Update(tp, off, chkPropagateChanges.IsChecked.Value);
                             updateLayout();
+
+                            if (chkLockOnChange.IsChecked)
+                            {
+                                tp.locked = true;
+                                lockRota.Header = "Unlock";
+                            }
                         };
                     }
 

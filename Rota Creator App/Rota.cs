@@ -410,11 +410,13 @@ namespace Rota_Creator_App
                     throw new OfficerCrossoverException("There is a crossover between {off.Name} and {lastOff.Name}");
                 }
 
+                /*
                 // if officer has worked the position previously
                 if (rota.GetOfficers(pos).Contains(off))
                 {
                     throw new OfficerPreviousWorkingException($"Officer: {off.Name} has worked this position previously");
                 }
+                */
             }
 
             List<RotaTimePosition> retValue = new List<RotaTimePosition>();
