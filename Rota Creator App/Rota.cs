@@ -107,6 +107,18 @@ namespace Rota_Creator_App
             {
             }
         }
+        protected class RotaLockedException : Exception
+        {
+            public RotaLockedException()
+            {
+            }
+            public RotaLockedException(string message) : base(message)
+            {
+            }
+            public RotaLockedException(string message, Exception inner) : base(message, inner)
+            {
+            }
+        }
 
         public class RotaTimePosition
         {
@@ -229,23 +241,14 @@ namespace Rota_Creator_App
         public void Update(RotaTimePosition tp, Officer newOfficer, bool propagateChanges = false)
         {
             if (tp.locked)
-                return;
+                throw new RotaLockedException($"{tp.position.Name} is locked at {tp.time}");
 
             // get officer that was working the position
             Officer oldOfficer = tp.officer;
             // get positions the new officer was working
             Position oldPosition = GetPosition(newOfficer, tp.time);
 
-            // place officer in new position
-            foreach(RotaTimePosition timePos in RotaTimePositions)
-            {
-                if (timePos.position == tp.position && timePos.time == tp.time)
-                {
-                    timePos.officer = newOfficer;
-                    break;
-                }
-            }
-
+            // if new officer has a previous position
             if (oldPosition != null)
             {
                 // place old officer in old position
@@ -253,11 +256,18 @@ namespace Rota_Creator_App
                 {
                     if (timePos.position == oldPosition && timePos.time == tp.time)
                     {
+                        // if locked then dont swap
+                        if (timePos.locked)
+                            throw new RotaLockedException($"{timePos.position.Name} is locked at {timePos.time}");
+
                         timePos.officer = oldOfficer;
                         break;
                     }
                 }
             }
+
+            // place officer in new position
+            tp.officer = newOfficer;
 
             if (propagateChanges)
             {
@@ -293,7 +303,7 @@ namespace Rota_Creator_App
 
         protected static void coverTime(Rota rota, DateTime time)
         {
-            // run through all te positions
+            // run through all the positions
             foreach(Position pos in rota.Positions)
             {
                 try
@@ -441,6 +451,7 @@ namespace Rota_Creator_App
         protected static bool isCrossover(Rota rota, Officer off, Position pos, DateTime time)
         {
             DateTime prevTime = time - new TimeSpan(1, 0, 0);
+
             // if there a straight swap off officers move to next officer
             Position lastPos = rota.GetPosition(off, prevTime); // the position of curr officer last hour
             Officer lastOff = rota.GetOfficer(pos, prevTime); // officer in this position last hour

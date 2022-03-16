@@ -35,6 +35,8 @@ namespace Rota_Creator_App
             Officers.Add(newOfficer);
             availableOfficers.Add(newOfficer);
             SQLiteDatabase.Global?.Insert<Officer>(newOfficer);
+            // select new item
+            lstOfficers.SelectedIndex = lstOfficers.Items.Count() - 1;
         }
 
         private void btnUpdateOfficer_Click(object sender, RoutedEventArgs e)

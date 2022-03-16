@@ -179,13 +179,20 @@ namespace Rota_Creator_App
                         context.Items.Add(menuItem);
 
                         menuItem.Click += (object sener, RoutedEventArgs e) => {
-                            rota.Update(tp, off, chkPropagateChanges.IsChecked.Value);
-                            updateLayout();
-
-                            if (chkLockOnChange.IsChecked)
+                            try
                             {
-                                tp.locked = true;
-                                lockRota.Header = "Unlock";
+                                rota.Update(tp, off, chkPropagateChanges.IsChecked.Value);
+                                updateLayout();
+
+                                if (chkLockOnChange.IsChecked)
+                                {
+                                    tp.locked = true;
+                                    lockRota.Header = "Unlock";
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                
                             }
                         };
                     }
