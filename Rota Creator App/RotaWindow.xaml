@@ -20,9 +20,9 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <CheckBox x:Name="chkPropagateChanges" Content="Propagate Changes" IsChecked="True" Margin="5" VerticalAlignment="Center"/>
-            <CheckBox x:Name="chkLockOnChange" Content="Lock On Change" IsChecked="True" Margin="30,5,5,5" VerticalAlignment="Center"/>
+            <CheckBox x:Name="chkLockOnChange" Content="Lock On Change" IsChecked="True" Margin="10,8,533,8" VerticalAlignment="Center" Grid.Column="1"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" FlowDirection="RightToLeft">
                 <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Right" Margin="5" Padding="5,2,5,2" Click="btnClose_Click"/>

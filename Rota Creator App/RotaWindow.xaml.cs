@@ -61,8 +61,7 @@ namespace Rota_Creator_App
                 for (int time = 0; time < (FinishTime - StartTime).Hours; time++)
                     rotaGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 
-                Brush evenBackground = Brushes.LightGray;
-                Brush oddBackground = Brushes.LightBlue;
+                Brush oddBackground = new SolidColorBrush(Color.FromRgb(245, 245, 245));
 
                 for (int p = 0; p < rota.Positions.Count; p++)
                 {
@@ -83,22 +82,28 @@ namespace Rota_Creator_App
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
 
                     if (h % 2 == 1)
-                        label.Background = oddBackground;
+                        border.Background = oddBackground;
 
                     Grid.SetRow(border, h + 1);
                     Grid.SetColumn(border, 0);
                     rotaGrid.Children.Add(border);
                 }
 
-                for (int r = 0 r < rota.RotaTimePositions.Count(); r++)
+                for (int r = 0; r < rota.RotaTimePositions.Count(); r++)
                 {
                     Rota.RotaTimePosition tp = rota.RotaTimePositions[r];
 
+                    TextBlock label = null;
+                    Border border = null;
+                    int column = -1;
+                    int row = -1;
+
                     if (tp.isActive == false)
                     {
-                        Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                        int column = Positions.IndexOf(tp.position) + 1;
-                        int row = (tp.time - rota.StartTime).Hours + 1;
+                        label = new TextBlock() { };
+                        border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+                        column = Positions.IndexOf(tp.position) + 1;
+                        row = (tp.time - rota.StartTime).Hours + 1;
 
                         // set grid position
                         Grid.SetRow(border, row);
@@ -110,29 +115,29 @@ namespace Rota_Creator_App
                         continue;
                     }
 
-                    TextBlock label = null;
+                    
                     if (tp.officer != null)
                     {
                         Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
-                        label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
+                        label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(5) };
                         label.SetBinding(TextBlock.TextProperty, officerBinding);
                     }
                     else
                     {
-                        label = new TextBlock() { Text = "<EMPTY>", HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(5) };
+                        label = new TextBlock() { Text = "<EMPTY>", HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(5) };
                     }
 
                     // add border
-                    Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
-                    int column = Positions.IndexOf(tp.position) + 1;
-                    int row = (tp.time - rota.StartTime).Hours + 1;
+                    border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
+                    column = Positions.IndexOf(tp.position) + 1;
+                    row = (tp.time - rota.StartTime).Hours + 1;
                     // set grid position
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, column);
 
                     // set background of label
-                    if (row % 2 == 1)
-                        label.Background = oddBackground;
+                    if (row % 2 == 0)
+                        border.Background = oddBackground;
 
                     // create context Menu
                     ContextMenu context = new ContextMenu();
@@ -151,7 +156,7 @@ namespace Rota_Creator_App
                     context.Items.Add(lockRota);
 
                     // add seperator
-                    context.Items.Add(new Seperator());
+                    context.Items.Add(new Separator());
 
                     // add clear position button to context menu 
                     MenuItem blankPosition = new MenuItem() { Header = "Clear" };
@@ -163,7 +168,7 @@ namespace Rota_Creator_App
                     context.Items.Add(blankPosition);
 
                     // add seperator
-                    context.Items.Add(new Seperator());
+                    context.Items.Add(new Separator());
 
                     // add officers to context menu
                     foreach (Officer off in Officers)
@@ -184,13 +189,13 @@ namespace Rota_Creator_App
                                 rota.Update(tp, off, chkPropagateChanges.IsChecked.Value);
                                 updateLayout();
 
-                                if (chkLockOnChange.IsChecked)
+                                if (chkLockOnChange.IsChecked == true)
                                 {
                                     tp.locked = true;
                                     lockRota.Header = "Unlock";
                                 }
                             }
-                            catch(Exception e)
+                            catch(Exception ex)
                             {
                                 
                             }
