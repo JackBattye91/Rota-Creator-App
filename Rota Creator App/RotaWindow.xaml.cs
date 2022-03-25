@@ -115,7 +115,6 @@ namespace Rota_Creator_App
                         continue;
                     }
 
-                    
                     if (tp.officer != null)
                     {
                         Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };

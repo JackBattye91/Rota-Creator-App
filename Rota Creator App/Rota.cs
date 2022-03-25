@@ -238,7 +238,7 @@ namespace Rota_Creator_App
             RotaTimePositions.RemoveAll(tp => tp.position.Equals(position));
         }
 
-        public void Update(RotaTimePosition tp, Officer newOfficer, bool propagateChanges = false)
+        public void Update(RotaTimePosition tp, Officer newOfficer, bool propagateChanges = false, bool lockOnUpdate = false)
         {
             if (tp.locked)
                 throw new RotaLockedException($"{tp.position.Name} is locked at {tp.time}");
@@ -274,8 +274,22 @@ namespace Rota_Creator_App
                 // clear future times
                 for(DateTime clearTime = tp.time + new TimeSpan(1, 0, 0); clearTime < FinishTime; clearTime += new TimeSpan(1, 0, 0))
                     Clear(clearTime);
-                
-                for(DateTime coverTime = tp.time + new TimeSpan(1, 0, 0); coverTime < FinishTime; coverTime += new TimeSpan(1, 0, 0))
+
+                // cover for duration of position
+                for (int d = 0; d < tp.position.Duration; d++)
+                {
+                    DateTime coverTime = tp.time + new TimeSpan(d, 0, 0);
+
+                    if (coverTime > FinishTime)
+                        break;
+
+                    if (!tp.position.IsActive(coverTime))
+                        RotaTimePositions.Add(new RotaTimePosition() { time = coverTime, position = tp.position, isActive = false, locked = lockOnUpdate });
+                    else
+                        RotaTimePositions.Add(new RotaTimePosition() { time = coverTime, position = tp.position, officer = newOfficer, locked = lockOnUpdate});
+                }
+
+                for (DateTime coverTime = tp.time + new TimeSpan(1, 0, 0); coverTime < FinishTime; coverTime += new TimeSpan(1, 0, 0))
                     Rota.coverTime(this, coverTime);
             }
         }
