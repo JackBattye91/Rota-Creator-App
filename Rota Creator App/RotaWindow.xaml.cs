@@ -65,7 +65,7 @@ namespace Rota_Creator_App
 
                 for (int p = 0; p < rota.Positions.Count; p++)
                 {
-                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold, Padding = new Thickness(5) };
+                    TextBlock label = new TextBlock() { Text = rota.Positions[p].Name, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontSize = 12, FontWeight = FontWeights.Bold, Padding = new Thickness(10) };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
 
@@ -77,7 +77,7 @@ namespace Rota_Creator_App
                 for (int h = 0; h < (rota.FinishTime - rota.StartTime).Hours; h++)
                 {
                     DateTime time = rota.StartTime + new TimeSpan(h, 0, 0);
-                    TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(5), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontWeight = FontWeights.Bold };
+                    TextBlock label = new TextBlock() { Text = time.ToString("HH:00") + " - " + (time + new TimeSpan(1, 0, 0)).ToString("HH:00"), Padding = new Thickness(10), TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center, FontWeight = FontWeights.Bold };
 
                     Border border = new Border() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1), Child = label };
 
@@ -118,7 +118,7 @@ namespace Rota_Creator_App
                     if (tp.officer != null)
                     {
                         Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
-                        label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(5) };
+                        label = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(10) };
                         label.SetBinding(TextBlock.TextProperty, officerBinding);
                     }
                     else
@@ -248,9 +248,7 @@ namespace Rota_Creator_App
                 }
                 else
                 {
-                    // set label text
-                    Binding officerBinding = new Binding("Abbreviation") { Source = tp.officer };
-                    label.SetBinding(TextBlock.TextProperty, officerBinding);
+                    label.Text = tp.officer.Abbreviation;
                 }
             }
 

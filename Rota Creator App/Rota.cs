@@ -135,7 +135,7 @@ namespace Rota_Creator_App
 
                 RotaTimePosition timePos = (RotaTimePosition)obj;
 
-                if (position.Equals(timePos.position) && officer.Equals(timePos.officer) && time == timePos.time)
+                if (position.Equals(timePos.position) && time == timePos.time)
                     return true;
 
                 return false;

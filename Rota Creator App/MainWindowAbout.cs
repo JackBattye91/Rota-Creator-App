@@ -15,7 +15,6 @@ namespace Rota_Creator_App
         private void initializeAbout()
         {
             lblVersion.Text = "Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
