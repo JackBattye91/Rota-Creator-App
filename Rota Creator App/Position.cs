@@ -73,7 +73,6 @@ namespace Rota_Creator_App
             List<Site> sites = SQLiteDatabase.Global.Query<Site>("Site", "*", $"ID = {reader.GetInt32(reader.GetOrdinal("Site"))}");
             if (sites != null && sites.Count > 0)
                 Site = sites[0];
-            
         }
 
         public string SQLiteInsertScript()

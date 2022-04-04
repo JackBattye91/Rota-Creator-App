@@ -148,9 +148,15 @@ namespace Rota_Creator_App
                         tp.locked = !tp.locked;
 
                         if (tp.locked)
+                        {
                             lockRota.Header = "Unlock";
+                            label.Background = Brushes.Red;
+                        }
                         else
+                        {
                             lockRota.Header = "Lock";
+                            label.Background = Brushes.Transparent;
+                        }
                     };
                     context.Items.Add(lockRota);
 
@@ -192,6 +198,8 @@ namespace Rota_Creator_App
                                 {
                                     tp.locked = true;
                                     lockRota.Header = "Unlock";
+
+                                    label.Background = Brushes.Red;
                                 }
                             }
                             catch(Exception ex)
@@ -250,6 +258,8 @@ namespace Rota_Creator_App
                 {
                     label.Text = tp.officer.Abbreviation;
                 }
+
+                
             }
 
             // active UI

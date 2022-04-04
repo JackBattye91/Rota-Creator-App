@@ -135,7 +135,7 @@ namespace Rota_Creator_App
             DateTime finishTime = DateTime.Now.Date + new TimeSpan(finishHour, 0, 0);
 
             // if shift finishes the next day
-            if (startTime < finishTime)
+            if (startTime > finishTime)
                 finishTime.AddDays(1);
 
             ObservableCollection<Position> sitePositions = new ObservableCollection<Position>(Positions.Where(p => p.Site.ID == (cmbRotaSite.SelectedItem as Site).ID).ToList());
