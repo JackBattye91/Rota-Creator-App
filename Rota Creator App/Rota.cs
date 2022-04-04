@@ -127,6 +127,23 @@ namespace Rota_Creator_App
             public Officer officer;
             public bool isActive = true;
             public bool locked = false;
+
+            public override bool Equals(object obj)
+            {
+                if (obj is RotaTimePosition == false)
+                    return false;
+
+                RotaTimePosition timePos = (RotaTimePosition)obj;
+
+                if (position.Equals(timePos.position) && officer.Equals(timePos.officer) && time == timePos.time)
+                    return true;
+
+                return false;
+            }
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
         }
 
         public DateTime StartTime { get; protected set; }
@@ -243,8 +260,11 @@ namespace Rota_Creator_App
             if (tp.locked)
                 throw new RotaLockedException($"{tp.position.Name} is locked at {tp.time}");
 
+            if (tp.officer != null && tp.officer.Equals(newOfficer))
+                return;
+
             // get officer that was working the position
-            Officer oldOfficer = tp.officer;
+            Officer oldOfficer = tp.officer != null ? new Officer(tp.officer) : null;
             // get positions the new officer was working
             Position oldPosition = GetPosition(newOfficer, tp.time);
 
@@ -254,20 +274,24 @@ namespace Rota_Creator_App
                 // place old officer in old position
                 foreach(RotaTimePosition timePos in RotaTimePositions)
                 {
-                    if (timePos.position == oldPosition && timePos.time == tp.time)
+                    if (timePos.position.Equals(oldPosition) && timePos.time == tp.time)
                     {
                         // if locked then dont swap
                         if (timePos.locked)
                             throw new RotaLockedException($"{timePos.position.Name} is locked at {timePos.time}");
 
-                        timePos.officer = oldOfficer;
+                        if (oldOfficer != null && oldOfficer.CanWorkPosition(timePos.position))
+                            timePos.officer = new Officer(oldOfficer);
+                        else
+                            timePos.officer = null;
+
                         break;
                     }
                 }
             }
 
             // place officer in new position
-            tp.officer = newOfficer;
+            tp.officer = new Officer(newOfficer);
 
             if (propagateChanges)
             {

@@ -22,6 +22,15 @@ namespace Rota_Creator_App
             Random rnd = new Random();
             ID = rnd.Next();
         }
+        public Position(Position pos)
+        {
+            ID = pos.ID;
+            Index = pos.Index;
+            Name = pos.Name;
+            Site = new Site(pos.Site);
+            Duration = pos.Duration;
+            ActiveTimes = new List<int>(pos.ActiveTimes);
+        }
         public bool IsActive(DateTime time)
         {
             return true;
@@ -80,6 +89,19 @@ namespace Rota_Creator_App
         public string SQLiteDeleteScript()
         {
             return $"DELETE FROM Position WHERE 'ID'={ID}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Position == false)
+                return false;
+
+            Position pos = (Position)obj;
+            return pos.ID == ID;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

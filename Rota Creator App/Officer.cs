@@ -22,6 +22,16 @@ namespace Rota_Creator_App
             Random rnd = new Random();
             ID = rnd.Next();
         }
+        public Officer(Officer officer)
+        {
+            ID = officer.ID;
+            Name = officer.Name;
+            Abbreviation = officer.Abbreviation;
+            Team = officer.Team;
+            WorkablePositions = new ObservableCollection<Position>(officer.WorkablePositions);
+            if (officer.StartPosition != null)
+                StartPosition = new Position(officer.StartPosition);
+        }
 
         public bool CanWorkPosition(Position pos)
         {
@@ -117,6 +127,18 @@ namespace Rota_Creator_App
         public string SQLiteDeleteScript()
         {
             return $"DELETE FROM Officer WHERE ID={ID}";
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is Officer == false)
+                return false;
+
+            Officer off = obj as Officer;
+            return off.ID == ID;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

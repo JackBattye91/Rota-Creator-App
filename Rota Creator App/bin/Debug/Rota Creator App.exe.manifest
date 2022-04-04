@@ -355,14 +355,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rota Creator App.exe" size="151504">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Rota Creator App.exe" size="153552">
       <assemblyIdentity name="Rota Creator App" version="1.0.0.0" publicKeyToken="F411E81D611E7E60" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>o0B2kYYMgSDJMlwqdjLBKpKUdVItmpxrXmI0Tfe2M9U=</dsig:DigestValue>
+        <dsig:DigestValue>xar0DB+uymoMdqptlyNvI0dLQgzh0llGydaDtmyJY18=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

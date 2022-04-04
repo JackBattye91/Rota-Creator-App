@@ -18,7 +18,11 @@ namespace Rota_Creator_App
             Random rnd = new Random();
             ID = rnd.Next();
         }
-
+        public Site(Site site)
+        {
+            ID = site.ID;
+            Name = site.Name;
+        }
         public override string ToString()
         {
             return $"ID : {ID}, Name : {Name}";
@@ -69,6 +73,19 @@ namespace Rota_Creator_App
         public string SQLiteDeleteScript()
         {
             return $"DELETE FROM Site WHERE ID={ID}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Site == false)
+                return false;
+
+            Site site = (Site)obj;
+            return site.ID == ID;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -205,3 +205,4 @@ C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Cor
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\Grpc.Core.Api.xml
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\bin\Debug\System.Linq.Async.xml
 C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App_Content.g.cs
+C:\Users\Jack Battye\GitHub\Rota-Creator-App\Rota Creator App\obj\Debug\Rota Creator App.csproj.SuggestedBindingRedirects.cache
